@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "CoenraadS.bracket-pair-colorizer-2",
+    "styled-components.vscode-styled-components",
+    "mikestead.dotenv",
+    "shardulm94.trailing-spaces",
+    "aaron-bond.better-comments"
+  ]
+}
