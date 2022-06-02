@@ -2,7 +2,7 @@
 
 exports[`Button renders a button unchanged 1`] = `
 .c0 {
-  color: black;
+  color: #FFFFFF;
 }
 
 <div>

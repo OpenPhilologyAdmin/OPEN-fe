@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef } from "react";
 import styled from "styled-components";
 
 export const BaseButton = styled.button`
-  color: ${props => props.theme.colors.main};
+  color: ${props => props.theme.colors.textPrimary};
 `;
 
 type ButtonProps = ComponentPropsWithoutRef<"button">;

@@ -2,10 +2,15 @@ import { DefaultTheme } from "styled-components";
 
 // ! Theme object needs to be replaced with real values and extended by additional fields
 const LIGHT: DefaultTheme = {
-  borderRadius: "5px",
+  borderRadius: {
+    sm: "4px",
+    md: "8px",
+    lg: "12px",
+    circle: "50%",
+  },
   colors: {
-    main: "black",
-    secondary: "white",
+    textPrimary: "#FFFFFF",
+    textSecondary: "#101521",
   },
 };
 

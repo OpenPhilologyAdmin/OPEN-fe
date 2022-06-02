@@ -94,8 +94,10 @@ const myfunction = function () {
    Lighthouse audit or aXe devtools extension.
 9. Prefer `hooks` for reusing logic, do not use `Render Props`, do not use `HOC`.
 10. Feel free to suggest your own guidelines on the fly as basis for future development and code reviews.
-11. We squash PRs so you don't need to follow any specific commit convention while working on them, however, when you want to merge your PR the PR title has to follow a specific convention. It starts with the Jira issue ID in square brackets, followed by colon and a short message. Then use a line-break and write a more detailed description for the issue (or the text-area if merging through github).
-    See example below:
+11. We squash PRs so you don't need to follow any specific commit convention while working on them, however, when you
+    want to merge your PR the PR title has to follow a specific convention. It starts with the Jira issue ID in square
+    brackets, followed by colon and a short message. Then use a line-break and write a more detailed description for the
+    issue (or the text-area if merging through github). See example below:
 
 ```git
 [OPLU-103]: project setup
@@ -110,11 +112,14 @@ OPLU-103-project-setup
 ```
 
 13. Name constants in UPPER_SNAKE_CASE.
-14. In hooks directory, store only hooks that are used more than once, do not store feature-specific hooks there, such hooks belong to their feature.
+14. In hooks directory, store only hooks that are used more than once, do not store feature-specific hooks there, such
+    hooks belong to their feature.
 15. For working with forms use react-hook-form and zod, [see example](https://github.com/react-hook-form/resolvers#zod).
 16. Every request should be tested and mocked using MSW.
 17. Everything related to `react-testing-library` is imported from test-utils.
 18. Always use meaningful variables, avoid abbreviations or single-character variable names
+19. Do not store gradients in the theme.
+20. Prefer types to interfaces for type declarations.
 
 ## Core resources
 

@@ -3628,6 +3628,11 @@ next-i18next@^11.0.0:
     i18next-fs-backend "^1.1.4"
     react-i18next "^11.16.2"
 
+next-router-mock@^0.6.10:
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/next-router-mock/-/next-router-mock-0.6.10.tgz#607b0bb1d93702b6e52de5c456c7e168d571cd91"
+  integrity sha512-aAxfP2XHxhN+srMQmDa1j4HmSUxjkkHXBAuRxsufoQmcqXk1djcrZObyNgAkb1c0LmdyyvWZMB61N6sADOEFrA==
+
 next@^12.1.6:
   version "12.1.6"
   resolved "https://registry.yarnpkg.com/next/-/next-12.1.6.tgz#eb205e64af1998651f96f9df44556d47d8bbc533"

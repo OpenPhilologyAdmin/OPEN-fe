@@ -1,8 +1,6 @@
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import MockUser from "@/components/mock-user";
-
 function Home() {
   return (
     <div>
@@ -12,9 +10,7 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <MockUser />
-      </main>
+      <main>...</main>
     </div>
   );
 }
