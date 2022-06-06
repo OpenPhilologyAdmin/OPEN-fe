@@ -3,6 +3,7 @@ import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 
 import { mswServer } from "@/mocks/index";
 import * as testing from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "src/contexts/theme";
 
 const mockQueryClient = new QueryClient({
@@ -43,4 +44,4 @@ const customRender = (ui: ReactElement<any>, options?: Omit<testing.RenderOption
 // eslint-disable-next-line import/export
 export * from "@testing-library/react";
 // eslint-disable-next-line import/export
-export { customRender as render, mswServer as mockServer };
+export { customRender as render, mswServer as mockServer, userEvent };

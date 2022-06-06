@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input renders an Input unchanged 1`] = `
+.c0 {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 12px;
+  height: 48px;
+  border: solid 2px #868686;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+}
+
+.c0::-webkit-input-placeholder {
+  color: #101521;
+}
+
+.c0::-moz-placeholder {
+  color: #101521;
+}
+
+.c0:-ms-input-placeholder {
+  color: #101521;
+}
+
+.c0::placeholder {
+  color: #101521;
+}
+
+.c0:focus-within {
+  border-color: #5D2DEF;
+}
+
+.c1 {
+  opacity: 1;
+  margin: 0;
+  min-width: 0;
+  width: 100%;
+  border: none;
+  outline: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: #101521;
+  background-color: #FFFFFF;
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <input
+      class="c1"
+      type="text"
+    />
+  </div>
+</div>
+`;

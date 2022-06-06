@@ -11,6 +11,13 @@ declare module "styled-components" {
     colors: {
       textPrimary: string;
       textSecondary: string;
+      textDimmed: string;
+      backgroundPrimary: string;
+      backgroundSecondary: string;
+      error: string;
+      touched: string;
+      border: string;
+      focus: string;
     };
   }
 }
