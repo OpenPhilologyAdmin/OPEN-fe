@@ -9,11 +9,14 @@ declare module "styled-components" {
       circle: string;
     };
     colors: {
+      backgroundPrimary: string;
+      backgroundSecondary: string;
       textPrimary: string;
       textSecondary: string;
       textDimmed: string;
-      backgroundPrimary: string;
-      backgroundSecondary: string;
+      actionsPrimary: string;
+      actionsSecondary: string;
+      actionsDisabled: string;
       error: string;
       touched: string;
       border: string;

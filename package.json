@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "test:ci": "jest:ci",
     "prepare": "husky install",
-    "typecheck": "tsc --pretty --noEmit"
+    "typecheck": "tsc --pretty --noEmit",
+    "test-all": "yarn lint && yarn typecheck && yarn test"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.10",
