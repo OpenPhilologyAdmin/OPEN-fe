@@ -27,7 +27,9 @@ const customJestConfig = {
 
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
-    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i": `<rootDir>/__mocks__/fileMock.js`,
+    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp)$/i": `<rootDir>/__mocks__/fileMock.js`,
+
+    "\\.svg$": "<rootDir>/src/mocks/svg.ts",
 
     // Handle module aliases
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
@@ -37,6 +39,7 @@ const customJestConfig = {
     "^@/mocks/(.*)$": "<rootDir>/src/mocks/$1",
     "^@/mocks/handlers(.*)$": "<rootDir>/src/mocks/handlers/$1",
     "^@/services/(.*)$": "<rootDir>/src/services/$1",
+    "^@/assets/(.*)$": "<rootDir>/public/$1",
   },
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],

@@ -1,8 +1,9 @@
 import { Children, ComponentPropsWithoutRef, Fragment } from "react";
 
+import ChevronRightIcon from "@/assets/images/icons/chevron-small-right.svg";
 import styled from "styled-components";
 
-export const Wrapper = styled.nav`
+const Wrapper = styled.nav`
   margin: 16px 0;
   color: ${props => props.theme.colors.textPrimary};
 `;
@@ -12,11 +13,12 @@ const ItemWrapper = styled.span`
   line-height: 24px;
 `;
 
-export const ListWrapper = styled.ol`
+const ListWrapper = styled.ol`
   display: flex;
 `;
 
-export const BreadCrumbsDivider = styled.span`
+const BreadCrumbsDivider = styled(ChevronRightIcon)`
+  fill: ${props => props.theme.colors.textPrimary};
   margin: 0 4px;
 `;
 
@@ -31,7 +33,7 @@ function Breadcrumbs({ children, ...props }: BreadcrumbsProps) {
         {childrenArray.map((child, index) => (
           <Fragment key={index}>
             <ItemWrapper>{child}</ItemWrapper>
-            {index !== childrenArray.length - 1 && <BreadCrumbsDivider>/</BreadCrumbsDivider>}
+            {index !== childrenArray.length - 1 && <BreadCrumbsDivider />}
           </Fragment>
         ))}
       </ListWrapper>

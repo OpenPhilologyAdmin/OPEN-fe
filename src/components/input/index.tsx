@@ -1,6 +1,6 @@
 import { ComponentPropsWithRef, forwardRef, ReactNode } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import BaseCharacterLimit from "./character-limit";
 
@@ -23,6 +23,11 @@ type InputProps = ComponentPropsWithRef<"input"> & {
   isDirty?: boolean;
   current?: number | string;
 };
+
+const sideNodeStyle = css`
+  display: flex;
+  align-items: center;
+`;
 
 const Wrapper = styled.div<WrapperProps>`
   position: relative;
@@ -86,10 +91,12 @@ const SideItem = styled.div`
 `;
 
 const Left = styled(SideItem)`
+  ${sideNodeStyle}
   margin-right: 8px;
 `;
 
 const Right = styled(SideItem)`
+  ${sideNodeStyle}
   margin-left: 8px;
 `;
 

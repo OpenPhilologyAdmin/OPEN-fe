@@ -46,8 +46,11 @@
       "@/mocks/*": [
         "src/mocks/*"
       ],
+      "@/assets/*": [
+        "/public/*"
+      ],
     },
   },
-  "include": ["src/types/next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["src/types/next-env.d.ts", "**/*.ts", "**/*.tsx", "src/mocks/svg.ts"],
   "exclude": ["node_modules"]
 }
