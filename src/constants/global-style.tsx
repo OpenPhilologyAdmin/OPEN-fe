@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
 
   /* Set core root defaults */
   html {
-    font-family: "Noto Sans", sans-serif;
+    font-family: 'Inter', sans-serif;
     box-sizing: border-box;
     font-size: 16px;
   }

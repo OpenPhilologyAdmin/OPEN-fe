@@ -28,11 +28,14 @@ function BaseLayout({ children }: Props) {
         {breadcrumbs && (
           <Breadcrumbs>
             <BreadcrumbsItem href="/">{t("home.route_name")}</BreadcrumbsItem>
-            {breadcrumbs.map(breadcrumb => (
+            {breadcrumbs.slice(0, -1).map(breadcrumb => (
               <BreadcrumbsItem key={breadcrumb.href} href={breadcrumb.href}>
                 {breadcrumb.label}
               </BreadcrumbsItem>
             ))}
+            {breadcrumbs.length >= 1 && (
+              <BreadcrumbsItem>{breadcrumbs[breadcrumbs.length - 1].label}</BreadcrumbsItem>
+            )}
           </Breadcrumbs>
         )}
         {children}

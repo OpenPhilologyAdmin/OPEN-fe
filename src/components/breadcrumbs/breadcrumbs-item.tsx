@@ -2,15 +2,19 @@ import { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 
 type BreadcrumbsItemProps = ComponentPropsWithoutRef<"li"> & {
-  href: string;
+  href?: string;
 };
 
 export function BreadcrumbsItem({ children, href, ...props }: BreadcrumbsItemProps) {
   return (
     <li {...props}>
-      <Link href={href}>
-        <a>{children}</a>
-      </Link>
+      {href ? (
+        <Link href={href}>
+          <a>{children}</a>
+        </Link>
+      ) : (
+        children
+      )}
     </li>
   );
 }

@@ -22,22 +22,6 @@ exports[`Input renders an Input unchanged 1`] = `
   background-color: #FFFFFF;
 }
 
-.c0::-webkit-input-placeholder {
-  color: #101521;
-}
-
-.c0::-moz-placeholder {
-  color: #101521;
-}
-
-.c0:-ms-input-placeholder {
-  color: #101521;
-}
-
-.c0::placeholder {
-  color: #101521;
-}
-
 .c0:focus-within {
   border-color: #5D2DEF;
 }
@@ -53,6 +37,22 @@ exports[`Input renders an Input unchanged 1`] = `
   line-height: 24px;
   color: #101521;
   background-color: #FFFFFF;
+}
+
+.c1::-webkit-input-placeholder {
+  color: #101521;
+}
+
+.c1::-moz-placeholder {
+  color: #101521;
+}
+
+.c1:-ms-input-placeholder {
+  color: #101521;
+}
+
+.c1::placeholder {
+  color: #101521;
 }
 
 <div>

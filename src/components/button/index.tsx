@@ -4,6 +4,8 @@ import Link from "next/link";
 import styled, { css, DefaultTheme } from "styled-components";
 import { Url } from "url";
 
+import Typography from "../typography";
+
 export type ButtonVariant =
   | "primary"
   | "secondary"
@@ -118,18 +120,6 @@ export const getPadding = ({ variant, small }: GetterProps) => {
   return "12px 24px";
 };
 
-export const getLineHeight = ({ small }: GetterProps) => {
-  if (small) return "16px";
-
-  return "20px";
-};
-
-export const getFontSize = ({ small }: GetterProps) => {
-  if (small) return "14px";
-
-  return "16px";
-};
-
 export const getCursor = ({ disabled }: GetterProps) => {
   if (disabled) return "not-allowed";
 
@@ -170,7 +160,7 @@ export const getUnderlineStyles = ({ variant, theme, disabled, underline }: Gett
 
 const BaseButton = styled.button<BaseButtonProps>`
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   position: relative;
   margin: 0;
   border: 2px solid;
@@ -178,36 +168,49 @@ const BaseButton = styled.button<BaseButtonProps>`
   max-height: ${props => (props.small ? "32px" : "48px")};
   border-radius: ${props => props.theme.borderRadius.sm};
   padding: ${props => getPadding({ ...props })};
-  font-size: ${props => getFontSize({ ...props })};
   border-color: ${props => getBorderColor({ ...props })};
   background-color: ${props => getBackgroundColor({ ...props })};
   color: ${props => getColor({ ...props })};
-  line-height: ${props => getLineHeight({ ...props })};
   cursor: ${props => getCursor({ ...props })};
   ${props => getUnderlineStyles({ ...props })}
+`;
 
-  // TODO Adjust in OPLU-120 with global icons setup */
+const Left = styled.div<GetterProps>`
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
+
   svg {
-    height: 24px;
-    width: 24px;
-    color: ${props => getColor({ ...props })};
+    fill: ${props => getColor({ ...props })};
+  }
+`;
+
+const Right = styled.div<GetterProps>`
+  height: 24px;
+  width: 24px;
+  margin-left: 4px;
+
+  svg {
+    fill: ${props => getColor({ ...props })};
   }
 `;
 
 function Button({ variant = "primary", left, right, children, href, ...props }: ButtonProps) {
+  const buttonTypographyVariant = props.small ? "button-small" : "button-default";
+
   return href ? (
     <Link href={href} passHref>
       <BaseButton as="a" variant={variant} {...props}>
-        {left}
-        {children}
-        {right}
+        {left && <Left variant={variant}>{left}</Left>}
+        <Typography variant={buttonTypographyVariant}>{children}</Typography>
+        {right && <Right variant={variant}>{right}</Right>}
       </BaseButton>
     </Link>
   ) : (
     <BaseButton variant={variant} {...props}>
-      {left}
-      {children}
-      {right}
+      {left && <Left variant={variant}>{left}</Left>}
+      <Typography variant={buttonTypographyVariant}>{children}</Typography>
+      {right && <Right variant={variant}>{right}</Right>}
     </BaseButton>
   );
 }

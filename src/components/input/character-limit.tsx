@@ -2,13 +2,15 @@ import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 
 import styled from "styled-components";
 
+import Typography from "../typography";
+
 type UseCharacterLimitProps = string | number | readonly string[] | undefined;
 type CharacterLimitProps = ComponentPropsWithoutRef<"span"> & {
   current: string | number | undefined;
   max: string | number;
 };
 
-const Label = styled.span`
+const Label = styled(Typography)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,8 +20,6 @@ const Label = styled.span`
   border-radius: ${({ theme: { borderRadius } }) => `${borderRadius.sm} 0 ${borderRadius.sm} 0`};
   background-color: ${({ theme: { colors } }) => colors.backgroundSecondary};
   color: ${({ theme: { colors } }) => colors.textDimmed};
-  font-size: 12px;
-  line-height: 12px;
 `;
 
 export function useCharacterLimit(value: UseCharacterLimitProps) {
@@ -36,7 +36,7 @@ function CharacterLimit({ current, max, ...props }: CharacterLimitProps) {
   if (Number(max) === 0) return null;
 
   return (
-    <Label {...props}>
+    <Label variant="tiny" {...props}>
       {current}/{max}
     </Label>
   );

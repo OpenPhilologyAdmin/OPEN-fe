@@ -2,6 +2,7 @@ import { ComponentPropsWithRef, forwardRef, ReactNode } from "react";
 
 import styled, { css } from "styled-components";
 
+import Typography from "../typography";
 import BaseCharacterLimit from "./character-limit";
 
 type BaseInputProps = {
@@ -45,10 +46,6 @@ const Wrapper = styled.div<WrapperProps>`
   border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
 
-  ::placeholder {
-    color: ${({ theme: { colors } }) => colors.textSecondary};
-  }
-
   :focus-within {
     border-color: ${({ theme: { colors }, invalid }) => !invalid && colors.focus};
   }
@@ -65,6 +62,10 @@ const BaseInput = styled.input<BaseInputProps>`
   line-height: 24px;
   color: ${({ theme: { colors } }) => colors.textSecondary};
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
+
+  ::placeholder {
+    color: ${({ theme: { colors } }) => colors.textSecondary};
+  }
 `;
 
 const Label = styled.label`
@@ -75,8 +76,6 @@ const Label = styled.label`
   height: 20px;
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
   color: ${({ theme: { colors } }) => colors.textDimmed};
-  font-size: 14px;
-  line-height: 20px;
 `;
 
 const SideItem = styled.div`
@@ -110,7 +109,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, left, right, invalid, current, ...props }, ref) => {
     return (
       <Wrapper invalid={invalid}>
-        {label && <Label htmlFor={props.id}>{label}</Label>}
+        {label && (
+          <Label htmlFor={props.id}>
+            <Typography variant="small-bold">{label}</Typography>
+          </Label>
+        )}
         {left && <Left>{left}</Left>}
         <BaseInput type="text" ref={ref} {...props} />
         {right && <Right>{right}</Right>}

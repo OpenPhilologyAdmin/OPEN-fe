@@ -5,6 +5,8 @@ import { useTranslation } from "next-i18next";
 
 import styled from "styled-components";
 
+import Typography from "../typography";
+
 const Wrapper = styled.header`
   display: flex;
   align-items: center;
@@ -49,7 +51,9 @@ function Header({ children, ...props }: HeaderProps) {
           </a>
         </Link>
         <VerticalDivider />
-        <h1>{t("header.editing_environment")}</h1>
+        <Typography as="h1" variant="body-bold">
+          {t("header.editing_environment")}
+        </Typography>
       </LogoSideWrapper>
       <ActionsSideWrapper>{children}</ActionsSideWrapper>
     </Wrapper>
