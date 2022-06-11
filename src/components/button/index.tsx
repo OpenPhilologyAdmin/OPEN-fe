@@ -6,13 +6,7 @@ import { Url } from "url";
 
 import Typography from "../typography";
 
-export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "primary-outline"
-  | "secondary-outline"
-  | "primary-ghost"
-  | "secondary-ghost";
+export type ButtonVariant = "primary" | "secondary" | "tertiary";
 
 type BaseButtonProps = {
   variant?: ButtonVariant;
@@ -28,8 +22,6 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> &
     left?: ReactNode;
     right?: ReactNode;
     href?: Url | string;
-    /** Only support by ghost variations */
-    underline?: boolean;
   };
 
 type GetterProps = {
@@ -37,79 +29,107 @@ type GetterProps = {
   theme: DefaultTheme;
   disabled?: boolean;
   small?: boolean;
-  underline?: boolean;
 };
 
-export const getColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+const iconsWrapperStyles = css`
+  height: 24px;
+  width: 24px;
+`;
+
+const getColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
   if (disabled && variant) {
-    if (
-      [
-        "primary",
-        "secondary",
-        "primary-outline",
-        "secondary-outline",
-        "primary-ghost",
-        "secondary-ghost",
-      ].includes(variant)
-    )
-      return colors.textDimmed;
+    if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
   }
 
-  if (variant === "primary" || variant === "secondary") return colors.textPrimary;
+  if (variant === "primary") return colors.textPrimary;
 
-  if (variant === "primary-outline" || variant === "primary-ghost") return colors.actionsPrimary;
-
-  if (variant === "secondary-outline" || variant === "secondary-ghost")
-    return colors.actionsSecondary;
+  if (variant === "secondary" || variant === "tertiary") return colors.actionsPrimary;
 
   return null;
 };
 
-export const getBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+const getHoverColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+  if (disabled && variant) {
+    if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
+  }
+
+  if (variant === "primary") return colors.textPrimary;
+
+  if (variant === "secondary" || variant === "tertiary") return colors.actionsSecondary;
+
+  return null;
+};
+
+const getBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
   if (disabled) {
-    if (variant === "primary" || variant === "secondary") return colors.actionsDisabled;
+    if (variant === "primary") return colors.actionsDisabled;
 
-    if (variant === "primary-outline") return colors.backgroundPrimary;
+    if (variant === "secondary") return colors.backgroundPrimary;
 
-    if (variant === "primary-ghost" || variant === "secondary-ghost") return "transparent";
+    if (variant === "tertiary") return "transparent";
   }
 
   if (variant === "primary") return colors.actionsPrimary;
 
-  if (variant === "secondary") return colors.actionsSecondary;
+  if (variant === "secondary") return colors.backgroundPrimary;
 
-  if (variant === "primary-outline" || variant === "secondary-outline")
-    return colors.backgroundPrimary;
-
-  if (variant === "primary-ghost" || variant === "secondary-ghost") return "transparent";
+  if (variant === "tertiary") return "transparent";
 
   return null;
 };
 
-export const getBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+const getHoverBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
   if (disabled) {
-    if (
-      variant === "primary" ||
-      variant === "secondary" ||
-      variant === "primary-outline" ||
-      variant === "secondary-outline"
-    )
-      return colors.actionsDisabled;
+    if (variant === "primary") return colors.actionsDisabled;
 
-    if (variant === "primary-ghost" || variant === "secondary-ghost") return "transparent";
+    if (variant === "secondary") return colors.backgroundPrimary;
+
+    if (variant === "tertiary") return "transparent";
   }
 
-  if (variant === "primary" || variant === "primary-outline") return colors.actionsPrimary;
+  if (variant === "primary") return colors.actionsSecondary;
 
-  if (variant === "secondary" || variant === "secondary-outline") return colors.actionsSecondary;
+  if (variant === "secondary") return colors.backgroundPrimary;
 
-  if (variant === "primary-ghost" || variant === "secondary-ghost") return "transparent";
+  if (variant === "tertiary") return "transparent";
 
   return null;
 };
 
-export const getPadding = ({ variant, small }: GetterProps) => {
-  if (variant === "primary-ghost" || variant === "secondary-ghost") {
+const getBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+  if (disabled) {
+    if (variant === "primary") return colors.actionsDisabled;
+
+    if (variant === "secondary") return colors.textDimmed;
+
+    if (variant === "tertiary") return "transparent";
+  }
+
+  if (variant === "primary" || variant === "secondary") return colors.actionsPrimary;
+
+  if (variant === "tertiary") return "transparent";
+
+  return null;
+};
+
+const getHoverBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
+  if (disabled) {
+    if (variant === "primary") return colors.actionsDisabled;
+
+    if (variant === "secondary") return colors.textDimmed;
+
+    if (variant === "tertiary") return "transparent";
+  }
+
+  if (variant === "primary" || variant === "secondary") return colors.actionsSecondary;
+
+  if (variant === "tertiary") return "transparent";
+
+  return null;
+};
+
+const getPadding = ({ variant, small }: GetterProps) => {
+  if (variant === "tertiary") {
     if (small) return "6px 0px";
 
     return "12px 0px";
@@ -120,39 +140,25 @@ export const getPadding = ({ variant, small }: GetterProps) => {
   return "12px 24px";
 };
 
-export const getCursor = ({ disabled }: GetterProps) => {
+const getCursor = ({ disabled }: GetterProps) => {
   if (disabled) return "not-allowed";
 
   return "pointer";
 };
 
-export const getUnderlineStyles = ({ variant, theme, disabled, underline }: GetterProps) => {
-  if (!underline) return;
+const getHoverUnderlineStyles = ({ variant, theme, disabled }: GetterProps) => {
+  if (disabled) return;
 
-  if (variant === "primary-ghost") {
+  if (variant === "tertiary") {
     return css`
       &:after {
         content: "";
         width: 100%;
         position: absolute;
         height: 2px;
-        background: ${disabled ? theme.colors.textDimmed : theme.colors.actionsPrimary};
         left: 0;
         bottom: 0;
-      }
-    `;
-  }
-
-  if (variant === "secondary-ghost") {
-    return css`
-      &:after {
-        content: "";
-        width: 100%;
-        position: absolute;
-        height: 2px;
         background: ${disabled ? theme.colors.textDimmed : theme.colors.actionsSecondary};
-        left: 0;
-        bottom: 0;
       }
     `;
   }
@@ -172,27 +178,31 @@ const BaseButton = styled.button<BaseButtonProps>`
   background-color: ${props => getBackgroundColor({ ...props })};
   color: ${props => getColor({ ...props })};
   cursor: ${props => getCursor({ ...props })};
-  ${props => getUnderlineStyles({ ...props })}
+
+  svg {
+    fill: ${props => getColor({ ...props })};
+  }
+
+  &:hover {
+    color: ${props => getHoverColor({ ...props })};
+    background-color: ${props => getHoverBackgroundColor({ ...props })};
+    border-color: ${props => getHoverBorderColor({ ...props })};
+    ${props => getHoverUnderlineStyles({ ...props })}
+
+    svg {
+      fill: ${props => getHoverColor({ ...props })};
+    }
+  }
 `;
 
 const Left = styled.div<GetterProps>`
-  height: 24px;
-  width: 24px;
+  ${iconsWrapperStyles}
   margin-right: 4px;
-
-  svg {
-    fill: ${props => getColor({ ...props })};
-  }
 `;
 
 const Right = styled.div<GetterProps>`
-  height: 24px;
-  width: 24px;
+  ${iconsWrapperStyles}
   margin-left: 4px;
-
-  svg {
-    fill: ${props => getColor({ ...props })};
-  }
 `;
 
 function Button({ variant = "primary", left, right, children, href, ...props }: ButtonProps) {

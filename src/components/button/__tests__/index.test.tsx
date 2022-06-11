@@ -18,25 +18,7 @@ describe("Button", () => {
   });
 
   it("renders a primary-outline button unchanged", () => {
-    const { container } = render(<Button variant="primary-outline" />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it("renders a secondary-outline button unchanged", () => {
-    const { container } = render(<Button variant="secondary-outline" />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it("renders a primary-ghost button unchanged", () => {
-    const { container } = render(<Button variant="primary-ghost" />);
-
-    expect(container).toMatchSnapshot();
-  });
-
-  it("renders a secondary-ghost button unchanged", () => {
-    const { container } = render(<Button variant="secondary-ghost" />);
+    const { container } = render(<Button variant="tertiary" />);
 
     expect(container).toMatchSnapshot();
   });

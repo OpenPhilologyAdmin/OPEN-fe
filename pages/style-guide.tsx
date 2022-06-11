@@ -19,6 +19,7 @@ const Main = styled.main`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   row-gap: 12px;
 `;
 
@@ -40,8 +41,23 @@ function StyleGuide() {
         <Typography variant="small-text-super">hello</Typography>
       </Column>
       <Column>
+        <Button variant="primary" left={<ChevronRightIcon />} disabled>
+          Button
+        </Button>
+        <Button variant="secondary" left={<ChevronRightIcon />} disabled>
+          Button
+        </Button>
+        <Button variant="tertiary" left={<ChevronRightIcon />} disabled>
+          Button
+        </Button>
         <Button variant="primary" left={<ChevronRightIcon />}>
-          Hello!
+          Button
+        </Button>
+        <Button variant="secondary" left={<ChevronRightIcon />}>
+          Button
+        </Button>
+        <Button variant="tertiary" left={<ChevronRightIcon />}>
+          Button
         </Button>
       </Column>
       <Column>

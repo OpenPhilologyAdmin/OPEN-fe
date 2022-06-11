@@ -13,7 +13,7 @@ const LIGHT: DefaultTheme = {
     backgroundSecondary: "#F4F4F4",
     textPrimary: "#FFFFFF",
     textSecondary: "#101521",
-    textDimmed: "#868686",
+    textDimmed: "#ABABAB",
     actionsPrimary: "#5D2DEF",
     actionsSecondary: "#FC6145",
     actionsDisabled: "#E1E1E1",
