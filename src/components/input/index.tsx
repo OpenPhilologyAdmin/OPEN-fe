@@ -9,7 +9,6 @@ type BaseInputProps = {
   left?: boolean;
   right?: boolean;
   invalid?: boolean;
-  isDirty?: boolean;
 };
 
 type WrapperProps = {
@@ -21,7 +20,6 @@ type InputProps = ComponentPropsWithRef<"input"> & {
   left?: ReactNode;
   right?: ReactNode;
   invalid?: boolean;
-  isDirty?: boolean;
   current?: number | string;
 };
 
@@ -47,7 +45,7 @@ const Wrapper = styled.div<WrapperProps>`
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
 
   :focus-within {
-    border-color: ${({ theme: { colors }, invalid }) => !invalid && colors.focus};
+    border-color: ${({ theme: { colors }, invalid }) => !invalid && colors.actionsPrimary};
   }
 `;
 
@@ -117,7 +115,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {left && <Left>{left}</Left>}
         <BaseInput type="text" ref={ref} {...props} />
         {right && <Right>{right}</Right>}
-        {props.max && current && <CharacterLimit max={props.max} current={current} />}
+        {props.max && current !== undefined && <CharacterLimit max={props.max} current={current} />}
       </Wrapper>
     );
   },

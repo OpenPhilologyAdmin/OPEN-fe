@@ -1,19 +1,32 @@
-import ChevronRightIcon from "@/assets/images/icons/chevron-small-right.svg";
-import Button from "@/components/button";
-import Input from "@/components/input";
-import Typography from "@/components/typography";
-import styled from "styled-components";
+import { useForm } from "react-hook-form";
 
-const Main = styled.main`
-  background: white;
+import ChevronRightIcon from "@/assets/images/icons/chevron-right.svg";
+import Button from "@/components/button";
+import Checkbox from "@/components/checkbox";
+import Input, { useCharacterLimit } from "@/components/input";
+import Radio from "@/components/radio";
+import Typography from "@/components/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
+import styled from "styled-components";
+import * as zod from "zod";
+
+const schema = zod.object({
+  name: zod.string().min(1, { message: "Required" }).max(100),
+  age: zod.number().min(10),
+  likesMe: zod.string().min(2),
+  likesYou: zod.literal(true),
+  likesUs: zod.literal(false),
+});
+
+const Main = styled.form`
+  display: flex;
+  column-gap: 30px;
   padding: 20px;
-  display: grid;
-  justify-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-row-gap: 10px;
   border-radius: 10px;
   height: 80%;
   width: 100%;
+  background: white;
+  overflow-x: scroll;
 `;
 
 const Column = styled.div`
@@ -21,12 +34,32 @@ const Column = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 12px;
+  column-gap: 30px;
+  min-width: 300px;
+`;
+
+const ColumHeading = styled.h1`
+  margin: 0 10px;
+  font-size: 30px;
 `;
 
 function StyleGuide() {
+  const {
+    register,
+    handleSubmit,
+    getFieldState,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const { current: nameCurrent } = useCharacterLimit(watch("name"));
+
   return (
-    <Main>
+    <Main onSubmit={handleSubmit(d => console.log(d))}>
       <Column>
+        <ColumHeading>Typography</ColumHeading>
         <Typography>hello</Typography>
         <Typography variant="header">hello</Typography>
         <Typography variant="body-bold">hello</Typography>
@@ -40,7 +73,65 @@ function StyleGuide() {
         <Typography variant="small-text-regular">hello</Typography>
         <Typography variant="small-text-super">hello</Typography>
       </Column>
+
       <Column>
+        <ColumHeading>Input</ColumHeading>
+
+        <Input
+          type="text"
+          {...register("name")}
+          {...getFieldState("name")}
+          current={nameCurrent}
+          max={100}
+        />
+        {errors.name?.message && <p>{errors.name?.message}</p>}
+        <Input
+          type="number"
+          {...register("age", { valueAsNumber: true })}
+          {...getFieldState("age")}
+        />
+        {errors.age?.message && <p>{errors.age?.message}</p>}
+        <input type="submit" />
+      </Column>
+      <Column>
+        <ColumHeading>Radio</ColumHeading>
+
+        <Radio value="1" disabled />
+        <Radio value="1" disabled checked />
+        <Radio label="Label" value="2" disabled id={"withValue2"} />
+        <Radio {...register("likesMe")} {...getFieldState("likesMe")} value="3" />
+        <Radio
+          label="Label"
+          {...register("likesMe")}
+          {...getFieldState("likesMe")}
+          value="44"
+          id={"withValue44"}
+        />
+        {errors.likesMe?.message && <p>{errors.likesMe?.message}</p>}
+
+        <input type="submit" />
+      </Column>
+      <Column>
+        <ColumHeading>Checkbox</ColumHeading>
+
+        <Checkbox disabled />
+        <Checkbox checked disabled />
+        <Checkbox label={"Label"} id={"likesHim"} disabled />
+        <Checkbox {...register("likesYou")} {...getFieldState("likesYou")} id={"likesYou"} />
+        <Checkbox
+          {...register("likesUs")}
+          {...getFieldState("likesUs")}
+          label={"Label"}
+          id={"likesUs"}
+        />
+        {errors.likesYou?.message && <p>{errors.likesYou?.message}</p>}
+        {errors.likesUs?.message && <p>{errors.likesUs?.message}</p>}
+
+        <input type="submit" />
+      </Column>
+
+      <Column>
+        <ColumHeading>Button</ColumHeading>
         <Button variant="primary" left={<ChevronRightIcon />} disabled>
           Button
         </Button>
@@ -59,9 +150,6 @@ function StyleGuide() {
         <Button variant="tertiary" left={<ChevronRightIcon />}>
           Button
         </Button>
-      </Column>
-      <Column>
-        <Input label="Hello" current={10} max={10} />
       </Column>
     </Main>
   );

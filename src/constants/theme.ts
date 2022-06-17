@@ -20,7 +20,7 @@ const LIGHT: DefaultTheme = {
     error: "#CD0000",
     touched: "#101521",
     border: "#868686",
-    focus: "#5D2DEF",
+    focus: "0 0 0 4px rgba(93, 45, 239, 0.32)",
   },
 };
 

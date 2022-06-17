@@ -144,10 +144,11 @@ const TYPOGRAPHY_VARIANTS = {
   "small-text-super": SmallTextSuper,
 };
 
-type TypographyProps = ComponentPropsWithoutRef<"span"> & {
-  variant?: keyof typeof TYPOGRAPHY_VARIANTS;
-  as?: ElementType;
-};
+type TypographyProps = ComponentPropsWithoutRef<"label"> &
+  ComponentPropsWithoutRef<"span"> & {
+    variant?: keyof typeof TYPOGRAPHY_VARIANTS;
+    as?: ElementType;
+  };
 
 function Typography({ variant = "body-regular", children, ...props }: TypographyProps) {
   const TypographyVariant = TYPOGRAPHY_VARIANTS[variant];
