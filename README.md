@@ -48,6 +48,17 @@ They are served in different variations of `.env` files:
 - For development environment we use `.env.development`
 - For production environment we use `.env.production`
 
+## Deployment process
+
+Deployment is done via GitHub Actions. Whole configuration resides in YAML files inside `.github/workflows` directory.
+- All code pushed to `develop` branch is deployed to `dev.openphilology.eu`;
+- All code pushed to `main` branch is deployed to `staging.openphilology.eu`;
+- Review apps are applications created for each PR (re)opened and are automatically removed when PR is closed. Review apps are cloned from `develop` app, so all the configuration set there prior to creating review app is copied. Each review app is assigned URL following the pattern: `oplu-${PR-GitHub-ID}.openphilology.eu`. The URL is automatically added to the PR (as a comment) after the app is created.
+
+To add/change/remove environment variables you need to access the machine Dokku is running on via SSH. Access details are in 1password vault. Once you're in, please use [Dokku CLI commands](https://dokku.com/docs/configuration/environment-variables/).
+
+Dokku uses Heroku Buildpacks under the hood. If apps node.js/npm/yarn versions are upgraded, please remember to also update them inside package.json `engines` section.
+
 ## Guidelines for coding and reviews:
 
 Keep an eye on the guidelines while submitting your PRs and while reviewing others' to assure code quality and

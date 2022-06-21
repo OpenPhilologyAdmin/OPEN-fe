@@ -1,0 +1,71 @@
+name: Create/destroy review app for PR
+on:
+  pull_request:
+    types:
+      - opened
+      - closed
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create_review_app:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && contains(fromJson('["opened", "synchronize", "reopened"]'), github.event.action)
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          command: review-apps:create
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          git_remote_url: ssh://${{ secrets.DEV_DEPLOY_USER }}@${{ secrets.DEV_DEPLOY_HOST }}:${{ secrets.DEV_DEPLOY_PORT }}/${{ secrets.DEV_DEPLOY_APP_NAME }}
+          review_app_name: oplu-${{ github.event.pull_request.number }}
+          git_push_flags: --force
+      - name: Configure ssh
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/dokku.key
+          chmod 600 ~/.ssh/dokku.key
+          cat >>~/.ssh/config <<END
+          Host review-app
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/dokku.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.DEV_DEPLOY_USER }}
+          SSH_HOST: ${{ secrets.DEV_DEPLOY_HOST }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Enable letsencrypt
+        run: ssh review-app "letsencrypt:active $APP_NAME" || ssh review-app "dokku letsencrypt:enable $APP_NAME"
+        env:
+          APP_NAME: oplu-${{ github.event.pull_request.number }}
+      - name: Post PR comment
+        uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REVIEW_APP_URL: https://oplu-${{ github.event.pull_request.number }}.${{ secrets.REVIEW_APP_DOMAIN }}
+        with:
+          message: "Preview URL: ${{ env.REVIEW_APP_URL }}"
+          allow-repeats: false
+
+  destroy_review_app:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Destroy the review app
+        uses: dokku/github-action@master
+        with:
+          command: review-apps:destroy
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          git_remote_url: ssh://${{ secrets.DEV_DEPLOY_USER }}@${{ secrets.DEV_DEPLOY_HOST }}:${{ secrets.DEV_DEPLOY_PORT }}/${{ secrets.DEV_DEPLOY_APP_NAME }}
+          review_app_name: oplu-${{ github.event.pull_request.number }}
