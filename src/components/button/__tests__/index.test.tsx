@@ -17,8 +17,38 @@ describe("Button", () => {
     expect(container).toMatchSnapshot();
   });
 
-  it("renders a primary-outline button unchanged", () => {
+  it("renders a tertiary button unchanged", () => {
     const { container } = render(<Button variant="tertiary" />);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a primary icon button unchanged", () => {
+    const { container } = render(
+      <Button variant="primary" mode="icon">
+        <svg></svg>
+      </Button>,
+    );
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a secondary icon button unchanged", () => {
+    const { container } = render(
+      <Button variant="secondary" mode="icon">
+        <svg></svg>
+      </Button>,
+    );
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a tertiary icon button unchanged", () => {
+    const { container } = render(
+      <Button variant="tertiary" mode="icon">
+        <svg></svg>
+      </Button>,
+    );
 
     expect(container).toMatchSnapshot();
   });

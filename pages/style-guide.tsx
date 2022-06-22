@@ -26,7 +26,7 @@ const Main = styled.form`
   height: 80%;
   width: 100%;
   background: white;
-  overflow-x: scroll;
+  overflow: scroll;
 `;
 
 const Column = styled.div`
@@ -149,6 +149,48 @@ function StyleGuide() {
         </Button>
         <Button variant="tertiary" left={<ChevronRightIcon />}>
           Button
+        </Button>
+      </Column>
+
+      <Column>
+        <ColumHeading>Button icon</ColumHeading>
+        <Button variant="primary" mode="icon">
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="primary" mode="icon" disabled>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="primary" mode="icon" small>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="primary" mode="icon" small disabled>
+          <ChevronRightIcon />
+        </Button>
+
+        <Button variant="secondary" mode="icon">
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="secondary" mode="icon" disabled>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="secondary" mode="icon" small>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="secondary" mode="icon" disabled small>
+          <ChevronRightIcon />
+        </Button>
+
+        <Button variant="tertiary" mode="icon">
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="tertiary" mode="icon" disabled>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="tertiary" mode="icon" small>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="tertiary" mode="icon" small disabled>
+          <ChevronRightIcon />
         </Button>
       </Column>
     </Main>

@@ -6,13 +6,16 @@ import { Url } from "url";
 
 import Typography from "../typography";
 
-export type ButtonVariant = "primary" | "secondary" | "tertiary";
+type ButtonVariant = "primary" | "secondary" | "tertiary";
+
+type ButtonMode = "text" | "icon";
 
 type BaseButtonProps = {
   variant?: ButtonVariant;
   disabled?: boolean;
   small?: boolean;
   underline?: boolean;
+  mode?: ButtonMode;
 };
 
 type ButtonProps = ComponentPropsWithoutRef<"button"> &
@@ -22,6 +25,7 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> &
     left?: ReactNode;
     right?: ReactNode;
     href?: Url | string;
+    mode?: ButtonMode;
   };
 
 type GetterProps = {
@@ -29,6 +33,7 @@ type GetterProps = {
   theme: DefaultTheme;
   disabled?: boolean;
   small?: boolean;
+  mode?: ButtonMode;
 };
 
 const iconsWrapperStyles = css`
@@ -128,7 +133,13 @@ const getHoverBorderColor = ({ variant, theme: { colors }, disabled }: GetterPro
   return null;
 };
 
-const getPadding = ({ variant, small }: GetterProps) => {
+const getPadding = ({ variant, small, mode }: GetterProps) => {
+  if (mode === "icon") {
+    if (small) return "4px 2px";
+
+    return "12px";
+  }
+
   if (variant === "tertiary") {
     if (small) return "6px 0px";
 
@@ -146,8 +157,16 @@ const getCursor = ({ disabled }: GetterProps) => {
   return "pointer";
 };
 
-const getHoverUnderlineStyles = ({ variant, theme, disabled }: GetterProps) => {
-  if (disabled) return;
+const getFocusStyles = ({ mode, variant }: GetterProps) => {
+  if (mode === "text" && variant === "tertiary") return null;
+
+  return css`
+    box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
+  `;
+};
+
+const getHoverUnderlineStyles = ({ variant, theme, disabled, mode }: GetterProps) => {
+  if (disabled || mode === "icon") return;
 
   if (variant === "tertiary") {
     return css`
@@ -159,6 +178,24 @@ const getHoverUnderlineStyles = ({ variant, theme, disabled }: GetterProps) => {
         left: 0;
         bottom: 0;
         background: ${disabled ? theme.colors.textDimmed : theme.colors.actionsSecondary};
+      }
+    `;
+  }
+};
+
+const getFocusUnderlineStyles = ({ variant, theme, disabled, mode }: GetterProps) => {
+  if (disabled || mode === "icon") return;
+
+  if (variant === "tertiary") {
+    return css`
+      &:after {
+        content: "";
+        width: 100%;
+        position: absolute;
+        height: 4px;
+        left: 0;
+        bottom: 0;
+        background: ${theme.colors.focus};
       }
     `;
   }
@@ -193,6 +230,14 @@ const BaseButton = styled.button<BaseButtonProps>`
       fill: ${props => getHoverColor({ ...props })};
     }
   }
+
+  :focus-visible {
+    ${props => getFocusStyles({ ...props })}
+  }
+
+  :focus-visible:not(:hover) {
+    ${props => getFocusUnderlineStyles({ ...props })}
+  }
 `;
 
 const Left = styled.div<GetterProps>`
@@ -205,7 +250,15 @@ const Right = styled.div<GetterProps>`
   margin-left: 4px;
 `;
 
-function Button({ variant = "primary", left, right, children, href, ...props }: ButtonProps) {
+function Button({
+  variant = "primary",
+  mode = "text",
+  left,
+  right,
+  children,
+  href,
+  ...props
+}: ButtonProps) {
   const buttonTypographyVariant = props.small ? "button-small" : "button-default";
 
   return href ? (
@@ -217,9 +270,10 @@ function Button({ variant = "primary", left, right, children, href, ...props }: 
       </BaseButton>
     </Link>
   ) : (
-    <BaseButton variant={variant} {...props}>
+    <BaseButton variant={variant} mode={mode} {...props}>
       {left && <Left variant={variant}>{left}</Left>}
-      <Typography variant={buttonTypographyVariant}>{children}</Typography>
+      {mode === "text" && <Typography variant={buttonTypographyVariant}>{children}</Typography>}
+      {mode === "icon" && children}
       {right && <Right variant={variant}>{right}</Right>}
     </BaseButton>
   );

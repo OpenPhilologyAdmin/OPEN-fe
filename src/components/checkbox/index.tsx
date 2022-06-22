@@ -78,7 +78,7 @@ const Input = styled.input<StyleProps>`
   }
 
   :focus-visible ~ ${Checkmark} {
-    box-shadow: ${({ theme: { colors } }) => colors.focus};
+    box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
   }
 `;
 

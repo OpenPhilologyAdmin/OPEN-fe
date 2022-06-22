@@ -20,6 +20,7 @@ declare module "styled-components" {
       error: string;
       touched: string;
       border: string;
+      focusShadow: string;
       focus: string;
     };
   }
