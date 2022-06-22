@@ -1,11 +1,25 @@
 {
-  "add_mock_user": "Add mock user!",
-  "fetch_mock_user": "Fetch mock user!",
   "header": {
     "logo_alt": "Open philology logo",
     "editing_environment": "Editing environment"
   },
   "home": {
     "route_name": "Home"
+  },
+  "register_account": {
+    "user_email": "User email",
+    "user_password": "Password (min. 8 characters, at least 1 number)",
+    "user_confirm_password": "Confirm password",
+    "user_name": "Your name",
+    "create_account": "Create account",
+    "password_no_match": "Passwords don't match",
+    "password_invalid_length": "Invalid password (min. 8 characters)",
+    "password_no_number": "Invalid password (1 numbers is required)",
+    "success_title": "Account successfully created",
+    "success_description": "You will receive an email once the admin activates your account."
+  },
+  "a11y": {
+    "hide_password": "Hide password",
+    "show_password": "Show password"
   }
 }

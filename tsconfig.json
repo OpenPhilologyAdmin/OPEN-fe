@@ -51,6 +51,6 @@
       ],
     },
   },
-  "include": ["src/types/next-env.d.ts", "**/*.ts", "**/*.tsx", "src/mocks/svg.ts"],
+  "include": ["src/types/next-env.d.ts", "src/types/api.d.ts", "**/*.ts", "**/*.tsx", "src/mocks/svg.ts"],
   "exclude": ["node_modules"]
 }

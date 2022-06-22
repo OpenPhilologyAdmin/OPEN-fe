@@ -131,6 +131,7 @@ OPLU-103-project-setup
 18. Always use meaningful variables, avoid abbreviations or single-character variable names
 19. Do not store gradients in the theme.
 20. Prefer types to interfaces for type declarations.
+21. Use curly braces for multi-line ifs, even if there is only a single instruction inside.
 
 ## Core resources
 

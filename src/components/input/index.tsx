@@ -15,7 +15,7 @@ type WrapperProps = {
   invalid?: boolean;
 };
 
-type InputProps = ComponentPropsWithRef<"input"> & {
+export type InputProps = ComponentPropsWithRef<"input"> & {
   label?: string;
   left?: ReactNode;
   right?: ReactNode;
@@ -74,6 +74,7 @@ const Label = styled.label`
   height: 20px;
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
   color: ${({ theme: { colors } }) => colors.textDimmed};
+  cursor: text;
 `;
 
 const SideItem = styled.div`

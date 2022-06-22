@@ -6,7 +6,7 @@ import { appWithTranslation } from "next-i18next";
 
 import { GlobalStyle } from "@/constants/global-style";
 import BaseLayout from "@/layouts/index";
-import { queryClient } from "@/services/api";
+import { queryClient } from "@/services/api/client";
 import { ThemeProvider } from "src/contexts/theme";
 
 type NextPageWithLayout = NextPage & {

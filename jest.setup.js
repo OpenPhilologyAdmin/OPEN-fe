@@ -5,4 +5,5 @@ import "jest";
 
 jest.mock("next-i18next", () => ({
   useTranslation: () => ({ t: key => key }),
+  i18n: { t: key => key },
 }));

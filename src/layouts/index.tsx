@@ -17,6 +17,15 @@ const Main = styled.main`
   background-image: url("/images/background.png");
 `;
 
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Compensate header + breadcrumbs height */
+  height: calc(100vh - 144px);
+  width: 100%;
+`;
+
 function BaseLayout({ children }: Props) {
   const { breadcrumbs } = useBreadcrumbs();
   const { t } = useTranslation();
@@ -38,7 +47,7 @@ function BaseLayout({ children }: Props) {
             )}
           </Breadcrumbs>
         )}
-        {children}
+        <Content>{children}</Content>
       </Main>
     </>
   );

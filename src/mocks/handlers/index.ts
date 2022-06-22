@@ -1,3 +1,3 @@
-import { mockUserHandler } from "./mockUser";
+import { registerAccountHandler } from "./register-account";
 
-export const handlers = [mockUserHandler];
+export const handlers = [registerAccountHandler];

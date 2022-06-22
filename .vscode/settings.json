@@ -1,5 +1,9 @@
 {
-  "cSpell.words": ["avif", "OPLU"],
+  "cSpell.words": [
+    "avif",
+    "hookform",
+    "OPLU"
+  ],
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"

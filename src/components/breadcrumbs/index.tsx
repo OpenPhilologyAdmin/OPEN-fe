@@ -23,6 +23,7 @@ type BreadcrumbsProps = ComponentPropsWithoutRef<"nav">;
 
 function Breadcrumbs({ children, ...props }: BreadcrumbsProps) {
   const childrenArray = Children.toArray(children);
+  // TODO translations for breadcrumbs
 
   return (
     <Wrapper {...props}>

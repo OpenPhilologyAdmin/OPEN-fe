@@ -19,7 +19,7 @@ export function useBreadcrumbs() {
 
       return {
         href,
-        label: capitalize(path),
+        label: capitalize(path.split("-").join(" ")),
       };
     });
 
