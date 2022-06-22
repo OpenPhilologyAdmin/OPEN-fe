@@ -16,6 +16,16 @@ declare namespace API {
     role: "admin";
   };
 
+  type ResetPasswordPayload = {
+    user: {
+      email: string;
+    };
+  };
+
+  type ResetPasswordResponse = {
+    message: string;
+  };
+
   type ApiError = {
     message: string | string[];
   };

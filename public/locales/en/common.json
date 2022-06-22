@@ -18,6 +18,11 @@
     "success_title": "Account successfully created",
     "success_description": "You will receive an email once the admin activates your account."
   },
+  "reset_password": {
+    "user_email": "User email",
+    "reset_password_button_text": "Reset password",
+    "success": "An email has been sent to your email to reset your password."
+  },
   "a11y": {
     "hide_password": "Hide password",
     "show_password": "Show password"

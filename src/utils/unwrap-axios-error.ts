@@ -1,7 +1,7 @@
-import { AxiosError } from "axios";
+import axios from "axios";
 
 export const unwrapAxiosError = (axiosError: unknown): API.ApiError => {
-  if (axiosError instanceof AxiosError) {
+  if (axios.isAxiosError(axiosError)) {
     return axiosError.response?.data as API.ApiError;
   }
 

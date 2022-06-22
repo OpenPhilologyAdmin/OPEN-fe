@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
-import EmailIcon from "@/assets/images/icons/at-email.svg";
 import Button from "@/components/button";
 import Input from "@/components/input";
+import InputEmail from "@/components/input-email";
 import InputPassword from "@/components/input-password";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
@@ -33,10 +33,6 @@ const Form = styled.form`
   display: grid;
   grid-template-columns: 1fr;
   grid-row-gap: 24px;
-  min-width: 460px;
-  padding: 48px;
-  background: ${({ theme }) => theme.colors.backgroundPrimary};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
 const ButtonWrapper = styled.div`
@@ -95,15 +91,12 @@ function RegisterAccountForm() {
         }),
       )}
     >
-      <Input
-        type="email"
-        autoComplete="email"
+      <InputEmail
         label={labels[EMAIL]}
         id={EMAIL}
         disabled={isLoading}
         {...register(EMAIL)}
         {...getFieldState(EMAIL)}
-        left={<EmailIcon />}
       />
       <InputPassword
         label={labels[PASSWORD]}

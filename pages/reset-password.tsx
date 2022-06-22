@@ -1,11 +1,11 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import RegisterAccountForm from "@/components/register-account-form";
+import ResetPasswordForm from "@/components/reset-password-form";
 import AuthLayout from "@/layouts/auth";
 
-function RegisterAccount() {
-  return <RegisterAccountForm />;
+function ResetPassword() {
+  return <ResetPasswordForm />;
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
@@ -14,8 +14,8 @@ export const getStaticProps = async ({ locale }: { locale: string }) => ({
   },
 });
 
-RegisterAccount.getLayout = function getLayout(page: ReactElement) {
+ResetPassword.getLayout = function getLayout(page: ReactElement) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-export default RegisterAccount;
+export default ResetPassword;
