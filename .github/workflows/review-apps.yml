@@ -46,7 +46,7 @@ jobs:
           SSH_HOST: ${{ secrets.DEV_DEPLOY_HOST }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Enable letsencrypt
-        run: ssh review-app "letsencrypt:active $APP_NAME" || ssh review-app "dokku letsencrypt:enable $APP_NAME"
+        run: ssh review-app "letsencrypt:active $APP_NAME" || ssh review-app "letsencrypt:enable $APP_NAME"
         env:
           APP_NAME: oplu-${{ github.event.pull_request.number }}
       - name: Post PR comment
