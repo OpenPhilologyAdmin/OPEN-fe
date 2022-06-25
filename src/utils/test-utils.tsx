@@ -1,20 +1,14 @@
-import { ReactElement, ReactNode } from "react";
-import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
+import { ReactNode } from "react";
+import { QueryClientProvider } from "react-query";
+import { RouterContext } from "next/dist/shared/lib/router-context";
+import { NextRouter } from "next/router";
 
 import { mswServer } from "@/mocks/index";
+import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";
+import { mockRouter } from "@/mocks/mock-router";
 import * as testing from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "src/contexts/theme";
-
-const mockQueryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // ✅ turns retries off
-      retry: false,
-    },
-  },
-});
-const mockQueryCache = new QueryCache();
 
 beforeAll(() =>
   mswServer.listen({
@@ -37,8 +31,34 @@ function MockProvider({ children }: { children: ReactNode }) {
   );
 }
 
-const customRender = (ui: ReactElement<any>, options?: Omit<testing.RenderOptions, "queries">) =>
-  testing.render(ui, { wrapper: MockProvider, ...options });
+type DefaultParams = Parameters<typeof testing.render>;
+type RenderUI = DefaultParams[0];
+type RenderOptions = Omit<DefaultParams[1], "queries"> & { router?: Partial<NextRouter> };
+
+/**
+ * Custom render function that wraps the default render from @testing-library/react
+ *
+ * This function is used to wrap components rendered in tests with mandatory providers used in the app
+ *
+ * @param ui The rendered component
+ * @param options Default render options extended by mocked NextRouter
+ * @example render(<Component />, { router: { query: { token: 123 } } })
+ */
+const customRender = (ui: RenderUI, options?: RenderOptions) => {
+  const wrapper = ({ children }: { children: ReactNode }) => (
+    <MockProvider>
+      {options?.router ? (
+        <RouterContext.Provider value={{ ...mockRouter, ...options.router }}>
+          {children}
+        </RouterContext.Provider>
+      ) : (
+        children
+      )}
+    </MockProvider>
+  );
+
+  return testing.render(ui, { wrapper, ...options });
+};
 
 // ! We want to export all from testing library and override custom render on purpose
 // eslint-disable-next-line import/export

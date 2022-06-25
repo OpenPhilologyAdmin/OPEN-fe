@@ -4,7 +4,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 const endpoint = `${baseUrl}/users/password`;
 const successMessage = "Account created successfully";
 const errors = {
-  email: "Something went wrong",
+  password: "Password error",
 };
 
 export const responseSuccess = {
@@ -12,13 +12,13 @@ export const responseSuccess = {
 };
 
 export const responseError = {
-  error: [errors.email],
+  error: [errors.password],
 };
 
-export const resetPasswordHandler = rest.post(endpoint, (_, res, ctx) =>
+export const newPasswordHandler = rest.put(endpoint, (_, res, ctx) =>
   res(ctx.json(responseSuccess)),
 );
 
-export const resetPasswordHandlerException = rest.post(endpoint, (_, res, ctx) =>
+export const newPasswordHandlerException = rest.put(endpoint, (_, res, ctx) =>
   res(ctx.status(400), ctx.json(responseError)),
 );

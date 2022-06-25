@@ -15,9 +15,9 @@ const ErrorMessage = styled(Typography).attrs({ variant: "body-regular" })`
 `;
 
 function Error({ error }: ErrorProps) {
-  if (!error?.message) return null;
+  if (!error?.error) return null;
 
-  const { message } = error;
+  const { error: message } = error;
 
   if (typeof message === "string") return <ErrorMessage>{message}</ErrorMessage>;
 

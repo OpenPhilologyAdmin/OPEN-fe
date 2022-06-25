@@ -23,6 +23,14 @@
     "reset_password_button_text": "Reset password",
     "success": "An email has been sent to your email to reset your password."
   },
+  "new_password": {
+    "user_password": "Password (min. 8 characters, at least 1 number)",
+    "user_confirm_password": "Confirm password",
+    "password_no_match": "Passwords don't match",
+    "password_invalid_length": "Invalid password (min. 8 characters)",
+    "password_no_number": "Invalid password (1 numbers is required)",
+    "save_and_sign_in": "Save and sign in"
+  },
   "a11y": {
     "hide_password": "Hide password",
     "show_password": "Show password"

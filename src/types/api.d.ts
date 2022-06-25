@@ -26,7 +26,17 @@ declare namespace API {
     message: string;
   };
 
+  type NewPasswordPayload = {
+    reset_password_token: string;
+    password: string;
+    password_confirmation: string;
+  };
+
+  type NewPasswordResponse = {
+    message: string;
+  };
+
   type ApiError = {
-    message: string | string[];
+    error: string | string[];
   };
 }

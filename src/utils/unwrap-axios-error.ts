@@ -6,6 +6,6 @@ export const unwrapAxiosError = (axiosError: unknown): API.ApiError => {
   }
 
   return {
-    message: [],
+    error: [],
   };
 };

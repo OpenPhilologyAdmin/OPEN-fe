@@ -46,6 +46,6 @@ describe("ResetPasswordForm", () => {
     await user.type(emailInput, resetPasswordValidInput[EMAIL]);
     await user.click(submitButton);
 
-    expect(await screen.findByText(responseError.message[0])).toBeInTheDocument();
+    expect(await screen.findByText(responseError.error[0])).toBeInTheDocument();
   });
 });
