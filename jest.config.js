@@ -33,13 +33,14 @@ const customJestConfig = {
 
     // Handle module aliases
     "^@/components/(.*)$": "<rootDir>/src/components/$1",
-    "^@/utils/(.*)$": "<rootDir>/src/utils/$1",
-    "^@/contexts/(.*)$": "<rootDir>/src/contexts/$1",
     "^@/constants/(.*)$": "<rootDir>/src/constants/$1",
+    "^@/contexts/(.*)$": "<rootDir>/src/contexts/$1",
+    "^@/hooks/(.*)$": "<rootDir>/src/hooks/$1",
     "^@/mocks/(.*)$": "<rootDir>/src/mocks/$1",
     "^@/mocks/handlers(.*)$": "<rootDir>/src/mocks/handlers/$1",
     "^@/services/(.*)$": "<rootDir>/src/services/$1",
     "^@/assets/(.*)$": "<rootDir>/public/$1",
+    "^@/utils/(.*)$": "<rootDir>/src/utils/$1",
   },
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import ChevronRightIcon from "@/assets/images/icons/chevron-right.svg";
 import Button from "@/components/button";
 import Checkbox from "@/components/checkbox";
+import Dropdown, { DropdownItem } from "@/components/dropdown";
 import Input, { useCharacterLimit } from "@/components/input";
 import Radio from "@/components/radio";
 import Typography from "@/components/typography";
@@ -192,6 +193,20 @@ function StyleGuide() {
         <Button variant="tertiary" mode="icon" small disabled>
           <ChevronRightIcon />
         </Button>
+      </Column>
+      <Column>
+        <Dropdown label="Label">
+          <DropdownItem label="Label 1" value="option1" />
+          <DropdownItem label="Label 2" value="option2" />
+          <DropdownItem label="Label 3" value="option3" selected />
+          <DropdownItem label="Label 4" value="option4" />
+        </Dropdown>
+        <Dropdown label="Label" multiple>
+          <DropdownItem label="Label 1" value="option1" selected />
+          <DropdownItem label="Label 2" value="option2" />
+          <DropdownItem label="Label 3" value="option3" selected />
+          <DropdownItem label="Label 4" value="option4" />
+        </Dropdown>
       </Column>
     </Main>
   );

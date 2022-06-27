@@ -1,11 +1,11 @@
-import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { ComponentPropsWithoutRef, forwardRef, ReactNode } from "react";
 
 import styled from "styled-components";
 
 import Typography from "../typography";
 
 type RadioProps = ComponentPropsWithoutRef<"input"> & {
-  label?: string;
+  label?: ReactNode;
   invalid?: boolean;
 };
 
