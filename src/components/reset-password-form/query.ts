@@ -1,13 +1,17 @@
 import { useMutation } from "react-query";
 
 import { apiClient } from "@/services/api/client";
+import { AxiosResponse } from "axios";
 
-const resetPassword = ({ user: { email } }: API.ResetPasswordPayload) => {
+type UseResetPasswordOptions = {
+  onSuccess: (data: AxiosResponse<API.ResetPasswordResponse, any>) => void;
+};
+
+const resetPassword = ({ user }: API.ResetPasswordPayload) => {
   return apiClient.post<API.ResetPasswordResponse>("users/password", {
-    user: {
-      email,
-    },
+    user,
   });
 };
 
-export const useResetPassword = () => useMutation(resetPassword);
+export const useResetPassword = ({ onSuccess }: UseResetPasswordOptions) =>
+  useMutation(resetPassword, { onSuccess });

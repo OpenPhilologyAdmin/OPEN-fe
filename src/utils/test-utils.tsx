@@ -3,6 +3,7 @@ import { QueryClientProvider } from "react-query";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 
+import { ToastProvider } from "@/components/toast";
 import { mswServer } from "@/mocks/index";
 import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";
 import { mockRouter } from "@/mocks/mock-router";
@@ -29,6 +30,15 @@ function MockProvider({ children }: { children: ReactNode }) {
       <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
     </ThemeProvider>
   );
+}
+
+/**
+ * Include this provider in tests that rely on react-tostify toast component
+ *
+ * This is not mocked globally because the way the library is written, it would disrupt all existing snapshots by injecting the provider
+ */
+export function MockToastProvider() {
+  return <ToastProvider />;
 }
 
 type DefaultParams = Parameters<typeof testing.render>;

@@ -3,7 +3,7 @@ import {
   registerAccountHandlerException,
   registeredUser,
 } from "@/mocks/handlers/register-account";
-import { mockServer, render, screen, userEvent } from "@/utils/test-utils";
+import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
 
 import RegisterAccountForm, { CONFIRM_PASSWORD, EMAIL, NAME, PASSWORD } from "..";
 
@@ -20,11 +20,20 @@ const invalidPassword = {
   byNumber: "InvalidPassword",
 };
 
+function RegisterAccountFormWithToastProvider() {
+  return (
+    <>
+      <MockToastProvider />
+      <RegisterAccountForm />
+    </>
+  );
+}
+
 describe("RegisterAccountForm", () => {
   it("renders a form and creates an account successfully", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountForm />);
+    render(<RegisterAccountFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -38,14 +47,13 @@ describe("RegisterAccountForm", () => {
     await user.type(nameInput, registerAccountValidInput[NAME]);
     await user.click(submitButton);
 
-    expect(await screen.findByText("register_account.success_title")).toBeInTheDocument();
-    expect(await screen.findByText("register_account.success_description")).toBeInTheDocument();
+    expect(await screen.findByText("register_account.success")).toBeInTheDocument();
   });
 
   it("renders a form and displays custom password length error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountForm />);
+    render(<RegisterAccountFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -61,7 +69,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and displays custom password missing number error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountForm />);
+    render(<RegisterAccountFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -77,7 +85,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and displays custom password no match error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountForm />);
+    render(<RegisterAccountFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -100,7 +108,7 @@ describe("RegisterAccountForm", () => {
     // * Hides verbose axios error in the test out while mocking error request
     jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
 
-    render(<RegisterAccountForm />);
+    render(<RegisterAccountFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");

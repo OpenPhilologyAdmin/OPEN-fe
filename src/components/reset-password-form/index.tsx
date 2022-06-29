@@ -9,6 +9,7 @@ import * as zod from "zod";
 
 import Error from "../error";
 import InputEmail from "../input-email";
+import { toast } from "../toast";
 import Typography from "../typography";
 import { useResetPassword } from "./query";
 
@@ -53,14 +54,17 @@ function ResetPasswordForm() {
 
   const {
     mutate: sendResetPasswordEmail,
-    data,
     error: rawError,
     isLoading,
-    isSuccess,
-  } = useResetPassword();
+  } = useResetPassword({
+    onSuccess: data => {
+      const successMessage = data.data.message || t("reset_password.success");
+
+      toast.success(<Typography>{successMessage}</Typography>);
+    },
+  });
 
   const apiError = unwrapAxiosError(rawError);
-  const successMessage = data?.data.message || t("reset_password.success");
 
   return (
     <Form onSubmit={handleSubmit(({ email }) => sendResetPasswordEmail({ user: { email } }))}>
@@ -77,8 +81,6 @@ function ResetPasswordForm() {
           {t("reset_password.reset_password_button_text")}
         </Button>
       </ButtonWrapper>
-      {/* TODO replace with a toast when global toast setup is done */}
-      {isSuccess && <Typography>{successMessage}</Typography>}
     </Form>
   );
 }

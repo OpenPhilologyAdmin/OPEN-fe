@@ -3,7 +3,7 @@ import {
   responseError,
   responseSuccess,
 } from "@/mocks/handlers/reset-password";
-import { mockServer, render, screen, userEvent } from "@/utils/test-utils";
+import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
 
 import ResetPasswordForm, { EMAIL } from "..";
 
@@ -11,11 +11,20 @@ const resetPasswordValidInput = {
   [EMAIL]: "valid@email.com",
 };
 
+function ResetPasswordFormWithToastProvider() {
+  return (
+    <>
+      <MockToastProvider />
+      <ResetPasswordForm />
+    </>
+  );
+}
+
 describe("ResetPasswordForm", () => {
   it("renders a form and sends reset password email", async () => {
     const user = userEvent.setup();
 
-    render(<ResetPasswordForm />);
+    render(<ResetPasswordFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("reset_password.user_email");
     const submitButton = screen.getByRole("button", {
@@ -36,7 +45,7 @@ describe("ResetPasswordForm", () => {
     // * Hides verbose axios error in the test out while mocking error request
     jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
 
-    render(<ResetPasswordForm />);
+    render(<ResetPasswordFormWithToastProvider />);
 
     const emailInput = screen.getByLabelText("reset_password.user_email");
     const submitButton = screen.getByRole("button", {

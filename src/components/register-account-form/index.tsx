@@ -12,6 +12,7 @@ import styled from "styled-components";
 import * as zod from "zod";
 
 import Error from "../error";
+import { toast } from "../toast";
 import Typography from "../typography";
 import { useRegisterAccount } from "./query";
 
@@ -69,7 +70,15 @@ function RegisterAccountForm() {
     resolver: zodResolver(registerSchema),
   });
 
-  const { mutate: registerAccount, error: rawError, isLoading, isSuccess } = useRegisterAccount();
+  const {
+    mutate: registerAccount,
+    error: rawError,
+    isLoading,
+  } = useRegisterAccount({
+    onSuccess: () => {
+      toast.success(<Typography>{t("register_account.success")}</Typography>);
+    },
+  });
   const apiError = unwrapAxiosError(rawError);
 
   const labels = {
@@ -127,13 +136,6 @@ function RegisterAccountForm() {
           {t("register_account.create_account")}
         </Button>
       </ButtonWrapper>
-      {/* TODO replace with a toast when global toast setup is done */}
-      {isSuccess && (
-        <>
-          <Typography>{t("register_account.success_title")}</Typography>
-          <Typography>{t("register_account.success_description")}</Typography>
-        </>
-      )}
     </Form>
   );
 }

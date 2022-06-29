@@ -1,6 +1,11 @@
 import { useMutation } from "react-query";
 
 import { apiClient } from "@/services/api/client";
+import { AxiosResponse } from "axios";
+
+type UseRegisterAccountOptions = {
+  onSuccess: (data: AxiosResponse<API.RegisterAccountResponse, any>) => void;
+};
 
 const registerAccount = ({ user }: API.RegisterAccountPayload) => {
   return apiClient.post<API.RegisterAccountResponse>("/users", {
@@ -8,4 +13,5 @@ const registerAccount = ({ user }: API.RegisterAccountPayload) => {
   });
 };
 
-export const useRegisterAccount = () => useMutation(registerAccount);
+export const useRegisterAccount = ({ onSuccess }: UseRegisterAccountOptions) =>
+  useMutation(registerAccount, { onSuccess });
