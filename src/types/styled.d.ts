@@ -22,6 +22,8 @@ declare module "styled-components" {
       border: string;
       focusShadow: string;
       focus: string;
+      tableBorder: string;
+      tableRowActiveBackground: string;
     };
   }
 }

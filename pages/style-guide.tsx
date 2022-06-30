@@ -6,6 +6,7 @@ import Checkbox from "@/components/checkbox";
 import Dropdown, { DropdownItem } from "@/components/dropdown";
 import Input, { useCharacterLimit } from "@/components/input";
 import Radio from "@/components/radio";
+import { Container, Tbody, Td, Th, Thead, Tr } from "@/components/table";
 import Typography from "@/components/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
@@ -33,15 +34,25 @@ const Main = styled.form`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
   row-gap: 12px;
   column-gap: 30px;
   min-width: 300px;
+  overflow: scroll;
 `;
 
 const ColumHeading = styled.h1`
   margin: 0 10px;
   font-size: 30px;
+`;
+
+const WideTable = styled(Container)`
+  width: 100%;
+`;
+
+const WideTh = styled(Th)`
+  width: 70%;
 `;
 
 function StyleGuide() {
@@ -202,6 +213,8 @@ function StyleGuide() {
         </Button>
       </Column>
       <Column>
+        <ColumHeading>Dropdown</ColumHeading>
+
         <Dropdown label="Label">
           <DropdownItem label="Label 1" value="option1" />
           <DropdownItem label="Label 2" value="option2" />
@@ -214,6 +227,58 @@ function StyleGuide() {
           <DropdownItem label="Label 3" value="option3" selected />
           <DropdownItem label="Label 4" value="option4" />
         </Dropdown>
+      </Column>
+      <Column>
+        <ColumHeading>Table</ColumHeading>
+
+        <div style={{ display: "flex", alignSelf: "normal", width: "1000px" }}>
+          <WideTable>
+            <Thead>
+              <Tr>
+                <WideTh align="left">Document name</WideTh>
+                <Th>Creation date</Th>
+                <Th>Witnesses</Th>
+                <Th>Export</Th>
+                <Th>Delete</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr>
+                <Td align="left">
+                  <Button variant="tertiary" small href="#">
+                    Lorem Ipsum
+                  </Button>
+                </Td>
+                <Td>2022-02-16</Td>
+                <Td>3</Td>
+                <Td>E</Td>
+                <Td>D</Td>
+              </Tr>
+              <Tr active>
+                <Td align="left">
+                  <Button variant="tertiary" small href="#">
+                    Lorem Ipsum
+                  </Button>
+                </Td>
+                <Td>2022-02-16</Td>
+                <Td>3</Td>
+                <Td>E</Td>
+                <Td>D</Td>
+              </Tr>
+              <Tr>
+                <Td align="left">
+                  <Button variant="tertiary" small href="#">
+                    Lorem Ipsum
+                  </Button>
+                </Td>
+                <Td>2022-02-16</Td>
+                <Td>3</Td>
+                <Td>E</Td>
+                <Td>D</Td>
+              </Tr>
+            </Tbody>
+          </WideTable>
+        </div>
       </Column>
     </Main>
   );

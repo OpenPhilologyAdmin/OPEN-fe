@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table renders basic unchanged 1`] = `
+.c4 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.c2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c0 {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+.c3 {
+  padding: 24px;
+  background-color: #F4F4F4;
+  text-align: center;
+}
+
+.c6 {
+  padding: 24px;
+  border-top: 1px solid #E1E1E1;
+  text-align: center;
+}
+
+.c1 .c5 {
+  background-color: #FFFFFF;
+}
+
+<div>
+  <table
+    class="c0"
+  >
+    <thead
+      class=""
+    >
+      <tr
+        class="c1"
+      >
+        <th
+          class="c2 c3"
+        >
+          Column 1
+        </th>
+        <th
+          class="c2 c3"
+        >
+          Column 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class=""
+    >
+      <tr
+        class="c1"
+      >
+        <td
+          class="c4 c5 c6"
+        >
+          column 1
+        </td>
+        <td
+          class="c4 c5 c6"
+        >
+          column 2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`Table renders with active row unchanged 1`] = `
+.c5 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.c2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c0 {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+.c3 {
+  padding: 24px;
+  background-color: #F4F4F4;
+  text-align: center;
+}
+
+.c7 {
+  padding: 24px;
+  border-top: 1px solid #E1E1E1;
+  text-align: center;
+}
+
+.c1 .c6 {
+  background-color: #FFFFFF;
+}
+
+.c4 .c6 {
+  background-color: #F1ECFF;
+}
+
+<div>
+  <table
+    class="c0"
+  >
+    <thead
+      class=""
+    >
+      <tr
+        class="c1"
+      >
+        <th
+          class="c2 c3"
+        >
+          Column 1
+        </th>
+        <th
+          class="c2 c3"
+        >
+          Column 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class=""
+    >
+      <tr
+        class="c4"
+      >
+        <td
+          class="c5 c6 c7"
+        >
+          column 1
+        </td>
+        <td
+          class="c5 c6 c7"
+        >
+          column 2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

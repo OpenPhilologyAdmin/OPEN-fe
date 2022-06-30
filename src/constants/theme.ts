@@ -22,6 +22,8 @@ const LIGHT: DefaultTheme = {
     border: "#868686",
     focusShadow: "0 0 0 4px rgba(93, 45, 239, 0.32)",
     focus: "rgba(93, 45, 239, 0.32)",
+    tableBorder: "#E1E1E1",
+    tableRowActiveBackground: "#F1ECFF",
   },
 };
 
