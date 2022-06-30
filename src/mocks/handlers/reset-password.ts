@@ -20,5 +20,5 @@ export const resetPasswordHandler = rest.post(endpoint, (_, res, ctx) =>
 );
 
 export const resetPasswordHandlerException = rest.post(endpoint, (_, res, ctx) =>
-  res(ctx.status(400), ctx.json(responseError)),
+  res(ctx.status(400), ctx.json({ email: [errors.email] })),
 );

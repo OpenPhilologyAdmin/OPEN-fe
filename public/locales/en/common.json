@@ -8,13 +8,14 @@
   },
   "register_account": {
     "user_email": "User email",
-    "user_password": "Password (min. 8 characters, at least 1 number)",
+    "user_password": "Password",
     "user_confirm_password": "Confirm password",
     "user_name": "Your name",
     "create_account": "Create account",
     "password_no_match": "Passwords don't match",
     "password_invalid_length": "Invalid password (min. 8 characters)",
     "password_no_number": "Invalid password (1 numbers is required)",
+    "name_required": "Name is required",
     "success": "Check your inbox for confirmation email and follow instructions to finish account registration."
   },
   "reset_password": {
@@ -23,7 +24,7 @@
     "success": "An email has been sent to your email to reset your password."
   },
   "new_password": {
-    "user_password": "Password (min. 8 characters, at least 1 number)",
+    "user_password": "Password",
     "user_confirm_password": "Confirm password",
     "password_no_match": "Passwords don't match",
     "password_invalid_length": "Invalid password (min. 8 characters)",

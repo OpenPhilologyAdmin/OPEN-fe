@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
@@ -5,28 +6,27 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import InputEmail from "@/components/input-email";
 import InputPassword from "@/components/input-password";
+import { toast } from "@/components/toast";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import * as zod from "zod";
 
-import Error from "../error";
-import { toast } from "../toast";
 import Typography from "../typography";
 import { useRegisterAccount } from "./query";
 
 export type RegisterFormData = {
   email: string;
   password: string;
-  confirmPassword: string;
+  password_confirmation: string;
   name: string;
 };
 
-export const { EMAIL, PASSWORD, CONFIRM_PASSWORD, NAME } = {
+export const FIELDS = {
   EMAIL: "email",
   PASSWORD: "password",
-  CONFIRM_PASSWORD: "confirmPassword",
+  CONFIRM_PASSWORD: "password_confirmation",
   NAME: "name",
 } as const;
 
@@ -46,18 +46,18 @@ function RegisterAccountForm() {
 
   const registerSchema = zod
     .object({
-      [EMAIL]: zod.string().email(),
-      [PASSWORD]: passwordRules("register_account."),
-      [CONFIRM_PASSWORD]: passwordRules("register_account."),
-      [NAME]: zod.string(),
+      [FIELDS.EMAIL]: zod.string().email(),
+      [FIELDS.PASSWORD]: passwordRules("register_account."),
+      [FIELDS.CONFIRM_PASSWORD]: passwordRules("register_account."),
+      [FIELDS.NAME]: zod.string().min(1, t("register_account.name_required")),
     })
     .refine(
       data => {
-        return data[PASSWORD] === data[CONFIRM_PASSWORD];
+        return data[FIELDS.PASSWORD] === data[FIELDS.CONFIRM_PASSWORD];
       },
       {
         message: t("register_account.password_no_match"),
-        path: [CONFIRM_PASSWORD],
+        path: [FIELDS.CONFIRM_PASSWORD],
       },
     );
 
@@ -65,6 +65,7 @@ function RegisterAccountForm() {
     register,
     handleSubmit,
     getFieldState,
+    setError,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -72,65 +73,67 @@ function RegisterAccountForm() {
 
   const {
     mutate: registerAccount,
-    error: rawError,
+    error: axiosError,
     isLoading,
   } = useRegisterAccount({
     onSuccess: () => {
       toast.success(<Typography>{t("register_account.success")}</Typography>);
     },
   });
-  const apiError = unwrapAxiosError(rawError);
+  const apiError = unwrapAxiosError(axiosError);
 
-  const labels = {
-    [EMAIL]: errors.email?.message || t("register_account.user_email"),
-    [PASSWORD]: errors.password?.message || t("register_account.user_password"),
-    [CONFIRM_PASSWORD]:
-      errors.confirmPassword?.message || t("register_account.user_confirm_password"),
-    [NAME]: t("register_account.user_name"),
-  };
+  useEffect(() => {
+    if (apiError) {
+      Object.values(FIELDS).forEach(field => {
+        if (apiError[field]) {
+          setError(field, { message: apiError[field][0] });
+        }
+      });
+    }
+  }, [setError, apiError]);
 
   return (
     <Form
-      onSubmit={handleSubmit(({ confirmPassword, ...data }) =>
+      onSubmit={handleSubmit(data =>
         registerAccount({
-          user: {
-            ...data,
-            password_confirmation: confirmPassword,
-          },
+          user: data,
         }),
       )}
     >
       <InputEmail
-        label={labels[EMAIL]}
-        id={EMAIL}
+        label={t("register_account.user_email")}
+        id={FIELDS.EMAIL}
         disabled={isLoading}
-        {...register(EMAIL)}
-        {...getFieldState(EMAIL)}
+        errorMessage={errors[FIELDS.EMAIL]?.message}
+        {...register(FIELDS.EMAIL)}
+        {...getFieldState(FIELDS.EMAIL)}
       />
       <InputPassword
-        label={labels[PASSWORD]}
-        id={PASSWORD}
+        label={t("register_account.user_password")}
+        id={FIELDS.PASSWORD}
         disabled={isLoading}
-        {...register(PASSWORD)}
-        {...getFieldState(PASSWORD)}
+        errorMessage={errors[FIELDS.PASSWORD]?.message}
+        {...register(FIELDS.PASSWORD)}
+        {...getFieldState(FIELDS.PASSWORD)}
       />
       <InputPassword
-        label={labels[CONFIRM_PASSWORD]}
-        id={CONFIRM_PASSWORD}
+        label={t("register_account.user_confirm_password")}
+        id={FIELDS.CONFIRM_PASSWORD}
         disabled={isLoading}
-        {...register(CONFIRM_PASSWORD)}
-        {...getFieldState(CONFIRM_PASSWORD)}
+        errorMessage={errors[FIELDS.CONFIRM_PASSWORD]?.message}
+        {...register(FIELDS.CONFIRM_PASSWORD)}
+        {...getFieldState(FIELDS.CONFIRM_PASSWORD)}
       />
       <Input
         type="text"
         autoComplete="name"
-        label={labels[NAME]}
-        id={NAME}
+        label={t("register_account.user_name")}
+        id={FIELDS.NAME}
         disabled={isLoading}
-        {...register(NAME)}
-        {...getFieldState(NAME)}
+        errorMessage={errors[FIELDS.NAME]?.message}
+        {...register(FIELDS.NAME)}
+        {...getFieldState(FIELDS.NAME)}
       />
-      <Error error={apiError} />
       <ButtonWrapper>
         <Button type="submit" disabled={isLoading}>
           {t("register_account.create_account")}

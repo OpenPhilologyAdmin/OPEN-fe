@@ -46,4 +46,20 @@ describe("Input", () => {
 
     expect(screen.getByText(`${defaultValue.length}/${inputProps.max}`));
   });
+
+  it("renders an Input with ErrorLabel", () => {
+    const errorMessage = "errorMessage";
+
+    render(<Input invalid errorMessage={errorMessage} />);
+
+    expect(screen.getByText(errorMessage));
+  });
+
+  it("renders an Input without ErrorLabel when valid", () => {
+    const errorMessage = "errorMessage";
+
+    render(<Input invalid={false} errorMessage={errorMessage} />);
+
+    expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+  });
 });

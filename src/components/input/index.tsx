@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 
 import Typography from "../typography";
 import BaseCharacterLimit from "./character-limit";
+import BaseErrorMessage from "./error-message";
 
 type BaseInputProps = {
   left?: boolean;
@@ -21,6 +22,7 @@ export type InputProps = ComponentPropsWithRef<"input"> & {
   right?: ReactNode;
   invalid?: boolean;
   current?: number | string;
+  errorMessage?: string;
 };
 
 const sideNodeStyle = css`
@@ -28,13 +30,14 @@ const sideNodeStyle = css`
   align-items: center;
 `;
 
-const Wrapper = styled.div<WrapperProps>`
+const InputInnerWrapper = styled.div<WrapperProps>`
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 12px;
   height: 48px;
+  width: 100%;
   border: solid 2px
     ${({ theme: { colors }, invalid }) => {
       if (invalid) return colors.error;
@@ -104,20 +107,36 @@ const CharacterLimit = styled(BaseCharacterLimit)`
   bottom: 0;
 `;
 
+const ErrorMessage = styled(BaseErrorMessage)`
+  margin-top: 4px;
+`;
+
+export const InputStyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+`;
+
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, left, right, invalid, current, ...props }, ref) => {
+  ({ label, left, right, invalid, current, errorMessage, ...props }, ref) => {
     return (
-      <Wrapper invalid={invalid}>
-        {label && (
-          <Label htmlFor={props.id}>
-            <Typography variant="small-bold">{label}</Typography>
-          </Label>
-        )}
-        {left && <Left>{left}</Left>}
-        <BaseInput type="text" ref={ref} {...props} />
-        {right && <Right>{right}</Right>}
-        {props.max && current !== undefined && <CharacterLimit max={props.max} current={current} />}
-      </Wrapper>
+      <InputStyledWrapper>
+        <InputInnerWrapper invalid={invalid}>
+          {label && (
+            <Label htmlFor={props.id}>
+              <Typography variant="small-bold">{label}</Typography>
+            </Label>
+          )}
+          {left && <Left>{left}</Left>}
+          <BaseInput type="text" ref={ref} {...props} />
+          {right && <Right>{right}</Right>}
+          {props.max && current !== undefined && (
+            <CharacterLimit max={props.max} current={current} />
+          )}
+        </InputInnerWrapper>
+        {invalid && !!errorMessage && <ErrorMessage text={errorMessage} />}
+      </InputStyledWrapper>
     );
   },
 );

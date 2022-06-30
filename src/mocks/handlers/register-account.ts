@@ -21,5 +21,5 @@ export const registerAccountHandler = rest.post(endpoint, (_, res, ctx) => {
 });
 
 export const registerAccountHandlerException = rest.post(endpoint, (_, res, ctx) =>
-  res(ctx.status(400), ctx.json({ error: [errors.email, errors.password] })),
+  res(ctx.status(400), ctx.json({ email: [errors.email], password: [errors.password] })),
 );

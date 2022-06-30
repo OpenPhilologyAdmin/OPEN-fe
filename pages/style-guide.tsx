@@ -92,6 +92,13 @@ function StyleGuide() {
           {...getFieldState("age")}
         />
         {errors.age?.message && <p>{errors.age?.message}</p>}
+        <Input
+          type="text"
+          {...register("asd")}
+          {...getFieldState("asd")}
+          invalid
+          errorMessage="error"
+        />
         <input type="submit" />
       </Column>
       <Column>

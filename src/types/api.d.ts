@@ -37,6 +37,7 @@ declare namespace API {
   };
 
   type ApiError = {
-    error: string | string[];
+    [key: ?string]: string[];
+    error?: string | string[];
   };
 }

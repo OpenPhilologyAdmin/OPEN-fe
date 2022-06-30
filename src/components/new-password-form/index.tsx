@@ -1,29 +1,33 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/button";
-import { resetPasswordTokenKey } from "@/constants/reset-password-token";
+import { newPasswordTokenKey } from "@/constants/reset-password-token";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import * as zod from "zod";
 
-import Error from "../error";
 import InputPassword from "../input-password";
 import Typography from "../typography";
 import { useNewPassword } from "./query";
 
-export const { PASSWORD, CONFIRM_PASSWORD } = {
-  PASSWORD: "password",
-  CONFIRM_PASSWORD: "confirmPassword",
-} as const;
+type NewPasswordFormProps = {
+  newPasswordToken: string;
+};
 
 export type NewPasswordFormData = {
   password: string;
-  confirmPassword: string;
+  password_confirmation: string;
 };
+
+export const FIELDS = {
+  PASSWORD: "password",
+  CONFIRM_PASSWORD: "password_confirmation",
+} as const;
 
 const Form = styled.form`
   display: grid;
@@ -36,24 +40,21 @@ const ButtonWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-function NewPasswordForm() {
+function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
   const { t } = useTranslation();
-  const {
-    query: { [resetPasswordTokenKey]: resetPasswordToken },
-  } = useRouter();
 
   const registerSchema = zod
     .object({
-      [PASSWORD]: passwordRules("new_password."),
-      [CONFIRM_PASSWORD]: passwordRules("new_password."),
+      [FIELDS.PASSWORD]: passwordRules("new_password."),
+      [FIELDS.CONFIRM_PASSWORD]: passwordRules("new_password."),
     })
     .refine(
       data => {
-        return data[PASSWORD] === data[CONFIRM_PASSWORD];
+        return data[FIELDS.PASSWORD] === data[FIELDS.CONFIRM_PASSWORD];
       },
       {
         message: t("new_password.password_no_match"),
-        path: [CONFIRM_PASSWORD],
+        path: [FIELDS.CONFIRM_PASSWORD],
       },
     );
 
@@ -61,50 +62,67 @@ function NewPasswordForm() {
     register,
     handleSubmit,
     getFieldState,
+    setError,
     formState: { errors },
   } = useForm<NewPasswordFormData>({
     resolver: zodResolver(registerSchema),
   });
 
-  const labels = {
-    [PASSWORD]: errors.password?.message || t("new_password.user_password"),
-    [CONFIRM_PASSWORD]: errors.confirmPassword?.message || t("new_password.user_confirm_password"),
-  };
+  const {
+    mutate: setNewPassword,
+    error: axiosError,
+    isLoading,
+  } = useNewPassword({
+    onSuccess: data => {
+      const successMessage = data.data.message || t("reset_password.success");
 
-  const { mutate: setNewPassword, data, error: rawError, isLoading, isSuccess } = useNewPassword();
+      toast.success(<Typography>{successMessage}</Typography>);
+    },
+    onError: axiosError => {
+      const apiError = unwrapAxiosError(axiosError);
 
-  const apiError = unwrapAxiosError(rawError);
-  const successMessage = data?.data.message || t("reset_password.success");
+      if (apiError && apiError[newPasswordTokenKey])
+        toast.error(<Typography>{apiError[newPasswordTokenKey][0]}</Typography>);
+    },
+  });
+
+  const apiError = unwrapAxiosError(axiosError);
+
+  useEffect(() => {
+    if (apiError) {
+      Object.values(FIELDS).forEach(field => {
+        if (apiError[field]) {
+          setError(field, { message: apiError[field][0] });
+        }
+      });
+    }
+  }, [setError, apiError]);
 
   return (
     <Form
-      onSubmit={handleSubmit(({ password, confirmPassword }) => {
-        if (typeof resetPasswordToken === "string" && resetPasswordToken.length > 0) {
-          setNewPassword({
-            reset_password_token: resetPasswordToken,
-            password,
-            password_confirmation: confirmPassword,
-          });
-        }
+      onSubmit={handleSubmit(data => {
+        setNewPassword({
+          reset_password_token: newPasswordToken,
+          ...data,
+        });
       })}
     >
       <InputPassword
-        label={labels[PASSWORD]}
-        id={PASSWORD}
+        label={t("new_password.user_password")}
+        id={FIELDS.PASSWORD}
         disabled={isLoading}
-        {...register(PASSWORD)}
-        {...getFieldState(PASSWORD)}
+        errorMessage={errors[FIELDS.PASSWORD]?.message}
+        {...register(FIELDS.PASSWORD)}
+        {...getFieldState(FIELDS.PASSWORD)}
       />
       <InputPassword
-        label={labels[CONFIRM_PASSWORD]}
-        id={CONFIRM_PASSWORD}
+        label={t("new_password.user_confirm_password")}
+        id={FIELDS.CONFIRM_PASSWORD}
         disabled={isLoading}
-        {...register(CONFIRM_PASSWORD)}
-        {...getFieldState(CONFIRM_PASSWORD)}
+        errorMessage={errors[FIELDS.CONFIRM_PASSWORD]?.message}
+        {...register(FIELDS.CONFIRM_PASSWORD)}
+        {...getFieldState(FIELDS.CONFIRM_PASSWORD)}
       />
-      <Error error={apiError} />
-      {/* TODO replace with a toast when global toast setup is done */}
-      {isSuccess && <Typography>{successMessage}</Typography>}
       <ButtonWrapper>
         <Button type="submit" disabled={isLoading}>
           {t("new_password.save_and_sign_in")}

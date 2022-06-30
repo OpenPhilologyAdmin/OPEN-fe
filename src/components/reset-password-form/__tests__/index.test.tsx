@@ -5,10 +5,10 @@ import {
 } from "@/mocks/handlers/reset-password";
 import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
 
-import ResetPasswordForm, { EMAIL } from "..";
+import ResetPasswordForm, { FIELDS } from "..";
 
 const resetPasswordValidInput = {
-  [EMAIL]: "valid@email.com",
+  [FIELDS.EMAIL]: "valid@email.com",
 };
 
 function ResetPasswordFormWithToastProvider() {
@@ -31,7 +31,7 @@ describe("ResetPasswordForm", () => {
       name: "reset_password.reset_password_button_text",
     });
 
-    await user.type(emailInput, resetPasswordValidInput[EMAIL]);
+    await user.type(emailInput, resetPasswordValidInput[FIELDS.EMAIL]);
     await user.click(submitButton);
 
     expect(await screen.findByText(responseSuccess.message)).toBeInTheDocument();
@@ -52,7 +52,7 @@ describe("ResetPasswordForm", () => {
       name: "reset_password.reset_password_button_text",
     });
 
-    await user.type(emailInput, resetPasswordValidInput[EMAIL]);
+    await user.type(emailInput, resetPasswordValidInput[FIELDS.EMAIL]);
     await user.click(submitButton);
 
     expect(await screen.findByText(responseError.error[0])).toBeInTheDocument();

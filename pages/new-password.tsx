@@ -3,15 +3,21 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import NewPasswordForm from "@/components/new-password-form";
-import { resetPasswordTokenKey } from "@/constants/reset-password-token";
+import { newPasswordTokenKey } from "@/constants/reset-password-token";
 import AuthLayout from "@/layouts/auth";
 
-function NewPassword() {
-  return <NewPasswordForm />;
+type NewPasswordProps = {
+  newPasswordToken: string;
+};
+
+function NewPassword({ newPasswordToken }: NewPasswordProps) {
+  return <NewPasswordForm newPasswordToken={newPasswordToken} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, query }) => {
-  if (!(resetPasswordTokenKey in query)) {
+  const newPasswordToken = query[newPasswordTokenKey];
+
+  if (!newPasswordToken || Array.isArray(newPasswordToken)) {
     return {
       notFound: true,
     };
@@ -20,6 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, query }) 
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ["common"])),
+      newPasswordToken,
     },
   };
 };

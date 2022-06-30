@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
@@ -7,22 +8,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import * as zod from "zod";
 
-import Error from "../error";
 import InputEmail from "../input-email";
 import { toast } from "../toast";
 import Typography from "../typography";
 import { useResetPassword } from "./query";
 
-export const { EMAIL } = {
-  EMAIL: "email",
-} as const;
-
 export type ResetPasswordFormData = {
   email: string;
 };
 
+export const FIELDS = {
+  EMAIL: "email",
+} as const;
+
 const registerSchema = zod.object({
-  [EMAIL]: zod.string().email(),
+  [FIELDS.EMAIL]: zod.string().email(),
 });
 
 const Form = styled.form`
@@ -43,18 +43,15 @@ function ResetPasswordForm() {
     register,
     handleSubmit,
     getFieldState,
+    setError,
     formState: { errors },
   } = useForm<ResetPasswordFormData>({
     resolver: zodResolver(registerSchema),
   });
 
-  const labels = {
-    [EMAIL]: errors.email?.message || t("reset_password.user_email"),
-  };
-
   const {
     mutate: sendResetPasswordEmail,
-    error: rawError,
+    error: axiosError,
     isLoading,
   } = useResetPassword({
     onSuccess: data => {
@@ -64,18 +61,24 @@ function ResetPasswordForm() {
     },
   });
 
-  const apiError = unwrapAxiosError(rawError);
+  const apiError = unwrapAxiosError(axiosError);
+
+  useEffect(() => {
+    if (apiError && apiError[FIELDS.EMAIL]) {
+      setError(FIELDS.EMAIL, { message: apiError[FIELDS.EMAIL][0] });
+    }
+  }, [setError, apiError]);
 
   return (
-    <Form onSubmit={handleSubmit(({ email }) => sendResetPasswordEmail({ user: { email } }))}>
+    <Form onSubmit={handleSubmit(data => sendResetPasswordEmail({ user: data }))}>
       <InputEmail
-        label={labels[EMAIL]}
-        id={EMAIL}
+        label={t("reset_password.user_email")}
+        id={FIELDS.EMAIL}
         disabled={isLoading}
-        {...register(EMAIL)}
-        {...getFieldState(EMAIL)}
+        errorMessage={errors[FIELDS.EMAIL]?.message}
+        {...register(FIELDS.EMAIL)}
+        {...getFieldState(FIELDS.EMAIL)}
       />
-      <Error error={apiError} />
       <ButtonWrapper>
         <Button type="submit" disabled={isLoading}>
           {t("reset_password.reset_password_button_text")}

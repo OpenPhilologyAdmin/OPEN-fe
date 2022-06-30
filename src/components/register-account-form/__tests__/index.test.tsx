@@ -5,15 +5,15 @@ import {
 } from "@/mocks/handlers/register-account";
 import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
 
-import RegisterAccountForm, { CONFIRM_PASSWORD, EMAIL, NAME, PASSWORD } from "..";
+import RegisterAccountForm, { FIELDS } from "..";
 
 const validPassword = "ValidPassword123";
 const validPasswordAlternate = "ValidPassword321";
 const registerAccountValidInput = {
-  [EMAIL]: registeredUser.email,
-  [PASSWORD]: validPassword,
-  [CONFIRM_PASSWORD]: validPassword,
-  [NAME]: registeredUser.name,
+  [FIELDS.EMAIL]: registeredUser.email,
+  [FIELDS.PASSWORD]: validPassword,
+  [FIELDS.CONFIRM_PASSWORD]: validPassword,
+  [FIELDS.NAME]: registeredUser.name,
 };
 const invalidPassword = {
   byLength: "Invalid1",
@@ -41,10 +41,10 @@ describe("RegisterAccountForm", () => {
     const nameInput = screen.getByLabelText("register_account.user_name");
     const submitButton = screen.getByRole("button", { name: "register_account.create_account" });
 
-    await user.type(emailInput, registerAccountValidInput[EMAIL]);
-    await user.type(passwordInput, registerAccountValidInput[PASSWORD]);
-    await user.type(confirmPasswordInput, registerAccountValidInput[CONFIRM_PASSWORD]);
-    await user.type(nameInput, registerAccountValidInput[NAME]);
+    await user.type(emailInput, registerAccountValidInput[FIELDS.EMAIL]);
+    await user.type(passwordInput, registerAccountValidInput[FIELDS.PASSWORD]);
+    await user.type(confirmPasswordInput, registerAccountValidInput[FIELDS.CONFIRM_PASSWORD]);
+    await user.type(nameInput, registerAccountValidInput[FIELDS.NAME]);
     await user.click(submitButton);
 
     expect(await screen.findByText("register_account.success")).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe("RegisterAccountForm", () => {
     const passwordInput = screen.getByLabelText("register_account.user_password");
     const submitButton = screen.getByRole("button", { name: "register_account.create_account" });
 
-    await user.type(emailInput, registerAccountValidInput[EMAIL]);
+    await user.type(emailInput, registerAccountValidInput[FIELDS.EMAIL]);
     await user.type(passwordInput, invalidPassword.byLength);
     await user.click(submitButton);
 
@@ -75,7 +75,7 @@ describe("RegisterAccountForm", () => {
     const passwordInput = screen.getByLabelText("register_account.user_password");
     const submitButton = screen.getByRole("button", { name: "register_account.create_account" });
 
-    await user.type(emailInput, registerAccountValidInput[EMAIL]);
+    await user.type(emailInput, registerAccountValidInput[FIELDS.EMAIL]);
     await user.type(passwordInput, invalidPassword.byNumber);
     await user.click(submitButton);
 
@@ -92,7 +92,7 @@ describe("RegisterAccountForm", () => {
     const confirmPasswordInput = screen.getByLabelText("register_account.user_confirm_password");
     const submitButton = screen.getByRole("button", { name: "register_account.create_account" });
 
-    await user.type(emailInput, registerAccountValidInput[EMAIL]);
+    await user.type(emailInput, registerAccountValidInput[FIELDS.EMAIL]);
     await user.type(passwordInput, validPassword);
     await user.type(confirmPasswordInput, validPasswordAlternate);
     await user.click(submitButton);
@@ -116,10 +116,10 @@ describe("RegisterAccountForm", () => {
     const nameInput = screen.getByLabelText("register_account.user_name");
     const submitButton = screen.getByRole("button", { name: "register_account.create_account" });
 
-    await user.type(emailInput, registerAccountValidInput[EMAIL]);
-    await user.type(passwordInput, registerAccountValidInput[PASSWORD]);
-    await user.type(confirmPasswordInput, registerAccountValidInput[CONFIRM_PASSWORD]);
-    await user.type(nameInput, registerAccountValidInput[NAME]);
+    await user.type(emailInput, registerAccountValidInput[FIELDS.EMAIL]);
+    await user.type(passwordInput, registerAccountValidInput[FIELDS.PASSWORD]);
+    await user.type(confirmPasswordInput, registerAccountValidInput[FIELDS.CONFIRM_PASSWORD]);
+    await user.type(nameInput, registerAccountValidInput[FIELDS.NAME]);
     await user.click(submitButton);
 
     const backendErrorOne = await screen.findByText(errors.email);

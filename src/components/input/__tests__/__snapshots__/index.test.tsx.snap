@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Input renders an Input unchanged 1`] = `
-.c0 {
+.c1 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -17,16 +17,17 @@ exports[`Input renders an Input unchanged 1`] = `
   align-items: center;
   padding: 12px;
   height: 48px;
+  width: 100%;
   border: solid 2px #868686;
   border-radius: 4px;
   background-color: #FFFFFF;
 }
 
-.c0:focus-within {
+.c1:focus-within {
   border-color: #5D2DEF;
 }
 
-.c1 {
+.c2 {
   opacity: 1;
   margin: 0;
   min-width: 0;
@@ -39,30 +40,49 @@ exports[`Input renders an Input unchanged 1`] = `
   background-color: #FFFFFF;
 }
 
-.c1::-webkit-input-placeholder {
+.c2::-webkit-input-placeholder {
   color: #101521;
 }
 
-.c1::-moz-placeholder {
+.c2::-moz-placeholder {
   color: #101521;
 }
 
-.c1:-ms-input-placeholder {
+.c2:-ms-input-placeholder {
   color: #101521;
 }
 
-.c1::placeholder {
+.c2::placeholder {
   color: #101521;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  width: 100%;
 }
 
 <div>
   <div
     class="c0"
   >
-    <input
+    <div
       class="c1"
-      type="text"
-    />
+    >
+      <input
+        class="c2"
+        type="text"
+      />
+    </div>
   </div>
 </div>
 `;
