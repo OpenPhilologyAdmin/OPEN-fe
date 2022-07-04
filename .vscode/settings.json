@@ -2,7 +2,8 @@
   "cSpell.words": [
     "avif",
     "hookform",
-    "OPLU"
+    "OPLU",
+    "toastify"
   ],
   "editor.formatOnSave": true,
   "[typescript]": {

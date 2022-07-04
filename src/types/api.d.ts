@@ -1,4 +1,19 @@
 declare namespace API {
+  type SignInPayload = {
+    user: {
+      email: string;
+      password: string;
+    };
+  };
+
+  type SignInResponse = {
+    id: number;
+    email: string;
+    name: string;
+    account_approved: boolean;
+    role: "admin";
+  };
+
   type RegisterAccountPayload = {
     user: {
       email: string;
@@ -36,7 +51,15 @@ declare namespace API {
     message: string;
   };
 
-  type ApiError = {
+  type SignOutResponse = {
+    message: string;
+  };
+
+  type RefreshTokenResponse = {
+    message: string;
+  };
+
+  type Error = {
     [key: ?string]: string[];
     error?: string | string[];
   };

@@ -10,7 +10,7 @@ export const mockRouter: NextRouter = {
   replace: jest.fn(),
   reload: jest.fn(),
   back: jest.fn(),
-  prefetch: jest.fn(),
+  prefetch: jest.fn().mockResolvedValue(true),
   beforePopState: jest.fn(),
   events: {
     on: jest.fn(),

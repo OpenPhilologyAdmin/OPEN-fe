@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import ChevronRightIcon from "@/assets/images/icons/chevron-right.svg";
 import Button from "@/components/button";
@@ -8,6 +10,7 @@ import Input, { useCharacterLimit } from "@/components/input";
 import Radio from "@/components/radio";
 import { Container, Tbody, Td, Th, Thead, Tr } from "@/components/table";
 import Typography from "@/components/typography";
+import { ROUTES } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import * as zod from "zod";
@@ -283,5 +286,22 @@ function StyleGuide() {
     </Main>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  if (process.env.NODE_ENV !== "development") {
+    return {
+      redirect: {
+        destination: ROUTES.HOME(),
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ["common"])),
+    },
+  };
+};
 
 export default StyleGuide;

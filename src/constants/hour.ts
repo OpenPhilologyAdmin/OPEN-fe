@@ -1,0 +1,1 @@
+export const HOUR_IN_MILLISECONDS = 600000;

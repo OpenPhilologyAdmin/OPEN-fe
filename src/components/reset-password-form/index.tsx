@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/button";
+import { setFormErrors } from "@/utils/set-form-errors";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
@@ -64,8 +65,8 @@ function ResetPasswordForm() {
   const apiError = unwrapAxiosError(axiosError);
 
   useEffect(() => {
-    if (apiError && apiError[FIELDS.EMAIL]) {
-      setError(FIELDS.EMAIL, { message: apiError[FIELDS.EMAIL][0] });
+    if (apiError) {
+      setFormErrors({ apiError, fields: FIELDS, setError });
     }
   }, [setError, apiError]);
 

@@ -1,9 +1,14 @@
-import { JSXElementConstructor, ReactElement } from "react";
+import { JSXElementConstructor, ReactElement, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import Breadcrumbs, { BreadcrumbsItem } from "@/components/breadcrumbs";
 import { useBreadcrumbs } from "@/components/breadcrumbs/use-breadcrumbs";
+import Button from "@/components/button";
 import Header from "@/components/header";
+import { ROUTES } from "@/constants/routes";
+import { useUser } from "@/hooks/use-user";
+import { signOut } from "@/services/auth";
 import styled from "styled-components";
 
 type Props = {
@@ -29,10 +34,31 @@ const Content = styled.div`
 function BaseLayout({ children }: Props) {
   const { breadcrumbs } = useBreadcrumbs();
   const { t } = useTranslation();
+  const { push } = useRouter();
+  const { isLoggedIn, setUser } = useUser();
+  const [isSSR, setIsSSR] = useState(true);
+
+  // TODO replace with fetching user info also, this logout is temporary
+  useEffect(() => {
+    setIsSSR(false);
+  }, []);
 
   return (
     <>
-      <Header />
+      <Header>
+        {!isSSR && isLoggedIn && (
+          <Button
+            onClick={async () => {
+              await signOut();
+              setUser(undefined);
+              push(ROUTES.SIGN_IN());
+            }}
+            variant={"primary"}
+          >
+            Temporary logout
+          </Button>
+        )}
+      </Header>
       <Main>
         {breadcrumbs && (
           <Breadcrumbs>

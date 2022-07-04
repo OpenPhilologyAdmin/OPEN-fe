@@ -6,6 +6,7 @@ import { appWithTranslation } from "next-i18next";
 
 import { ToastProvider } from "@/components/toast";
 import { GlobalStyle } from "@/constants/global-style";
+import { UserProvider } from "@/contexts/user";
 import BaseLayout from "@/layouts/index";
 import { queryClient } from "@/services/api/client";
 import { ThemeProvider } from "src/contexts/theme";
@@ -26,9 +27,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <ThemeProvider initialTheme="LIGHT">
       <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        <ToastProvider />
-        {getLayout(<Component {...pageProps} />)}
+        <UserProvider>
+          <GlobalStyle />
+          <ToastProvider />
+          {getLayout(<Component {...pageProps} />)}
+        </UserProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );

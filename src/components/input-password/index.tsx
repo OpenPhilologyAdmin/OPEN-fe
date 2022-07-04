@@ -30,7 +30,6 @@ const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>((props, r
     <Input
       type={isPasswordVisible ? "text" : "password"}
       autoComplete="new-password"
-      // TODO replace `left` content with ButtonIcon in OPLU-124
       left={
         isPasswordVisible ? (
           <EyeClosedIcon

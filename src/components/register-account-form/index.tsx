@@ -7,6 +7,7 @@ import Input from "@/components/input";
 import InputEmail from "@/components/input-email";
 import InputPassword from "@/components/input-password";
 import { toast } from "@/components/toast";
+import { setFormErrors } from "@/utils/set-form-errors";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,11 +85,7 @@ function RegisterAccountForm() {
 
   useEffect(() => {
     if (apiError) {
-      Object.values(FIELDS).forEach(field => {
-        if (apiError[field]) {
-          setError(field, { message: apiError[field][0] });
-        }
-      });
+      setFormErrors({ apiError, fields: FIELDS, setError });
     }
   }, [setError, apiError]);
 

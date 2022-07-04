@@ -19,12 +19,12 @@ function ToastProvider() {
   return (
     <ToastContainer
       position="top-center"
-      autoClose={false}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick={false}
       rtl={false}
       draggable={false}
+      autoClose={5000}
     />
   );
 }

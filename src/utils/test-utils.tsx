@@ -4,6 +4,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 
 import { ToastProvider } from "@/components/toast";
+import { UserProvider } from "@/contexts/user";
 import { mswServer } from "@/mocks/index";
 import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";
 import { mockRouter } from "@/mocks/mock-router";
@@ -27,7 +28,9 @@ afterAll(() => mswServer.close());
 function MockProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider initialTheme="LIGHT">
-      <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
+      <UserProvider>
+        <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
+      </UserProvider>
     </ThemeProvider>
   );
 }

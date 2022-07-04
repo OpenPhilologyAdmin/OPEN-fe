@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/button";
-import { newPasswordTokenKey } from "@/constants/reset-password-token";
+import { NEW_PASSWORD_TOKEN_KEY } from "@/constants/reset-password-token";
+import { ROUTES } from "@/constants/routes";
+import { setFormErrors } from "@/utils/set-form-errors";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,6 +45,7 @@ const ButtonWrapper = styled.div`
 
 function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
   const { t } = useTranslation();
+  const { push } = useRouter();
 
   const registerSchema = zod
     .object({
@@ -76,13 +80,14 @@ function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
     onSuccess: data => {
       const successMessage = data.data.message || t("reset_password.success");
 
+      push(ROUTES.HOME());
       toast.success(<Typography>{successMessage}</Typography>);
     },
     onError: axiosError => {
       const apiError = unwrapAxiosError(axiosError);
 
-      if (apiError && apiError[newPasswordTokenKey])
-        toast.error(<Typography>{apiError[newPasswordTokenKey][0]}</Typography>);
+      if (apiError && apiError[NEW_PASSWORD_TOKEN_KEY])
+        toast.error(<Typography>{apiError[NEW_PASSWORD_TOKEN_KEY][0]}</Typography>);
     },
   });
 
@@ -90,11 +95,7 @@ function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
 
   useEffect(() => {
     if (apiError) {
-      Object.values(FIELDS).forEach(field => {
-        if (apiError[field]) {
-          setError(field, { message: apiError[field][0] });
-        }
-      });
+      setFormErrors({ apiError, fields: FIELDS, setError });
     }
   }, [setError, apiError]);
 

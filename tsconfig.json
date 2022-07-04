@@ -37,7 +37,7 @@
       "@/types/*": [
         "src/types/*"
       ],
-      "@/context/*": [
+      "@/contexts/*": [
         "src/contexts/*"
       ],
       "@/constants/*": [

@@ -7,7 +7,7 @@ import Typography from "../typography";
  */
 
 type ErrorProps = {
-  error?: API.ApiError;
+  error?: API.Error;
 };
 
 const ErrorMessage = styled(Typography).attrs({ variant: "body-regular" })`

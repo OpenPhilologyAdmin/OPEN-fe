@@ -1,1 +1,1 @@
-export const newPasswordTokenKey = "reset_password_token";
+export const NEW_PASSWORD_TOKEN_KEY = "reset_password_token";
