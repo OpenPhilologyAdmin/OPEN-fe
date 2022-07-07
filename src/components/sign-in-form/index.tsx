@@ -62,13 +62,7 @@ function SignInForm() {
   const { mutate: signIn, isLoading } = useSignIn({
     onSuccess: ({ data: user }) => {
       toast.success(<Typography>{t("sign_in.success")}</Typography>);
-      setUser({
-        email: user.email,
-        id: user.id,
-        isApproved: user.account_approved,
-        name: user.name,
-        role: user.role,
-      });
+      setUser(user);
       push(ROUTES.HOME());
     },
     onError: axiosError => {

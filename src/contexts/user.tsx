@@ -6,7 +6,7 @@ type User = {
   id: number;
   email: string;
   name: string;
-  isApproved: boolean;
+  account_approved: boolean;
   role: "admin";
 };
 

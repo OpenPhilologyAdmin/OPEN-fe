@@ -1,13 +1,13 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ResetPasswordForm from "@/components/reset-password-form";
+import ResendActivationEmailForm from "@/components/resend-activation-email-form";
 import { ROUTES } from "@/constants/routes";
 import AuthLayout from "@/layouts/auth";
 import { withAuth } from "@/services/auth/with-auth";
 
-function ResetPassword() {
-  return <ResetPasswordForm />;
+function ResendActivationEmail() {
+  return <ResendActivationEmailForm />;
 }
 
 export const getServerSideProps = withAuth(
@@ -30,8 +30,8 @@ export const getServerSideProps = withAuth(
   { protectedPage: false },
 );
 
-ResetPassword.getLayout = function getLayout(page: ReactElement) {
+ResendActivationEmail.getLayout = function getLayout(page: ReactElement) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-export default ResetPassword;
+export default ResendActivationEmail;

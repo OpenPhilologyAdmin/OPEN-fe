@@ -34,6 +34,11 @@
     "reset_password_button_text": "Reset password",
     "success": "An email has been sent to your email to reset your password."
   },
+  "resend_activation_email": {
+    "user_email": "User email",
+    "confirm": "Resend activation email",
+    "cancel": "Cancel"
+  },
   "new_password": {
     "user_password": "Password",
     "user_confirm_password": "Confirm password",
@@ -45,5 +50,9 @@
   "a11y": {
     "hide_password": "Hide password",
     "show_password": "Show password"
+  },
+  "confirm_account": {
+    "go_to_login": "Go to login",
+    "unexpected_error": "Unexpected error occurred, please contact support"
   }
 }

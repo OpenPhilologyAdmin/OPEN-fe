@@ -12,12 +12,18 @@ export const isLoggedInClientSide = () => {
   return isLoggedIn;
 };
 
-export const isLoggedInServerSide = (context: GetServerSidePropsContext) => {
-  if (!context.req.headers.cookie) return false;
+export const getServerSideAuthToken = (context: GetServerSidePropsContext): string | null => {
+  if (!context.req.headers.cookie) return null;
 
   const parsedCookies = serverCookie.parse(context.req.headers.cookie);
 
-  return !!parsedCookies[COOKIES.ACCESS_TOKEN];
+  return parsedCookies[COOKIES.ACCESS_TOKEN];
+};
+
+export const hasCookieServerSide = (context: GetServerSidePropsContext) => {
+  if (!context.req.headers.cookie) return false;
+
+  return !!getServerSideAuthToken(context);
 };
 
 export const signIn = ({ user }: API.SignInPayload) => {
@@ -34,4 +40,12 @@ export const signOut = () => {
 
 export const refreshToken = () => {
   return apiClient.post<API.RefreshTokenResponse>("/users/session-token");
+};
+
+export const getLoggedInUser = (auth: string) => {
+  return apiClient.get<API.MeResponse>("/users/me", {
+    headers: {
+      authorization: auth,
+    },
+  });
 };

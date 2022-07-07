@@ -2,10 +2,13 @@ import { JSXElementConstructor, ReactElement, useEffect, useState } from "react"
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+import LogoutIcon from "@/assets/images/icons/logout.svg";
+import UserIcon from "@/assets/images/icons/user.svg";
 import Breadcrumbs, { BreadcrumbsItem } from "@/components/breadcrumbs";
 import { useBreadcrumbs } from "@/components/breadcrumbs/use-breadcrumbs";
 import Button from "@/components/button";
 import Header from "@/components/header";
+import Typography from "@/components/typography";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
 import { signOut } from "@/services/auth";
@@ -31,32 +34,48 @@ const Content = styled.div`
   width: 100%;
 `;
 
+const UserName = styled(Typography)`
+  margin: 0 4px 0 8px;
+`;
+
+const LoggedInContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 function BaseLayout({ children }: Props) {
   const { breadcrumbs } = useBreadcrumbs();
   const { t } = useTranslation();
   const { push } = useRouter();
-  const { isLoggedIn, setUser } = useUser();
+  const { user, isLoggedIn, setUser } = useUser();
   const [isSSR, setIsSSR] = useState(true);
 
-  // TODO replace with fetching user info also, this logout is temporary
   useEffect(() => {
     setIsSSR(false);
   }, []);
+
+  // TODO create logout button component
+  const handleLogout = async () => {
+    await signOut();
+    setUser(undefined);
+    push(ROUTES.SIGN_IN());
+  };
 
   return (
     <>
       <Header>
         {!isSSR && isLoggedIn && (
-          <Button
-            onClick={async () => {
-              await signOut();
-              setUser(undefined);
-              push(ROUTES.SIGN_IN());
-            }}
-            variant={"primary"}
-          >
-            Temporary logout
-          </Button>
+          <LoggedInContentWrapper>
+            {user && (
+              <>
+                <UserIcon />
+                <UserName>{user?.name}</UserName>
+              </>
+            )}
+            <Button mode="icon" onClick={handleLogout} variant="tertiary" small>
+              <LogoutIcon />
+            </Button>
+          </LoggedInContentWrapper>
         )}
       </Header>
       <Main>

@@ -1,9 +1,7 @@
-import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { ROUTES } from "@/constants/routes";
-import { isLoggedInServerSide } from "@/services/auth";
+import { withAuth } from "@/services/auth/with-auth";
 
 function Home() {
   return (
@@ -17,21 +15,16 @@ function Home() {
   );
 }
 
-export const getServerSideProps = async ({ locale, ...context }: GetServerSidePropsContext) => {
-  if (!isLoggedInServerSide(context)) {
+export const getServerSideProps = withAuth(
+  async ({ locale }, user) => {
     return {
-      redirect: {
-        destination: ROUTES.SIGN_IN(),
-        permanent: false,
+      props: {
+        ...(await serverSideTranslations(locale as string, ["common"])),
+        user,
       },
     };
-  }
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale as string, ["common"])),
-    },
-  };
-};
+  },
+  { protectedPage: true },
+);
 
 export default Home;

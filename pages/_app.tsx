@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <ThemeProvider initialTheme="LIGHT">
       <QueryClientProvider client={queryClient}>
-        <UserProvider>
+        <UserProvider initialUser={pageProps.user}>
           <GlobalStyle />
           <ToastProvider />
           {getLayout(<Component {...pageProps} />)}

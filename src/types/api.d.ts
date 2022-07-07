@@ -1,4 +1,12 @@
 declare namespace API {
+  type User = {
+    id: number;
+    email: string;
+    name: string;
+    account_approved: boolean;
+    role: "admin";
+  };
+
   type SignInPayload = {
     user: {
       email: string;
@@ -6,13 +14,7 @@ declare namespace API {
     };
   };
 
-  type SignInResponse = {
-    id: number;
-    email: string;
-    name: string;
-    account_approved: boolean;
-    role: "admin";
-  };
+  type SignInResponse = User;
 
   type RegisterAccountPayload = {
     user: {
@@ -23,13 +25,7 @@ declare namespace API {
     };
   };
 
-  type RegisterAccountResponse = {
-    id: number;
-    email: string;
-    name: string;
-    account_approved: boolean;
-    role: "admin";
-  };
+  type RegisterAccountResponse = User;
 
   type ResetPasswordPayload = {
     user: {
@@ -58,6 +54,30 @@ declare namespace API {
   type RefreshTokenResponse = {
     message: string;
   };
+
+  type ResendActivationEmailPayload = {
+    user: {
+      email: string;
+    };
+  };
+
+  type ResendActivationEmailResponse = {
+    message: string;
+  };
+
+  type ConfirmAccountPayload = {
+    confirmation_token: string;
+  };
+
+  type ConfirmAccountResponse = {
+    message: string;
+  };
+
+  type MePayload = {
+    // empty GET
+  };
+
+  type MeResponse = User;
 
   type Error = {
     [key: ?string]: string[];
