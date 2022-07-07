@@ -36,8 +36,6 @@ function SignIn() {
 
 export const getServerSideProps = withAuth(
   async ({ locale }, user) => {
-    console.log({ user });
-
     if (user) {
       return {
         redirect: {

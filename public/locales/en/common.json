@@ -4,7 +4,12 @@
     "editing_environment": "Editing environment"
   },
   "home": {
-    "route_name": "Home"
+    "route_name": "Home",
+    "title": "Home",
+    "continue_editing": "Continue editing",
+    "create_new_edition": "Create new edition",
+    "go_to_library": "Go to library",
+    "manage_users": "Manage users"
   },
   "register_account": {
     "user_email": "User email",

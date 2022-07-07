@@ -45,7 +45,7 @@ export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
 
     // if page should be protected and user is not logged in, redirect to login page
     if (options.protectedPage && !loggedInUser) {
-      // remove cookie if not logged in an cookie exists
+      // remove cookie if not logged in and cookie exists
       if (hasCookieServerSide(context)) {
         // delete expired cookie
         context.res.setHeader("Set-Cookie", [`${COOKIES.ACCESS_TOKEN}=deleted; Max-Age=0`]);
@@ -68,21 +68,6 @@ export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
       if ("notFound" in result) {
         return {
           notFound: true,
-        };
-      }
-
-      // if not approved by admin redirect to confirmation page
-      if (!loggedInUser.account_approved) {
-        return {
-          ...result,
-          redirect: {
-            destination: ROUTES.CONFIRM_ACCOUNT(),
-            permanent: false,
-          },
-          props: {
-            user: loggedInUser,
-            ...props,
-          },
         };
       }
 

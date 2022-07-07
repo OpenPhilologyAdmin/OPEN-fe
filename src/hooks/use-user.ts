@@ -10,5 +10,7 @@ export const useUser = () => {
     user,
     setUser,
     isLoggedIn,
+    isApproved: !!user?.account_approved,
+    isAdmin: !!(user?.role === "admin"),
   };
 };

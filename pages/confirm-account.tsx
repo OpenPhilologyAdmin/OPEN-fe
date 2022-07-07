@@ -22,14 +22,14 @@ const Wrapper = styled.div`
 `;
 
 function ConfirmAccount({ confirmAccountToken }: ConfirmAccountPageProps) {
-  const { user } = useUser();
+  const { isApproved } = useUser();
   const { t } = useTranslation();
 
   if (confirmAccountToken) {
     return <ConfirmAccountView confirmAccountToken={confirmAccountToken} />;
   }
 
-  if (user && !user.account_approved) {
+  if (isApproved) {
     return (
       <Wrapper>
         <Typography variant="body-bold">{t("confirm_account")}</Typography>

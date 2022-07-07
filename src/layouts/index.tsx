@@ -22,7 +22,8 @@ const Main = styled.main`
   /* Compensate header height */
   height: calc(100vh - 72px);
   padding: 16px 24px;
-  background-image: url("/images/background.png");
+  background-image: url("/images/background.jpg");
+  background-size: cover;
 `;
 
 const Content = styled.div`
