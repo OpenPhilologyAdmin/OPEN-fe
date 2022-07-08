@@ -61,9 +61,9 @@ function SignInForm() {
 
   const { mutate: signIn, isLoading } = useSignIn({
     onSuccess: ({ data: user }) => {
-      toast.success(<Typography>{t("sign_in.success")}</Typography>);
       setUser(user);
       push(ROUTES.HOME());
+      toast.success(<Typography>{t("sign_in.success")}</Typography>);
     },
     onError: axiosError => {
       const apiError = unwrapAxiosError(axiosError);

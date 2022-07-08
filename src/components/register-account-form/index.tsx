@@ -81,8 +81,8 @@ function RegisterAccountForm() {
     isLoading,
   } = useRegisterAccount({
     onSuccess: () => {
-      toast.success(<Typography>{t("register_account.success")}</Typography>);
       push(ROUTES.SIGN_IN());
+      toast.success(<Typography>{t("register_account.success")}</Typography>);
     },
   });
   const apiError = unwrapAxiosError(axiosError);

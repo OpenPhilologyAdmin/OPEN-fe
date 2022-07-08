@@ -73,10 +73,6 @@ declare namespace API {
     message: string;
   };
 
-  type MePayload = {
-    // empty GET
-  };
-
   type MeResponse = User;
 
   type Error = {

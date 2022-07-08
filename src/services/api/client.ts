@@ -16,6 +16,7 @@ apiClient.defaults.headers.common["Accept"] = "application/json";
 
 // Response interceptor for API calls
 // TODO verify if it works while implementing new endpoint
+// TODO pass current exp when setting token
 apiClient.interceptors.request.use(async config => {
   const token = getAccessToken();
 
@@ -38,6 +39,10 @@ apiClient.interceptors.request.use(async config => {
     }
   }
 
+  if (config.headers && token && typeof token === "string") {
+    config.headers.authorization = token;
+  }
+
   return config;
 });
 
@@ -46,6 +51,7 @@ apiClient.interceptors.response.use(async response => {
   const token = response.headers.authorization;
 
   if (token) {
+    console.log("setting token", token);
     setAccessToken(token);
   }
 

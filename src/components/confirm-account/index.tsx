@@ -32,42 +32,41 @@ function ConfirmAccount({ confirmAccountToken }: ConfirmAccountProps) {
   const { push } = useRouter();
   const [showError, setShowError] = useState(false);
   const {
-    mutate: confirmAccount,
     data,
     isLoading,
+    error: axiosError,
+    isError,
+    isSuccess,
   } = useConfirmAccount({
-    onSuccess: data => {
-      toast.success(<Typography>{data.data.message}</Typography>);
+    confirmation_token: confirmAccountToken,
+  });
+
+  useEffect(() => {
+    if (isSuccess && data) {
       push(ROUTES.SIGN_IN());
-    },
-    onError: axiosError => {
+      toast.success(<Typography>{data.message}</Typography>);
+    }
+  }, [isSuccess, data, push]);
+
+  useEffect(() => {
+    if (isError && axiosError) {
       const apiError = unwrapAxiosError(axiosError);
 
-      setShowError(true);
+      if (!showError) setShowError(true);
 
       if (apiError && apiError[CONFIRM_ACCOUNT_TOKEN_KEY])
         toast.error(<Typography>{apiError[CONFIRM_ACCOUNT_TOKEN_KEY][0]}</Typography>, {
           toastId: "wrong_token",
         });
-    },
-  });
-
-  useEffect(() => {
-    if (confirmAccount) {
-      confirmAccount({
-        confirmation_token: confirmAccountToken,
-      });
     }
-  }, [confirmAccount, confirmAccountToken]);
+  }, [isError, axiosError, showError]);
 
   return (
     <Wrapper>
-      <Typography>
-        {showError ? t("confirm_account.unexpected_error") : data?.data.message}
-      </Typography>
+      <Typography>{showError ? t("confirm_account.unexpected_error") : data?.message}</Typography>
 
       <ButtonWrapper>
-        <Button href={ROUTES.REGISTER_ACCOUNT()} disabled={isLoading} isLoading={isLoading}>
+        <Button href={ROUTES.REGISTER_ACCOUNT()} disabled={isLoading}>
           {t("confirm_account.go_to_login")}
         </Button>
       </ButtonWrapper>
