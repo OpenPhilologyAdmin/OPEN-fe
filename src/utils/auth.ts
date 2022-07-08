@@ -6,7 +6,12 @@ export const getAccessToken = (): string | undefined => {
 };
 
 export const setAccessToken = (token: string) => {
-  clientCookie.set(COOKIES.ACCESS_TOKEN, token);
+  // hours * minutes * seconds * milliseconds
+  const COOKIE_EXPIRES_IN_6_HOURS = new Date(new Date().getTime() + 6 * 60 * 60 * 1000);
+
+  clientCookie.set(COOKIES.ACCESS_TOKEN, token, {
+    expires: COOKIE_EXPIRES_IN_6_HOURS,
+  });
 };
 
 export const removeAccessToken = () => {

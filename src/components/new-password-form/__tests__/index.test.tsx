@@ -1,6 +1,7 @@
 import {
   errors,
-  newPasswordHandlerException,
+  newPasswordHandlerExceptionGeneric,
+  newPasswordHandlerExceptionPassword,
   responseSuccess,
 } from "@/mocks/handlers/new-password";
 import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
@@ -62,8 +63,8 @@ describe("NewPasswordForm", () => {
     expect(await screen.findByText("new_password.password_no_match")).toBeInTheDocument();
   });
 
-  it("renders a form and displays backend error", async () => {
-    mockServer.use(newPasswordHandlerException);
+  it("renders a form and displays backend field error", async () => {
+    mockServer.use(newPasswordHandlerExceptionPassword);
 
     const user = userEvent.setup();
 
@@ -83,5 +84,28 @@ describe("NewPasswordForm", () => {
     await user.click(submitButton);
 
     expect(await screen.findByText(errors.password)).toBeInTheDocument();
+  });
+
+  it("renders a form and displays backend generic error", async () => {
+    mockServer.use(newPasswordHandlerExceptionGeneric);
+
+    const user = userEvent.setup();
+
+    // * Hides verbose axios error in the test out while mocking error request
+    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
+
+    render(<NewPasswordFormWithToastProvider />, { router: { query: { [tokenKey]: tokenValue } } });
+
+    const passwordInput = screen.getByLabelText("new_password.user_password");
+    const confirmPasswordInput = screen.getByLabelText("new_password.user_confirm_password");
+    const submitButton = screen.getByRole("button", {
+      name: "new_password.save_and_sign_in",
+    });
+
+    await user.type(passwordInput, newPasswordValidInput[FIELDS.PASSWORD]);
+    await user.type(confirmPasswordInput, newPasswordValidInput[FIELDS.CONFIRM_PASSWORD]);
+    await user.click(submitButton);
+
+    expect(await screen.findByText(errors.generic)).toBeInTheDocument();
   });
 });

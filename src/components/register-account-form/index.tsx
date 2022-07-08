@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/button";
@@ -7,6 +8,7 @@ import Input from "@/components/input";
 import InputEmail from "@/components/input-email";
 import InputPassword from "@/components/input-password";
 import { toast } from "@/components/toast";
+import { ROUTES } from "@/constants/routes";
 import { setFormErrors } from "@/utils/set-form-errors";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { passwordRules } from "@/utils/validation";
@@ -44,6 +46,7 @@ const ButtonWrapper = styled.div`
 
 function RegisterAccountForm() {
   const { t } = useTranslation();
+  const { push } = useRouter();
 
   const registerSchema = zod
     .object({
@@ -79,6 +82,7 @@ function RegisterAccountForm() {
   } = useRegisterAccount({
     onSuccess: () => {
       toast.success(<Typography>{t("register_account.success")}</Typography>);
+      push(ROUTES.SIGN_IN());
     },
   });
   const apiError = unwrapAxiosError(axiosError);

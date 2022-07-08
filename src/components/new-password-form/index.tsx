@@ -86,8 +86,12 @@ function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
     onError: axiosError => {
       const apiError = unwrapAxiosError(axiosError);
 
-      if (apiError && apiError[NEW_PASSWORD_TOKEN_KEY])
-        toast.error(<Typography>{apiError[NEW_PASSWORD_TOKEN_KEY][0]}</Typography>);
+      if (apiError) {
+        if (apiError[NEW_PASSWORD_TOKEN_KEY])
+          toast.error(<Typography>{apiError[NEW_PASSWORD_TOKEN_KEY][0]}</Typography>);
+
+        if (apiError.error) toast.error(<Typography>{apiError.error}</Typography>);
+      }
     },
   });
 

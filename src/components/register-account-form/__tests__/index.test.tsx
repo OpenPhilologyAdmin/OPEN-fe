@@ -33,7 +33,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and creates an account successfully", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountFormWithToastProvider />);
+    render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -53,7 +53,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and displays custom password length error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountFormWithToastProvider />);
+    render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -69,7 +69,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and displays custom password missing number error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountFormWithToastProvider />);
+    render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -85,7 +85,7 @@ describe("RegisterAccountForm", () => {
   it("renders a form and displays custom password no match error", async () => {
     const user = userEvent.setup();
 
-    render(<RegisterAccountFormWithToastProvider />);
+    render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
@@ -108,7 +108,7 @@ describe("RegisterAccountForm", () => {
     // * Hides verbose axios error in the test out while mocking error request
     jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
 
-    render(<RegisterAccountFormWithToastProvider />);
+    render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");
     const passwordInput = screen.getByLabelText("register_account.user_password");
