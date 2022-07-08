@@ -81,7 +81,7 @@ function ResetPasswordForm() {
         {...getFieldState(FIELDS.EMAIL)}
       />
       <ButtonWrapper>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
           {t("reset_password.reset_password_button_text")}
         </Button>
       </ButtonWrapper>

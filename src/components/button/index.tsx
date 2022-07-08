@@ -1,7 +1,8 @@
 import { ComponentPropsWithoutRef, ReactNode } from "react";
 import Link from "next/link";
 
-import styled, { css, DefaultTheme } from "styled-components";
+import Spinner from "@/assets/images/icons/spinner.svg";
+import styled, { css, DefaultTheme, keyframes } from "styled-components";
 import { Url } from "url";
 
 import Typography from "../typography";
@@ -10,30 +11,35 @@ type ButtonVariant = "primary" | "secondary" | "tertiary";
 
 type ButtonMode = "text" | "icon";
 
-type BaseButtonProps = {
-  variant?: ButtonVariant;
+type StateProps = {
   disabled?: boolean;
-  small?: boolean;
-  underline?: boolean;
+  /** only supported by mode "text" */
+  isLoading?: boolean;
+  variant?: ButtonVariant;
   mode?: ButtonMode;
+  small?: boolean;
+};
+
+type BaseButtonProps = StateProps & {
+  underline?: boolean;
+};
+
+type LeftWithLoadingProps = {
+  left?: ReactNode;
+  isLoading?: boolean;
+  variant?: ButtonVariant;
 };
 
 type ButtonProps = ComponentPropsWithoutRef<"button"> &
-  Omit<ComponentPropsWithoutRef<"a">, "href"> & {
-    variant?: ButtonVariant;
-    small?: boolean;
+  Omit<ComponentPropsWithoutRef<"a">, "href"> &
+  StateProps & {
     left?: ReactNode;
     right?: ReactNode;
     href?: Url | string;
-    mode?: ButtonMode;
   };
 
-type GetterProps = {
-  variant?: ButtonVariant;
+type GetterProps = StateProps & {
   theme: DefaultTheme;
-  disabled?: boolean;
-  small?: boolean;
-  mode?: ButtonMode;
 };
 
 const iconsWrapperStyles = css`
@@ -41,8 +47,22 @@ const iconsWrapperStyles = css`
   width: 24px;
 `;
 
-const getColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled && variant) {
+const rotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const loaderStyles = css`
+  animation: ${rotateAnimation} 1s linear infinite;
+`;
+
+const getColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+  if (disabled && variant && !isLoading) {
     if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
   }
 
@@ -53,8 +73,8 @@ const getColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
   return null;
 };
 
-const getHoverColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled && variant) {
+const getHoverColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+  if (disabled && variant && !isLoading) {
     if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
   }
 
@@ -65,8 +85,8 @@ const getHoverColor = ({ variant, theme: { colors }, disabled }: GetterProps) =>
   return null;
 };
 
-const getBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled) {
+const getBackgroundColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+  if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
     if (variant === "secondary") return colors.backgroundPrimary;
@@ -83,8 +103,13 @@ const getBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProp
   return null;
 };
 
-const getHoverBackgroundColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled) {
+const getHoverBackgroundColor = ({
+  variant,
+  theme: { colors },
+  disabled,
+  isLoading,
+}: GetterProps) => {
+  if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
     if (variant === "secondary") return colors.backgroundPrimary;
@@ -101,8 +126,8 @@ const getHoverBackgroundColor = ({ variant, theme: { colors }, disabled }: Gette
   return null;
 };
 
-const getBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled) {
+const getBorderColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+  if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
     if (variant === "secondary") return colors.textDimmed;
@@ -117,8 +142,8 @@ const getBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) =
   return null;
 };
 
-const getHoverBorderColor = ({ variant, theme: { colors }, disabled }: GetterProps) => {
-  if (disabled) {
+const getHoverBorderColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+  if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
     if (variant === "secondary") return colors.textDimmed;
@@ -218,6 +243,7 @@ const BaseButton = styled.button<BaseButtonProps>`
 
   svg {
     fill: ${props => getColor({ ...props })};
+    ${({ isLoading }) => isLoading && loaderStyles};
   }
 
   &:hover {
@@ -228,6 +254,7 @@ const BaseButton = styled.button<BaseButtonProps>`
 
     svg {
       fill: ${props => getHoverColor({ ...props })};
+      ${({ isLoading }) => isLoading && loaderStyles};
     }
   }
 
@@ -250,6 +277,17 @@ const Right = styled.div<GetterProps>`
   margin-left: 4px;
 `;
 
+function LeftWithLoading({ left, isLoading, variant }: LeftWithLoadingProps) {
+  if (isLoading)
+    return (
+      <Left>
+        <Spinner />
+      </Left>
+    );
+
+  return left ? <Left variant={variant}>{left}</Left> : null;
+}
+
 function Button({
   variant = "primary",
   mode = "text",
@@ -257,21 +295,22 @@ function Button({
   right,
   children,
   href,
+  isLoading,
   ...props
 }: ButtonProps) {
   const buttonTypographyVariant = props.small ? "button-small" : "button-default";
 
   return href ? (
     <Link href={href} passHref>
-      <BaseButton as="a" variant={variant} {...props}>
-        {left && <Left variant={variant}>{left}</Left>}
+      <BaseButton as="a" isLoading={isLoading} variant={variant} {...props}>
+        <LeftWithLoading isLoading={isLoading} variant={variant} left={left} />
         <Typography variant={buttonTypographyVariant}>{children}</Typography>
         {right && <Right variant={variant}>{right}</Right>}
       </BaseButton>
     </Link>
   ) : (
-    <BaseButton variant={variant} mode={mode} {...props}>
-      {left && <Left variant={variant}>{left}</Left>}
+    <BaseButton variant={variant} mode={mode} isLoading={isLoading} {...props}>
+      <LeftWithLoading isLoading={isLoading} variant={variant} left={left} />
       {mode === "text" && <Typography variant={buttonTypographyVariant}>{children}</Typography>}
       {mode === "icon" && children}
       {right && <Right variant={variant}>{right}</Right>}

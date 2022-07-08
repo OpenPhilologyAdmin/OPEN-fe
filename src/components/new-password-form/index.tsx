@@ -129,7 +129,7 @@ function NewPasswordForm({ newPasswordToken }: NewPasswordFormProps) {
         {...getFieldState(FIELDS.CONFIRM_PASSWORD)}
       />
       <ButtonWrapper>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
           {t("new_password.save_and_sign_in")}
         </Button>
       </ButtonWrapper>

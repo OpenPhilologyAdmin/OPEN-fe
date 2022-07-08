@@ -1,5 +1,158 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Button renders a button with loading and disabled prop correctly 1`] = `
+.c2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  border: 2px solid;
+  outline: none;
+  max-height: 48px;
+  border-radius: 4px;
+  padding: 12px 24px;
+  border-color: #5D2DEF;
+  background-color: #5D2DEF;
+  color: #FFFFFF;
+  cursor: not-allowed;
+}
+
+.c0 svg {
+  fill: #FFFFFF;
+  -webkit-animation: bKPVWD 1s linear infinite;
+  animation: bKPVWD 1s linear infinite;
+}
+
+.c0:hover {
+  color: #FFFFFF;
+  background-color: #FC6145;
+  border-color: #FC6145;
+}
+
+.c0:hover svg {
+  fill: #FFFFFF;
+  -webkit-animation: bKPVWD 1s linear infinite;
+  animation: bKPVWD 1s linear infinite;
+}
+
+.c0:focus-visible {
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
+}
+
+.c1 {
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
+}
+
+<div>
+  <button
+    class="c0"
+    disabled=""
+    mode="text"
+  >
+    <div
+      class="c1"
+    >
+      <svg />
+    </div>
+    <span
+      class="c2"
+    />
+  </button>
+</div>
+`;
+
+exports[`Button renders a button with loading prop correctly 1`] = `
+.c2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  border: 2px solid;
+  outline: none;
+  max-height: 48px;
+  border-radius: 4px;
+  padding: 12px 24px;
+  border-color: #5D2DEF;
+  background-color: #5D2DEF;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.c0 svg {
+  fill: #FFFFFF;
+  -webkit-animation: bKPVWD 1s linear infinite;
+  animation: bKPVWD 1s linear infinite;
+}
+
+.c0:hover {
+  color: #FFFFFF;
+  background-color: #FC6145;
+  border-color: #FC6145;
+}
+
+.c0:hover svg {
+  fill: #FFFFFF;
+  -webkit-animation: bKPVWD 1s linear infinite;
+  animation: bKPVWD 1s linear infinite;
+}
+
+.c0:focus-visible {
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
+}
+
+.c1 {
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
+}
+
+<div>
+  <button
+    class="c0"
+    mode="text"
+  >
+    <div
+      class="c1"
+    >
+      <svg />
+    </div>
+    <span
+      class="c2"
+    />
+  </button>
+</div>
+`;
+
 exports[`Button renders a button with small prop correctly 1`] = `
 .c1 {
   font-family: "Inter";

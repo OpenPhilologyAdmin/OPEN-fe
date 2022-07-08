@@ -71,6 +71,19 @@ describe("Button", () => {
     expect(screen.getByRole("button")).toBeDisabled();
   });
 
+  it("renders a button with loading prop correctly", () => {
+    const { container } = render(<Button variant="primary" isLoading />);
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a button with loading and disabled prop correctly", () => {
+    const { container } = render(<Button variant="primary" isLoading disabled />);
+
+    expect(container).toMatchSnapshot();
+    expect(screen.getByRole("button")).toBeDisabled();
+  });
+
   it("renders a button with small prop correctly", () => {
     const { container } = render(<Button small />);
 

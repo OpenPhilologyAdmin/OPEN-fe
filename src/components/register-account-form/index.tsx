@@ -136,7 +136,7 @@ function RegisterAccountForm() {
         {...getFieldState(FIELDS.NAME)}
       />
       <ButtonWrapper>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
           {t("register_account.create_account")}
         </Button>
       </ButtonWrapper>

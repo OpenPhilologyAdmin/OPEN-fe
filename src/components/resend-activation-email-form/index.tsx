@@ -86,7 +86,7 @@ function ResendActivationEmailForm() {
         {...getFieldState(FIELDS.EMAIL)}
       />
       <ButtonWrapper>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
           {t("resend_activation_email.confirm")}
         </Button>
         <Button href={ROUTES.SIGN_IN()} variant="tertiary">

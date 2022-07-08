@@ -1,7 +1,8 @@
 {
   "header": {
     "logo_alt": "Open philology logo",
-    "editing_environment": "Editing environment"
+    "editing_environment": "Editing environment",
+    "logout": "Log out"
   },
   "home": {
     "route_name": "Home",

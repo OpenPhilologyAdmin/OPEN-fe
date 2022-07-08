@@ -98,7 +98,7 @@ function SignInForm() {
       />
 
       <ButtonWrapper>
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
           {t("sign_in.confirm")}
         </Button>
         <Button href={ROUTES.REGISTER_ACCOUNT()} variant="tertiary">

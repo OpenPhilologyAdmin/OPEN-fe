@@ -67,7 +67,7 @@ function ConfirmAccount({ confirmAccountToken }: ConfirmAccountProps) {
       </Typography>
 
       <ButtonWrapper>
-        <Button href={ROUTES.REGISTER_ACCOUNT()} disabled={isLoading}>
+        <Button href={ROUTES.REGISTER_ACCOUNT()} disabled={isLoading} isLoading={isLoading}>
           {t("confirm_account.go_to_login")}
         </Button>
       </ButtonWrapper>

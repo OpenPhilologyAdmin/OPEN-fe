@@ -2,7 +2,7 @@ import { JSXElementConstructor, ReactElement, useEffect, useState } from "react"
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import LogoutIcon from "@/assets/images/icons/logout.svg";
+import LogoutIcon from "@/assets/images/icons/power.svg";
 import UserIcon from "@/assets/images/icons/user.svg";
 import Breadcrumbs, { BreadcrumbsItem } from "@/components/breadcrumbs";
 import { useBreadcrumbs } from "@/components/breadcrumbs/use-breadcrumbs";
@@ -36,7 +36,7 @@ const Content = styled.div`
 `;
 
 const UserName = styled(Typography)`
-  margin: 0 4px 0 8px;
+  margin: 0 24px 0 4px;
 `;
 
 const LoggedInContentWrapper = styled.div`
@@ -73,8 +73,8 @@ function BaseLayout({ children }: Props) {
                 <UserName>{user?.name}</UserName>
               </>
             )}
-            <Button mode="icon" onClick={handleLogout} variant="tertiary" small>
-              <LogoutIcon />
+            <Button left={<LogoutIcon />} onClick={handleLogout} variant="primary" small>
+              {t("header.logout")}
             </Button>
           </LoggedInContentWrapper>
         )}
