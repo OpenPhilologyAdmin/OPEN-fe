@@ -19,7 +19,8 @@ const Label = styled(Typography)`
   height: 20px;
   border-radius: ${({ theme: { borderRadius } }) => `${borderRadius.sm} 0 ${borderRadius.sm} 0`};
   background-color: ${({ theme: { colors } }) => colors.backgroundSecondary};
-  color: ${({ theme: { colors } }) => colors.textDimmed};
+  mix-blend-mode: multiply;
+  color: ${({ theme: { colors } }) => colors.textTertiary};
 `;
 
 export function useCharacterLimit(value: UseCharacterLimitProps) {

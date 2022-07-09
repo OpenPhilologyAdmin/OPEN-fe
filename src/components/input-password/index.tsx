@@ -1,24 +1,29 @@
 import { forwardRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
-import BaseEyeClosedIcon from "@/assets/images/icons/eye-closed.svg";
-import BaseEyeOpenIcon from "@/assets/images/icons/eye-open.svg";
-import styled, { css } from "styled-components";
+import EyeClosedIcon from "@/assets/images/icons/eye-closed.svg";
+import EyeOpenIcon from "@/assets/images/icons/eye-open.svg";
+import styled from "styled-components";
 
 import Input, { InputProps } from "../input";
 
 type InputPasswordProps = InputProps;
 
-const iconStyles = css`
+const Button = styled.button`
+  z-index: 1;
+  height: 24px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  line-height: 24px;
+  background-color: transparent;
   cursor: pointer;
-`;
 
-const EyeClosedIcon = styled(BaseEyeClosedIcon)`
-  ${iconStyles};
-`;
-
-const EyeOpenIcon = styled(BaseEyeOpenIcon)`
-  ${iconStyles};
+  :focus {
+    outline: none;
+    border-radius: ${props => props.theme.borderRadius.sm};
+    box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
+  }
 `;
 
 const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>((props, ref) => {
@@ -32,17 +37,21 @@ const InputPassword = forwardRef<HTMLInputElement, InputPasswordProps>((props, r
       autoComplete="new-password"
       left={
         isPasswordVisible ? (
-          <EyeClosedIcon
-            role="button"
-            aria-label={t("a11y.hide_password")}
+          <Button
+            type="button"
             onClick={toggleSetIsPasswordVisible}
-          />
+            aria-label={t("a11y.hide_password")}
+          >
+            <EyeClosedIcon />
+          </Button>
         ) : (
-          <EyeOpenIcon
-            role="button"
+          <Button
+            type="button"
             aria-label={t("a11y.show_password")}
             onClick={toggleSetIsPasswordVisible}
-          />
+          >
+            <EyeOpenIcon />
+          </Button>
         )
       }
       {...props}

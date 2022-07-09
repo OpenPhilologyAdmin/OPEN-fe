@@ -57,7 +57,7 @@ const DropdownWrapper = styled.div<ComponentPropsWithRef<"div">>`
   cursor: pointer;
   user-select: none;
 
-  &:focus-visible {
+  &:focus {
     outline-color: ${props => props.theme.colors.focus};
   }
 `;

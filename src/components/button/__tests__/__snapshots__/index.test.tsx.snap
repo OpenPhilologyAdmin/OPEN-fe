@@ -49,7 +49,7 @@ exports[`Button renders a button with loading and disabled prop correctly 1`] = 
   animation: bKPVWD 1s linear infinite;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -126,7 +126,7 @@ exports[`Button renders a button with loading prop correctly 1`] = `
   animation: bKPVWD 1s linear infinite;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -198,7 +198,7 @@ exports[`Button renders a button with small prop correctly 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -259,7 +259,7 @@ exports[`Button renders a primary button unchanged 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -312,7 +312,7 @@ exports[`Button renders a primary icon button unchanged 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -371,7 +371,7 @@ exports[`Button renders a secondary button unchanged 1`] = `
   fill: #FC6145;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -424,7 +424,7 @@ exports[`Button renders a secondary icon button unchanged 1`] = `
   fill: #FC6145;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -493,7 +493,7 @@ exports[`Button renders a tertiary button unchanged 1`] = `
   fill: #FC6145;
 }
 
-.c0:focus-visible:not(:hover):after {
+.c0:focus:not(:hover):after {
   content: "";
   width: 100%;
   position: absolute;
@@ -552,7 +552,7 @@ exports[`Button renders a tertiary icon button unchanged 1`] = `
   fill: #FC6145;
 }
 
-.c0:focus-visible {
+.c0:focus {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 

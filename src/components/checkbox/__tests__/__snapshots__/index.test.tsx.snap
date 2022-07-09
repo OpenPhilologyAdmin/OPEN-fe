@@ -46,7 +46,7 @@ exports[`Checkbox renders a Checkbox unchanged 1`] = `
   background-image: url("/images/icons/check-small.svg");
 }
 
-.c1:focus-visible ~ .c2 {
+.c1:focus ~ .c2 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 

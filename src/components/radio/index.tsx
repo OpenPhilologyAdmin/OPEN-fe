@@ -67,7 +67,7 @@ const Input = styled.input<StyleProps>`
     background-color: white;
   }
 
-  :focus-visible ~ ${RadioMark} {
+  :focus ~ ${RadioMark} {
     box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
   }
 `;

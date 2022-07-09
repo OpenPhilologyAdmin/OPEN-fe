@@ -10,10 +10,12 @@ type BaseInputProps = {
   left?: boolean;
   right?: boolean;
   invalid?: boolean;
+  disabled?: boolean;
 };
 
 type WrapperProps = {
   invalid?: boolean;
+  disabled?: boolean;
 };
 
 export type InputProps = ComponentPropsWithRef<"input"> & {
@@ -21,6 +23,7 @@ export type InputProps = ComponentPropsWithRef<"input"> & {
   left?: ReactNode;
   right?: ReactNode;
   invalid?: boolean;
+  disabled?: boolean;
   current?: number | string;
   errorMessage?: string;
 };
@@ -39,16 +42,23 @@ const InputInnerWrapper = styled.div<WrapperProps>`
   height: 48px;
   width: 100%;
   border: solid 2px
-    ${({ theme: { colors }, invalid }) => {
+    ${({ theme: { colors }, invalid, disabled }) => {
       if (invalid) return colors.error;
+
+      if (disabled) return colors.textDimmed;
 
       return colors.border;
     }};
   border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
-  background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
+  background-color: ${({ theme: { colors }, disabled }) => {
+    if (disabled) return colors.backgroundSecondary;
+
+    return colors.backgroundPrimary;
+  }};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
 
   :focus-within {
-    border-color: ${({ theme: { colors }, invalid }) => !invalid && colors.actionsPrimary};
+    box-shadow: ${({ theme: { colors }, invalid }) => !invalid && colors.focusShadow};
   }
 `;
 
@@ -61,8 +71,19 @@ const BaseInput = styled.input<BaseInputProps>`
   outline: 0;
   font-size: 16px;
   line-height: 24px;
-  color: ${({ theme: { colors } }) => colors.textSecondary};
-  background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
+  color: ${({ theme: { colors }, disabled }) => {
+    if (disabled) {
+      return colors.textDimmed;
+    }
+
+    return colors.textSecondary;
+  }};
+  background-color: ${({ theme: { colors }, disabled }) => {
+    if (disabled) return colors.backgroundSecondary;
+
+    colors.backgroundPrimary;
+  }};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "text")};
 
   ::placeholder {
     color: ${({ theme: { colors } }) => colors.textSecondary};
@@ -77,7 +98,6 @@ const Label = styled.label`
   height: 20px;
   background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
   color: ${({ theme: { colors } }) => colors.textDimmed};
-  cursor: text;
 `;
 
 const SideItem = styled.div`
@@ -119,17 +139,17 @@ export const InputStyledWrapper = styled.div`
 `;
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, left, right, invalid, current, errorMessage, ...props }, ref) => {
+  ({ label, left, right, invalid, current, errorMessage, disabled, ...props }, ref) => {
     return (
       <InputStyledWrapper>
-        <InputInnerWrapper invalid={invalid}>
+        <InputInnerWrapper disabled={disabled} invalid={invalid}>
           {label && (
             <Label htmlFor={props.id}>
               <Typography variant="small-bold">{label}</Typography>
             </Label>
           )}
           {left && <Left>{left}</Left>}
-          <BaseInput type="text" ref={ref} {...props} />
+          <BaseInput type="text" ref={ref} disabled={disabled} {...props} />
           {right && <Right>{right}</Right>}
           {props.max && current !== undefined && (
             <CharacterLimit max={props.max} current={current} />

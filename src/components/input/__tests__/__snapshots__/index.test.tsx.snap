@@ -21,10 +21,11 @@ exports[`Input renders an Input unchanged 1`] = `
   border: solid 2px #868686;
   border-radius: 4px;
   background-color: #FFFFFF;
+  cursor: text;
 }
 
 .c1:focus-within {
-  border-color: #5D2DEF;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c2 {
@@ -37,7 +38,7 @@ exports[`Input renders an Input unchanged 1`] = `
   font-size: 16px;
   line-height: 24px;
   color: #101521;
-  background-color: #FFFFFF;
+  cursor: text;
 }
 
 .c2::-webkit-input-placeholder {

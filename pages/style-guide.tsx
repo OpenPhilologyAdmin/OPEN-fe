@@ -96,6 +96,14 @@ function StyleGuide() {
           type="text"
           {...register("name")}
           {...getFieldState("name")}
+          disabled={true}
+          current={nameCurrent}
+          max={100}
+        />
+        <Input
+          type="text"
+          {...register("name")}
+          {...getFieldState("name")}
           current={nameCurrent}
           max={100}
         />

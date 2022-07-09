@@ -77,7 +77,7 @@ const Input = styled.input<StyleProps>`
     background-image: url("/images/icons/check-small.svg");
   }
 
-  :focus-visible ~ ${Checkmark} {
+  :focus ~ ${Checkmark} {
     box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
   }
 `;

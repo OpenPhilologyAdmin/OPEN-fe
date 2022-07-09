@@ -60,7 +60,7 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
   background-image: url("/images/icons/check-small.svg");
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -111,7 +111,7 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 
@@ -387,7 +387,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   background-image: url("/images/icons/check-small.svg");
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -438,7 +438,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 
@@ -714,7 +714,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   background-image: url("/images/icons/check-small.svg");
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -765,7 +765,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 
@@ -1032,7 +1032,7 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
   background-color: white;
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -1103,7 +1103,7 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 
@@ -1370,7 +1370,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   background-color: white;
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -1441,7 +1441,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 
@@ -1707,7 +1707,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   background-color: white;
 }
 
-.c5:focus-visible ~ .c6 {
+.c5:focus ~ .c6 {
   box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
@@ -1778,7 +1778,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   user-select: none;
 }
 
-.c0:focus-visible {
+.c0:focus {
   outline-color: rgba(93,45,239,0.32);
 }
 

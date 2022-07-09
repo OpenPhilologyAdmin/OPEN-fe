@@ -258,11 +258,11 @@ const BaseButton = styled.button<BaseButtonProps>`
     }
   }
 
-  :focus-visible {
+  :focus {
     ${props => getFocusStyles({ ...props })}
   }
 
-  :focus-visible:not(:hover) {
+  :focus:not(:hover) {
     ${props => getFocusUnderlineStyles({ ...props })}
   }
 `;
@@ -302,7 +302,7 @@ function Button({
 
   return href ? (
     <Link href={href} passHref>
-      <BaseButton as="a" isLoading={isLoading} variant={variant} {...props}>
+      <BaseButton as="a" isLoading={isLoading} mode={mode} variant={variant} {...props}>
         <LeftWithLoading isLoading={isLoading} variant={variant} left={left} />
         <Typography variant={buttonTypographyVariant}>{children}</Typography>
         {right && <Right variant={variant}>{right}</Right>}

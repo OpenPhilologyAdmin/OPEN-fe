@@ -14,6 +14,7 @@ declare module "styled-components" {
       textPrimary: string;
       textSecondary: string;
       textDimmed: string;
+      textTertiary: string;
       actionsPrimary: string;
       actionsSecondary: string;
       actionsDisabled: string;
