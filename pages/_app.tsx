@@ -7,7 +7,7 @@ import { appWithTranslation } from "next-i18next";
 import { ToastProvider } from "@/components/toast";
 import { GlobalStyle } from "@/constants/global-style";
 import { UserProvider } from "@/contexts/user";
-import BaseLayout from "@/layouts/index";
+import BaseLayout from "@/layouts/base";
 import { queryClient } from "@/services/api/client";
 import { ThemeProvider } from "src/contexts/theme";
 

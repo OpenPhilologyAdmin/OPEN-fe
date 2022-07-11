@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Button from "@/components/button";
 import SignInForm from "@/components/sign-in-form";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";
 

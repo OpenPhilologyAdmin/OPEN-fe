@@ -3,7 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import ResendActivationEmailForm from "@/components/resend-activation-email-form";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { withAuth } from "@/services/auth/with-auth";
 
 function ResendActivationEmail() {

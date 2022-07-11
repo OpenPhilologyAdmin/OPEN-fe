@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import styled from "styled-components";
 
-import BaseLayout from "../layouts";
+import BaseLayout from ".";
 
 type Props = {
   children: ReactNode;

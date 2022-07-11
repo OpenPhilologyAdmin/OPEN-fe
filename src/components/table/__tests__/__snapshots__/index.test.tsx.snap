@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table renders basic unchanged 1`] = `
-.c4 {
+.c6 {
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
@@ -9,7 +9,7 @@ exports[`Table renders basic unchanged 1`] = `
   font-weight: 500;
 }
 
-.c2 {
+.c3 {
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
@@ -18,25 +18,82 @@ exports[`Table renders basic unchanged 1`] = `
 }
 
 .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
   border-collapse: collapse;
 }
 
-.c3 {
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   padding: 24px;
   background-color: #F4F4F4;
-  text-align: center;
 }
 
-.c6 {
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   padding: 24px;
   border-top: 1px solid #E1E1E1;
-  text-align: center;
 }
 
-.c1 .c5 {
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.c2 .c7 {
   background-color: #FFFFFF;
 }
 
@@ -45,36 +102,36 @@ exports[`Table renders basic unchanged 1`] = `
     class="c0"
   >
     <thead
-      class=""
+      class="c1"
     >
       <tr
-        class="c1"
+        class="c2"
       >
         <th
-          class="c2 c3"
+          class="c3 c4"
         >
           Column 1
         </th>
         <th
-          class="c2 c3"
+          class="c3 c4"
         >
           Column 2
         </th>
       </tr>
     </thead>
     <tbody
-      class=""
+      class="c5"
     >
       <tr
-        class="c1"
+        class="c2"
       >
         <td
-          class="c4 c5 c6"
+          class="c6 c7 c8"
         >
           column 1
         </td>
         <td
-          class="c4 c5 c6"
+          class="c6 c7 c8"
         >
           column 2
         </td>
@@ -85,7 +142,7 @@ exports[`Table renders basic unchanged 1`] = `
 `;
 
 exports[`Table renders with active row unchanged 1`] = `
-.c5 {
+.c7 {
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
@@ -93,7 +150,7 @@ exports[`Table renders with active row unchanged 1`] = `
   font-weight: 500;
 }
 
-.c2 {
+.c3 {
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
@@ -102,29 +159,94 @@ exports[`Table renders with active row unchanged 1`] = `
 }
 
 .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
   width: 100%;
   border-radius: 4px;
   overflow: hidden;
   border-collapse: collapse;
 }
 
-.c3 {
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   padding: 24px;
   background-color: #F4F4F4;
-  text-align: center;
 }
 
-.c7 {
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   padding: 24px;
   border-top: 1px solid #E1E1E1;
-  text-align: center;
 }
 
-.c1 .c6 {
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.c2 .c8 {
   background-color: #FFFFFF;
 }
 
-.c4 .c6 {
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+.c6 .c8 {
   background-color: #F1ECFF;
 }
 
@@ -133,36 +255,36 @@ exports[`Table renders with active row unchanged 1`] = `
     class="c0"
   >
     <thead
-      class=""
+      class="c1"
     >
       <tr
-        class="c1"
+        class="c2"
       >
         <th
-          class="c2 c3"
+          class="c3 c4"
         >
           Column 1
         </th>
         <th
-          class="c2 c3"
+          class="c3 c4"
         >
           Column 2
         </th>
       </tr>
     </thead>
     <tbody
-      class=""
+      class="c5"
     >
       <tr
-        class="c4"
+        class="c6"
       >
         <td
-          class="c5 c6 c7"
+          class="c7 c8 c9"
         >
           column 1
         </td>
         <td
-          class="c5 c6 c7"
+          class="c7 c8 c9"
         >
           column 2
         </td>

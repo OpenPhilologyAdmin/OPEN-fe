@@ -60,5 +60,15 @@
   "confirm_account": {
     "go_to_login": "Go to login",
     "unexpected_error": "Unexpected error occurred, please contact support"
+  },
+  "manage_users": {
+    "title": "Manage users",
+    "loading": "Loading",
+    "user_email_column": "User",
+    "user_name_column": "Name",
+    "user_active_column": "Active",
+    "activate": "Activate",
+    "user_approved_success_message": "User {{email}} approved successfully",
+    "user_approved_error_message": "Unable to approve user"
   }
 }

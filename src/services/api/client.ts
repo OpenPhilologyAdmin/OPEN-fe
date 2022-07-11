@@ -51,7 +51,6 @@ apiClient.interceptors.response.use(async response => {
   const token = response.headers.authorization;
 
   if (token) {
-    console.log("setting token", token);
     setAccessToken(token);
   }
 

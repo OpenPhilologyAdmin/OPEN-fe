@@ -10,7 +10,7 @@ import UsersIcon from "@/assets/images/icons/users-more.svg";
 import Button from "@/components/button";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";
 
@@ -42,7 +42,7 @@ function Home() {
           {t("home.go_to_library")}
         </Button>
         {isAdmin && (
-          <Button href={ROUTES.HOME()} variant="primary" left={<UsersIcon />}>
+          <Button href={ROUTES.MANAGE_USERS()} variant="primary" left={<UsersIcon />}>
             {t("home.manage_users")}
           </Button>
         )}

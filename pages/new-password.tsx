@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import NewPasswordForm from "@/components/new-password-form";
 import { NEW_PASSWORD_TOKEN_KEY } from "@/constants/reset-password-token";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { withAuth } from "@/services/auth/with-auth";
 
 type NewPasswordProps = {

@@ -7,7 +7,7 @@ import Typography from "@/components/typography";
 import { CONFIRM_ACCOUNT_TOKEN_KEY } from "@/constants/confirm-email-token";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { hasCookieServerSide } from "@/services/auth";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";

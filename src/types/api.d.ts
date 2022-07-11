@@ -73,6 +73,17 @@ declare namespace API {
     message: string;
   };
 
+  type GetUserListResponse = {
+    records: User[];
+    count: number;
+  };
+
+  type ApproveUserByIdPayload = {
+    id: number;
+  };
+
+  type ApproveUserByIdResponse = User;
+
   type MeResponse = User;
 
   type Error = {

@@ -3,7 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import ResetPasswordForm from "@/components/reset-password-form";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/auth";
+import AuthLayout from "@/layouts/base/with-auth";
 import { withAuth } from "@/services/auth/with-auth";
 
 function ResetPassword() {

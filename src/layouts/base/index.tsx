@@ -14,21 +14,28 @@ import { useUser } from "@/hooks/use-user";
 import { signOut } from "@/services/auth";
 import styled from "styled-components";
 
+type Align = "TOP" | "CENTER";
+
 type Props = {
   children: ReactElement<any, string | JSXElementConstructor<any>>;
+  align?: Align;
+};
+
+type ContentProps = {
+  align: Align;
 };
 
 const Main = styled.main`
   /* Compensate header height */
-  height: calc(100vh - 72px);
+  height: calc(100vh - 70px);
   padding: 16px 24px;
   background-image: url("/images/background.jpg");
   background-size: cover;
 `;
 
-const Content = styled.div`
+const Content = styled.div<ContentProps>`
   display: flex;
-  align-items: center;
+  align-items: ${({ align }) => (align === "TOP" ? "flex-start" : "center")};
   justify-content: center;
   /* Compensate header + breadcrumbs height */
   height: calc(100vh - 144px);
@@ -44,7 +51,7 @@ const LoggedInContentWrapper = styled.div`
   align-items: center;
 `;
 
-function BaseLayout({ children }: Props) {
+function BaseLayout({ children, align = "CENTER" }: Props) {
   const { breadcrumbs } = useBreadcrumbs();
   const { t } = useTranslation();
   const { push } = useRouter();
@@ -58,8 +65,8 @@ function BaseLayout({ children }: Props) {
   // TODO create logout button component
   const handleLogout = async () => {
     await signOut();
-    setUser(undefined);
     push(ROUTES.SIGN_IN());
+    setUser(undefined);
   };
 
   return (
@@ -93,7 +100,7 @@ function BaseLayout({ children }: Props) {
             )}
           </Breadcrumbs>
         )}
-        <Content>{children}</Content>
+        <Content align={align}>{children}</Content>
       </Main>
     </>
   );

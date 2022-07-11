@@ -9,6 +9,7 @@ export const ROUTES = {
   REGISTER_ACCOUNT: () => "/register-account",
   RESEND_ACTIVATION_EMAIL: () => "/resend-activation-email",
   CONFIRM_ACCOUNT: () => "/confirm-account",
+  MANAGE_USERS: () => "/manage-users",
 };
 
 export type Routes = keyof typeof ROUTES;

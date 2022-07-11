@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const ToastContainer = styled(BaseToastContainer)`
   &&&.Toastify__toast-container {
-    top: 200px;
+    top: 150px;
     width: 648px;
 
     .Toastify__toast-theme--light {
