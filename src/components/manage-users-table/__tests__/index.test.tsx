@@ -46,9 +46,6 @@ describe("ManageUsersTable", () => {
 
     const user = userEvent.setup();
 
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
-
     render(<ManageUsersTableWithMockToastProvider />);
 
     const firstActivateButton = screen.getAllByRole("button", {
@@ -62,9 +59,6 @@ describe("ManageUsersTable", () => {
 
   it("renders an error message when failed to get a user list from the backend", async () => {
     mockServer.use(getUsersListHandlerException);
-
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
 
     render(<ManageUsersTableWithMockToastProvider />);
 

@@ -71,5 +71,18 @@
     "activate": "Activate",
     "user_approved_success_message": "User {{email}} approved successfully",
     "user_approved_error_message": "Unable to approve user"
+  },
+  "import_file": {
+    "title": "Import file",
+    "file_name": "File name (.json, .txt)",
+    "document_name": "Document name",
+    "witness_name": "Witness name",
+    "siglum": "Siglum",
+    "process_file": "Process file",
+    "processing_file": "Processing file",
+    "file_error_select": "Please select a file to proceed with upload",
+    "file_format_error": "Incorrect file format",
+    "processing_success": "Your file {{fileName}} was successfully processed.",
+    "processing_error": "Application encountered an unexpected error while processing your file {{fileName}}. Please, try again and if error continues to occur, contact system admin."
   }
 }

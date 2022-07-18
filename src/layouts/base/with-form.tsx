@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;
 
-function AuthLayout({ children }: Props) {
+function FormLayout({ children }: Props) {
   return (
     <BaseLayout>
       <Wrapper>{children}</Wrapper>
@@ -23,4 +23,4 @@ function AuthLayout({ children }: Props) {
   );
 }
 
-export default AuthLayout;
+export default FormLayout;

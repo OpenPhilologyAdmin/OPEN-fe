@@ -1,4 +1,6 @@
 declare namespace API {
+  type ProjectStatus = "processing" | "processed" | "invalid";
+
   type User = {
     id: number;
     email: string;
@@ -6,6 +8,30 @@ declare namespace API {
     account_approved: boolean;
     registration_date: string;
     role: "admin";
+  };
+
+  type Witness = {
+    id: string;
+    name: string;
+    siglum: string;
+    default: false;
+  };
+
+  type Project = {
+    id: number;
+    name: string;
+    default_witness: string;
+    witnesses: Witness[];
+    witnesses_count: 0;
+    status: ProjectStatus;
+    created_by: string;
+    creation_date: string;
+    last_edit_date: string;
+  };
+
+  type Error = {
+    [key: ?string]: string[];
+    error?: string | string[];
   };
 
   type SignInPayload = {
@@ -87,8 +113,18 @@ declare namespace API {
 
   type MeResponse = User;
 
-  type Error = {
-    [key: ?string]: string[];
-    error?: string | string[];
+  type ImportFilePayload = {
+    project: {
+      name: string;
+      source_file: {
+        data: string;
+      };
+      default_witness: string;
+      default_witness_name: string;
+    };
   };
+
+  type ImportFileResponse = Project;
+
+  type GetProjectByIdResponse = Project;
 }

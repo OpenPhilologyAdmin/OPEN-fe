@@ -98,14 +98,14 @@ function StyleGuide() {
           {...getFieldState("name")}
           disabled={true}
           current={nameCurrent}
-          max={100}
+          maxLength={100}
         />
         <Input
           type="text"
           {...register("name")}
           {...getFieldState("name")}
           current={nameCurrent}
-          max={100}
+          maxLength={100}
         />
         {errors.name?.message && <p>{errors.name?.message}</p>}
         <Input

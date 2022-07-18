@@ -1,4 +1,5 @@
 import { confirmAccountHandler } from "./confirm-account";
+import { getProjectByIdHandler, importFileHandler } from "./import-file";
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
 import { newPasswordHandler } from "./new-password";
 import { registerAccountHandler } from "./register-account";
@@ -15,4 +16,6 @@ export const handlers = [
   confirmAccountHandler,
   getUsersListHandler,
   approveUserByIdHandler,
+  getProjectByIdHandler,
+  importFileHandler,
 ];

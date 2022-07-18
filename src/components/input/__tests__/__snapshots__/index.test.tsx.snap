@@ -36,6 +36,7 @@ exports[`Input renders an Input unchanged 1`] = `
   border: none;
   outline: 0;
   font-size: 16px;
+  font-weight: 500;
   line-height: 24px;
   color: #101521;
   cursor: text;
@@ -55,6 +56,11 @@ exports[`Input renders an Input unchanged 1`] = `
 
 .c2::placeholder {
   color: #101521;
+}
+
+.c2[type="file"] {
+  opacity: 0;
+  z-index: -1;
 }
 
 .c0 {

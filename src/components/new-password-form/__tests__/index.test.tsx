@@ -68,9 +68,6 @@ describe("NewPasswordForm", () => {
 
     const user = userEvent.setup();
 
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
-
     render(<NewPasswordFormWithToastProvider />, { router: { query: { [tokenKey]: tokenValue } } });
 
     const passwordInput = screen.getByLabelText("new_password.user_password");
@@ -90,9 +87,6 @@ describe("NewPasswordForm", () => {
     mockServer.use(newPasswordHandlerExceptionGeneric);
 
     const user = userEvent.setup();
-
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
 
     render(<NewPasswordFormWithToastProvider />, { router: { query: { [tokenKey]: tokenValue } } });
 

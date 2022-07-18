@@ -31,9 +31,6 @@ describe("ConfirmAccount", () => {
   it("renders a form and displays backend error", async () => {
     mockServer.use(confirmAccountHandlerException);
 
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
-
     render(<ConfirmAccountFormWithToastProvider />, {
       router: {
         push: jest.fn(),

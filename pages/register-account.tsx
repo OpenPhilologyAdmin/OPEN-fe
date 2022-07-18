@@ -3,7 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import RegisterAccountForm from "@/components/register-account-form";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/base/with-auth";
+import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 
 function RegisterAccount() {
@@ -31,7 +31,7 @@ export const getServerSideProps = withAuth(
 );
 
 RegisterAccount.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout>{page}</AuthLayout>;
+  return <FormLayout>{page}</FormLayout>;
 };
 
 export default RegisterAccount;

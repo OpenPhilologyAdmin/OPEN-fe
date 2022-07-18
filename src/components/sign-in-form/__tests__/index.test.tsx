@@ -47,9 +47,6 @@ describe("SignInForm", () => {
 
     const user = userEvent.setup();
 
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
-
     render(<SignInFormWithToastProvider />, {
       router: {
         push,

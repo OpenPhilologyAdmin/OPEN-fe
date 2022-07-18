@@ -1,6 +1,6 @@
 import { ComponentPropsWithRef, forwardRef, ReactNode } from "react";
 
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme } from "styled-components";
 
 import Typography from "../typography";
 import BaseCharacterLimit from "./character-limit";
@@ -13,9 +13,13 @@ type BaseInputProps = {
   disabled?: boolean;
 };
 
-type WrapperProps = {
+type StyledProps = {
   invalid?: boolean;
   disabled?: boolean;
+};
+
+type GetInputColorsProps = StyledProps & {
+  theme: DefaultTheme;
 };
 
 export type InputProps = ComponentPropsWithRef<"input"> & {
@@ -33,7 +37,15 @@ const sideNodeStyle = css`
   align-items: center;
 `;
 
-const InputInnerWrapper = styled.div<WrapperProps>`
+export const getInputColor = ({ disabled, theme: { colors } }: GetInputColorsProps) => {
+  if (disabled) {
+    return colors.textDimmed;
+  }
+
+  return colors.textSecondary;
+};
+
+const InputInnerWrapper = styled.div<StyledProps>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -70,14 +82,9 @@ const BaseInput = styled.input<BaseInputProps>`
   border: none;
   outline: 0;
   font-size: 16px;
+  font-weight: 500;
   line-height: 24px;
-  color: ${({ theme: { colors }, disabled }) => {
-    if (disabled) {
-      return colors.textDimmed;
-    }
-
-    return colors.textSecondary;
-  }};
+  color: ${({ theme, disabled }) => getInputColor({ theme, disabled })};
   background-color: ${({ theme: { colors }, disabled }) => {
     if (disabled) return colors.backgroundSecondary;
 
@@ -87,6 +94,11 @@ const BaseInput = styled.input<BaseInputProps>`
 
   ::placeholder {
     color: ${({ theme: { colors } }) => colors.textSecondary};
+  }
+
+  &[type="file"] {
+    opacity: 0;
+    z-index: -1;
   }
 `;
 
@@ -151,8 +163,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {left && <Left>{left}</Left>}
           <BaseInput type="text" ref={ref} disabled={disabled} {...props} />
           {right && <Right>{right}</Right>}
-          {props.max && current !== undefined && (
-            <CharacterLimit max={props.max} current={current} />
+          {props.maxLength && current !== undefined && (
+            <CharacterLimit max={props.maxLength} current={current} />
           )}
         </InputInnerWrapper>
         {invalid && !!errorMessage && <ErrorMessage text={errorMessage} />}

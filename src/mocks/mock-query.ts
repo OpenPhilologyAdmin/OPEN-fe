@@ -1,4 +1,4 @@
-import { QueryCache, QueryClient } from "react-query";
+import { QueryCache, QueryClient, setLogger } from "react-query";
 
 export const mockQueryClient = new QueryClient({
   defaultOptions: {
@@ -8,4 +8,12 @@ export const mockQueryClient = new QueryClient({
     },
   },
 });
+
+setLogger({
+  log: console.log,
+  warn: console.warn,
+  // ✅ turns off request errors on the console
+  error: () => {},
+});
+
 export const mockQueryCache = new QueryCache();

@@ -105,9 +105,6 @@ describe("RegisterAccountForm", () => {
 
     const user = userEvent.setup();
 
-    // * Hides verbose axios error in the test out while mocking error request
-    jest.spyOn(global.console, "error").mockImplementation(() => jest.fn());
-
     render(<RegisterAccountFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const emailInput = screen.getByLabelText("register_account.user_email");

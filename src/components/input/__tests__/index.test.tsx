@@ -34,7 +34,7 @@ describe("Input", () => {
 
   it("renders an Input with CharacterLimit", () => {
     const { defaultValue, ...inputProps } = {
-      max: 10,
+      maxLength: 10,
       defaultValue: "asd",
     };
 
@@ -44,7 +44,7 @@ describe("Input", () => {
 
     render(<Input current={characterLimit.current.current} {...inputProps} />);
 
-    expect(screen.getByText(`${defaultValue.length}/${inputProps.max}`));
+    expect(screen.getByText(`${defaultValue.length}/${inputProps.maxLength}`));
   });
 
   it("renders an Input with ErrorLabel", () => {

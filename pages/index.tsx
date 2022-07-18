@@ -10,7 +10,7 @@ import UsersIcon from "@/assets/images/icons/users-more.svg";
 import Button from "@/components/button";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
-import AuthLayout from "@/layouts/base/with-auth";
+import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";
 
@@ -35,7 +35,7 @@ function Home() {
         <Button href={ROUTES.HOME()} variant="primary" left={<EditIcon />}>
           {t("home.continue_editing")}
         </Button>
-        <Button href={ROUTES.HOME()} variant="primary" left={<DocumentIcon />}>
+        <Button href={ROUTES.IMPORT_FILE()} variant="primary" left={<DocumentIcon />}>
           {t("home.create_new_edition")}
         </Button>
         <Button href={ROUTES.HOME()} variant="primary" left={<BookIcon />}>
@@ -64,7 +64,7 @@ export const getServerSideProps = withAuth(
 );
 
 Home.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout>{page}</AuthLayout>;
+  return <FormLayout>{page}</FormLayout>;
 };
 
 export default Home;

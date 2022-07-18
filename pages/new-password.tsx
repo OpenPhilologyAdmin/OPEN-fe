@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import NewPasswordForm from "@/components/new-password-form";
 import { NEW_PASSWORD_TOKEN_KEY } from "@/constants/reset-password-token";
 import { ROUTES } from "@/constants/routes";
-import AuthLayout from "@/layouts/base/with-auth";
+import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 
 type NewPasswordProps = {
@@ -45,7 +45,7 @@ export const getServerSideProps = withAuth(
 );
 
 NewPassword.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout>{page}</AuthLayout>;
+  return <FormLayout>{page}</FormLayout>;
 };
 
 export default NewPassword;

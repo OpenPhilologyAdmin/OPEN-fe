@@ -3,6 +3,7 @@
     "avif",
     "hookform",
     "OPLU",
+    "SIGLUM",
     "toastify"
   ],
   "editor.formatOnSave": true,
