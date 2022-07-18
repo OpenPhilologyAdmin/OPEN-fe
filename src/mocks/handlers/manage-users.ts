@@ -5,6 +5,7 @@ const approvedUser: API.User = {
   email: "user@example.com",
   name: "string",
   role: "admin",
+  registration_date: "2022-07-15",
   account_approved: true,
 };
 
@@ -15,6 +16,7 @@ const getUserListResponse: API.GetUserListResponse = {
       email: "user1@example.com",
       name: "string",
       role: "admin",
+      registration_date: "2022-07-15",
       account_approved: false,
     },
     {
@@ -22,6 +24,7 @@ const getUserListResponse: API.GetUserListResponse = {
       email: "user2@example.com",
       name: "string",
       role: "admin",
+      registration_date: "2022-07-15",
       account_approved: true,
     },
     {
@@ -29,6 +32,7 @@ const getUserListResponse: API.GetUserListResponse = {
       email: "user3@example.com",
       name: "string",
       role: "admin",
+      registration_date: "2022-07-15",
       account_approved: false,
     },
   ],

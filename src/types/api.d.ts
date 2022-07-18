@@ -4,6 +4,7 @@ declare namespace API {
     email: string;
     name: string;
     account_approved: boolean;
+    registration_date: string;
     role: "admin";
   };
 

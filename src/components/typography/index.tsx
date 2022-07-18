@@ -1,129 +1,161 @@
 import { ComponentPropsWithoutRef, ElementType } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Header = styled.span`
+type TypographyProps = ComponentPropsWithoutRef<"label"> &
+  ComponentPropsWithoutRef<"span"> & {
+    variant?: keyof typeof TYPOGRAPHY_VARIANTS;
+    as?: ElementType;
+    truncate?: boolean;
+  };
+
+type StyledProps = {
+  truncate?: boolean;
+};
+
+const truncateStyle = css`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Header = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 32px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const BodyRegular = styled.span`
+const BodyRegular = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const BodyBold = styled.span`
+const BodyBold = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const BodyLink = styled.span`
+const BodyLink = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
   font-weight: 500;
   text-decoration-line: underline;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const ButtonDefault = styled.span`
+const ButtonDefault = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const ButtonSmall = styled.span`
+const ButtonSmall = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const SmallRegular = styled.span`
+const SmallRegular = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const SmallBold = styled.span`
+const SmallBold = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const Tiny = styled.span`
+const Tiny = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 12px;
   letter-spacing: 0.05em;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const TextRegular = styled.span`
+const TextRegular = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const TextBold = styled.span`
+const TextBold = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 30px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const TextSuper = styled.span`
+const TextSuper = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 30px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const SmallTextRegular = styled.span`
+const SmallTextRegular = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0.01em;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const SmallTextBold = styled.span`
+const SmallTextBold = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
   letter-spacing: 0.01em;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const SmallTextSuper = styled.span`
+const SmallTextSuper = styled.span<StyledProps>`
   font-family: "Roboto Slab";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
+  ${({ truncate }) => truncate && truncateStyle};
 `;
 
 const TYPOGRAPHY_VARIANTS = {
@@ -143,12 +175,6 @@ const TYPOGRAPHY_VARIANTS = {
   "small-text-bold": SmallTextBold,
   "small-text-super": SmallTextSuper,
 };
-
-type TypographyProps = ComponentPropsWithoutRef<"label"> &
-  ComponentPropsWithoutRef<"span"> & {
-    variant?: keyof typeof TYPOGRAPHY_VARIANTS;
-    as?: ElementType;
-  };
 
 function Typography({ variant = "body-regular", children, ...props }: TypographyProps) {
   const TypographyVariant = TYPOGRAPHY_VARIANTS[variant];

@@ -5,10 +5,11 @@ import { useTranslation } from "next-i18next";
 import CheckmarkIcon from "@/assets/images/icons/check.svg";
 import CrownIcon from "@/assets/images/icons/crown-1.svg";
 import Button from "@/components/button";
-import { Container, Tbody as BaseTbody, Td, Th, Thead, Tr } from "@/components/table";
+import { Container, Tbody as BaseTbody, Td, Th, Thead, Tr as BaseTr } from "@/components/table";
 import { toast } from "@/components/toast";
 import Typography from "@/components/typography";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
+import dayjs from "dayjs";
 import styled, { css } from "styled-components";
 
 import { queryKeys, useApproveUserById, useGetUserList } from "./query";
@@ -29,9 +30,9 @@ type ApproveUserProps = {
 
 const mediumWidth = 172;
 const smallWidth = 112;
-// compensate other columns
+// compensate other columns, 2 medium columns and 1 small
 const wideWidth = css`
-  width: calc(100% - ${mediumWidth + smallWidth}px);
+  width: calc(100% - ${mediumWidth * 2 + smallWidth}px);
 `;
 
 const Wrapper = styled.div`
@@ -53,6 +54,7 @@ const WideTd = styled(Td)`
 `;
 
 const MediumTh = styled(Th)`
+  padding: 24px 0;
   width: ${mediumWidth}px;
 `;
 
@@ -66,6 +68,10 @@ const MediumTd = styled(Td)`
 
 const SmallTd = styled(Td)`
   width: ${smallWidth}px;
+`;
+
+const Tr = styled(BaseTr)`
+  height: 72px;
 `;
 
 const Tbody = styled(BaseTbody)`
@@ -88,19 +94,26 @@ const EmailWithCrownWrapper = styled.div`
   grid-template-columns: 1fr 24px;
 `;
 
-function View({ users, ...props }: ViewProps) {
+function ManageUsersThead() {
   const { t } = useTranslation();
 
   return (
+    <Thead>
+      <Tr>
+        <WideTh align="left">{t("manage_users.user_email_column")}</WideTh>
+        <MediumTh>{t("manage_users.user_name_column")}</MediumTh>
+        <MediumTh>{t("manage_users.user_registration_column")}</MediumTh>
+        <SmallTh>{t("manage_users.user_active_column")}</SmallTh>
+      </Tr>
+    </Thead>
+  );
+}
+
+function View({ users, ...props }: ViewProps) {
+  return (
     <Wrapper {...props}>
       <WideTable>
-        <Thead>
-          <Tr>
-            <WideTh align="left">{t("manage_users.user_email_column")}</WideTh>
-            <MediumTh>{t("manage_users.user_name_column")}</MediumTh>
-            <SmallTh>{t("manage_users.user_active_column")}</SmallTh>
-          </Tr>
-        </Thead>
+        <ManageUsersThead />
         <Tbody>
           {users.map(user => (
             <Tr key={user.id}>
@@ -110,7 +123,8 @@ function View({ users, ...props }: ViewProps) {
                   {user.role === "admin" && <CrownIcon />}
                 </EmailWithCrownWrapper>
               </WideTd>
-              <MediumTd>{user.name}</MediumTd>
+              <MediumTd truncate>{user.name}</MediumTd>
+              <MediumTd>{dayjs(user.registration_date).format("YYYY-MM-DD")}</MediumTd>
               <SmallTd>
                 <ApproveUser user={user} />
               </SmallTd>
@@ -128,19 +142,16 @@ function Loader() {
   return (
     <Wrapper>
       <WideTable>
-        <Thead>
-          <Tr>
-            <WideTh align="left">{t("manage_users.user_email_column")}</WideTh>
-            <MediumTh>{t("manage_users.user_name_column")}</MediumTh>
-            <SmallTh>{t("manage_users.user_active_column")}</SmallTh>
-          </Tr>
-        </Thead>
+        <ManageUsersThead />
         <Tbody>
           {[...Array(5).keys()].map(count => (
             <Tr key={count}>
               <WideTd align="left">
                 <TableRecordSkeletonLoader />
               </WideTd>
+              <MediumTd>
+                <TableRecordSkeletonLoader />
+              </MediumTd>
               <MediumTd>
                 <TableRecordSkeletonLoader />
               </MediumTd>
@@ -158,18 +169,10 @@ function Loader() {
 }
 
 function Error({ apiError }: ErrorProps) {
-  const { t } = useTranslation();
-
   return (
     <Wrapper>
       <WideTable>
-        <Thead>
-          <Tr>
-            <WideTh align="left">{t("manage_users.user_email_column")}</WideTh>
-            <MediumTh>{t("manage_users.user_name_column")}</MediumTh>
-            <SmallTh>{t("manage_users.user_active_column")}</SmallTh>
-          </Tr>
-        </Thead>
+        <ManageUsersThead />
         <Tbody>
           <Tr>
             <Td>{apiError.error}</Td>

@@ -65,6 +65,7 @@
     "title": "Manage users",
     "loading": "Loading",
     "user_email_column": "User",
+    "user_registration_column": "Registration date",
     "user_name_column": "Name",
     "user_active_column": "Active",
     "activate": "Activate",
