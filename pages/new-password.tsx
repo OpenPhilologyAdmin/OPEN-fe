@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import NewPasswordForm from "@/components/new-password-form";
+import NewPasswordForm from "@/components/features/new-password-form";
 import { NEW_PASSWORD_TOKEN_KEY } from "@/constants/reset-password-token";
 import { ROUTES } from "@/constants/routes";
 import FormLayout from "@/layouts/base/with-form";

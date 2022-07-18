@@ -1,4 +1,4 @@
-import { NormalizedDropdownOption } from "@/components/dropdown/item";
+import { NormalizedDropdownOption } from "@/components/ui/dropdown/item";
 
 export function joinDropdownChoices(options: NormalizedDropdownOption[], prompt: string): string {
   const selectedOptions = options.filter(option => Boolean(option.selected));

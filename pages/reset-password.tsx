@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ResetPasswordForm from "@/components/reset-password-form";
+import ResetPasswordForm from "@/components/features/reset-password-form";
 import { ROUTES } from "@/constants/routes";
 import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";

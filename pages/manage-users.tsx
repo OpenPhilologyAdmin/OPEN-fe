@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ManageUsersTable from "@/components/manage-users-table";
+import ManageUsersTable from "@/components/features/manage-users-table";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
 import WithTableLayout from "@/layouts/base/with-table";

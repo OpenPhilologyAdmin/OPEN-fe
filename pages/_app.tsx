@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { appWithTranslation } from "next-i18next";
 
-import { ToastProvider } from "@/components/toast";
+import { ToastProvider } from "@/components/ui/toast";
 import { GlobalStyle } from "@/constants/global-style";
 import { UserProvider } from "@/contexts/user";
 import BaseLayout from "@/layouts/base";

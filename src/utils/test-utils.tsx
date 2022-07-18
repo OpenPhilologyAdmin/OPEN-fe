@@ -3,7 +3,7 @@ import { QueryClientProvider } from "react-query";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 
-import { ToastProvider } from "@/components/toast";
+import { ToastProvider } from "@/components/ui/toast";
 import { UserProvider } from "@/contexts/user";
 import { mswServer } from "@/mocks/index";
 import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";

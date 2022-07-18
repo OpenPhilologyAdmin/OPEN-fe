@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ResendActivationEmailForm from "@/components/resend-activation-email-form";
+import ResendActivationEmailForm from "@/components/features/resend-activation-email-form";
 import { ROUTES } from "@/constants/routes";
 import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";

@@ -2,8 +2,8 @@ import { ReactElement } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ConfirmAccountView from "@/components/confirm-account";
-import Typography from "@/components/typography";
+import ConfirmAccountView from "@/components/features/confirm-account";
+import Typography from "@/components/ui/typography";
 import { CONFIRM_ACCOUNT_TOKEN_KEY } from "@/constants/confirm-email-token";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";

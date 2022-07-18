@@ -2,8 +2,8 @@ import { ReactElement } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import Button from "@/components/button";
-import SignInForm from "@/components/sign-in-form";
+import SignInForm from "@/components/features/sign-in-form";
+import Button from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";

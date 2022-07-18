@@ -7,7 +7,7 @@ import BookIcon from "@/assets/images/icons/book.svg";
 import DocumentIcon from "@/assets/images/icons/document-plus.svg";
 import EditIcon from "@/assets/images/icons/edit-2.svg";
 import UsersIcon from "@/assets/images/icons/users-more.svg";
-import Button from "@/components/button";
+import Button from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
 import FormLayout from "@/layouts/base/with-form";

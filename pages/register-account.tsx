@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import RegisterAccountForm from "@/components/register-account-form";
+import RegisterAccountForm from "@/components/features/register-account-form";
 import { ROUTES } from "@/constants/routes";
 import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";

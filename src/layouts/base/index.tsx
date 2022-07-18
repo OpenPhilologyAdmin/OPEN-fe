@@ -4,11 +4,11 @@ import { useTranslation } from "next-i18next";
 
 import LogoutIcon from "@/assets/images/icons/power.svg";
 import UserIcon from "@/assets/images/icons/user.svg";
-import Breadcrumbs, { BreadcrumbsItem } from "@/components/breadcrumbs";
-import { useBreadcrumbs } from "@/components/breadcrumbs/use-breadcrumbs";
-import Button from "@/components/button";
-import Header from "@/components/header";
-import Typography from "@/components/typography";
+import Breadcrumbs, { BreadcrumbsItem } from "@/components/features/breadcrumbs";
+import { useBreadcrumbs } from "@/components/features/breadcrumbs/use-breadcrumbs";
+import Button from "@/components/ui/button";
+import Header from "@/components/ui/header";
+import Typography from "@/components/ui/typography";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
 import { signOut } from "@/services/auth";

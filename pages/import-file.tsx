@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import ImportFileForm from "@/components/import-file-form";
+import ImportFileForm from "@/components/features/import-file-form";
 import FormLayout from "@/layouts/base/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 
