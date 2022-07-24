@@ -20,7 +20,7 @@ export const useGetUserList = () => {
   const { data, error, isLoading, isError, isSuccess } = useQuery<
     AxiosResponse<API.GetUserListResponse>,
     AxiosError<API.Error>
-  >(queryKeys.getUserList(), getUserList, { retry: 0 });
+  >(queryKeys.getUserList(), getUserList);
 
   return { data: data?.data, error, isLoading, isError, isSuccess };
 };

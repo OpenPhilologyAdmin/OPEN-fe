@@ -95,6 +95,7 @@ function ImportFileForm() {
     data: importFileResponse,
     mutate: importFile,
     error: importFileAxiosError,
+    isLoading: importFileIsLoading,
   } = useImportFile({
     onSuccess: () => {
       setIsPolling(true);
@@ -107,6 +108,8 @@ function ImportFileForm() {
       }
     },
   });
+
+  const isLoading = importFileIsLoading || isPolling;
 
   const { data: getProjectByIdResponse } = useGetProjectById({
     id: importFileResponse?.data.id,
@@ -185,7 +188,7 @@ function ImportFileForm() {
         label={t("import_file.file_name")}
         id={FILE_INPUT.ID}
         errorMessage={fileState.error}
-        disabled={isPolling}
+        disabled={isLoading}
         fileDisplayName={fileName}
         invalid={!!fileState.error}
         onChange={handleFileSelect}
@@ -195,7 +198,7 @@ function ImportFileForm() {
         type="text"
         label={t("import_file.document_name")}
         id={FIELDS.DOCUMENT_NAME}
-        disabled={isPolling}
+        disabled={isLoading}
         errorMessage={errors[FIELDS.DOCUMENT_NAME]?.message}
         {...register(FIELDS.DOCUMENT_NAME)}
         {...getFieldState(FIELDS.DOCUMENT_NAME)}
@@ -208,7 +211,7 @@ function ImportFileForm() {
             type="text"
             label={t("import_file.witness_name")}
             id={FIELDS.WITNESS_NAME}
-            disabled={isPolling}
+            disabled={isLoading}
             errorMessage={errors[FIELDS.WITNESS_NAME]?.message}
             {...register(FIELDS.WITNESS_NAME)}
             {...getFieldState(FIELDS.WITNESS_NAME)}
@@ -219,7 +222,7 @@ function ImportFileForm() {
             type="text"
             label={t("import_file.siglum")}
             id={FIELDS.SIGLUM}
-            disabled={isPolling}
+            disabled={isLoading}
             errorMessage={errors[FIELDS.SIGLUM]?.message}
             {...register(FIELDS.SIGLUM)}
             {...getFieldState(FIELDS.SIGLUM)}
@@ -230,8 +233,8 @@ function ImportFileForm() {
       )}
 
       <ButtonWrapper>
-        <Button type="submit" disabled={isPolling} isLoading={isPolling}>
-          {isPolling ? t("import_file.processing_file") : t("import_file.process_file")}
+        <Button type="submit" disabled={isLoading} isLoading={isLoading}>
+          {isLoading ? t("import_file.processing_file") : t("import_file.process_file")}
         </Button>
       </ButtonWrapper>
     </Form>

@@ -7,6 +7,13 @@ type TrProps = ComponentPropsWithRef<"tr"> & {
   active?: boolean;
 };
 
+const TableRecordSkeletonLoader = styled.div`
+  height: 20px;
+  width: 100%;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background: ${({ theme }) => theme.colors.actionsDisabled};
+`;
+
 const TableComponent = styled.table`
   display: flex;
   flex-direction: column;
@@ -57,4 +64,4 @@ const Tr = styled.tr<TrProps>`
   }
 `;
 
-export { TableComponent as Container, Thead, Tbody, Tr, Th, Td };
+export { TableComponent as Container, Thead, Tbody, Tr, Th, Td, TableRecordSkeletonLoader };

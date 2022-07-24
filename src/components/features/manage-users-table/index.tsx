@@ -1,11 +1,18 @@
-import { ComponentPropsWithoutRef } from "react";
 import { useQueryClient } from "react-query";
 import { useTranslation } from "next-i18next";
 
 import CheckmarkIcon from "@/assets/images/icons/check.svg";
 import CrownIcon from "@/assets/images/icons/crown-1.svg";
 import Button from "@/components/ui/button";
-import { Container, Tbody as BaseTbody, Td, Th, Thead, Tr as BaseTr } from "@/components/ui/table";
+import {
+  Container,
+  TableRecordSkeletonLoader,
+  Tbody as BaseTbody,
+  Td,
+  Th,
+  Thead,
+  Tr as BaseTr,
+} from "@/components/ui/table";
 import { toast } from "@/components/ui/toast";
 import Typography from "@/components/ui/typography";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
@@ -14,9 +21,7 @@ import styled, { css } from "styled-components";
 
 import { queryKeys, useApproveUserById, useGetUserList } from "./query";
 
-type ManageUsersTableProps = ComponentPropsWithoutRef<"div">;
-
-type ViewProps = ComponentPropsWithoutRef<"div"> & {
+type ViewProps = {
   users: API.User[];
 };
 
@@ -77,14 +82,7 @@ const Tr = styled(BaseTr)`
 const Tbody = styled(BaseTbody)`
   overflow-y: scroll;
   // compensate wrapping UI to be responsive
-  max-height: calc(100vh - 230px);
-`;
-
-const TableRecordSkeletonLoader = styled.div`
-  height: 20px;
-  width: 100%;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  background: ${({ theme }) => theme.colors.actionsDisabled};
+  max-height: calc(100vh - 250px);
 `;
 
 const EmailWithCrownWrapper = styled.div`
@@ -109,15 +107,15 @@ function ManageUsersThead() {
   );
 }
 
-function View({ users, ...props }: ViewProps) {
+function View({ users }: ViewProps) {
   return (
-    <Wrapper {...props}>
+    <Wrapper>
       <WideTable>
         <ManageUsersThead />
         <Tbody>
           {users.map(user => (
-            <Tr key={user.id}>
-              <WideTd align="left" data-testid="row">
+            <Tr key={user.id} data-testid="row">
+              <WideTd align="left">
                 <EmailWithCrownWrapper>
                   {user.email}
                   {user.role === "admin" && <CrownIcon />}
@@ -208,7 +206,7 @@ function ApproveUser({ user }: ApproveUserProps) {
   );
 }
 
-function ManageUsersTable({ children, ...props }: ManageUsersTableProps) {
+function ManageUsersTable() {
   const { data, isLoading, isError, error: axiosError } = useGetUserList();
   const apiError = unwrapAxiosError(axiosError);
   const users = data?.records;
@@ -218,7 +216,7 @@ function ManageUsersTable({ children, ...props }: ManageUsersTableProps) {
   if (isLoading && !users) return <Loader />;
 
   if (users) {
-    return <View {...props} users={users} />;
+    return <View users={users} />;
   }
 
   return null;

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import ModalMock from "react-modal";
 import { QueryClientProvider } from "react-query";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
@@ -8,15 +9,17 @@ import { UserProvider } from "@/contexts/user";
 import { mswServer } from "@/mocks/index";
 import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";
 import { mockRouter } from "@/mocks/mock-router";
+import { mockUser } from "@/mocks/mock-user";
 import * as testing from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "src/contexts/theme";
 
-beforeAll(() =>
+beforeAll(() => {
+  mockQueryCache.clear();
   mswServer.listen({
     onUnhandledRequest: "error",
-  }),
-);
+  });
+});
 
 afterEach(() => {
   mswServer.resetHandlers();
@@ -25,10 +28,10 @@ afterEach(() => {
 
 afterAll(() => mswServer.close());
 
-function MockProvider({ children }: { children: ReactNode }) {
+function MockProvider({ children, user }: { children: ReactNode; user?: API.User }) {
   return (
     <ThemeProvider initialTheme="LIGHT">
-      <UserProvider>
+      <UserProvider initialUser={user}>
         <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
       </UserProvider>
     </ThemeProvider>
@@ -46,7 +49,10 @@ export function MockToastProvider() {
 
 type DefaultParams = Parameters<typeof testing.render>;
 type RenderUI = DefaultParams[0];
-type RenderOptions = Omit<DefaultParams[1], "queries"> & { router?: Partial<NextRouter> };
+type RenderOptions = Omit<DefaultParams[1], "queries"> & {
+  router?: Partial<NextRouter>;
+  user?: Partial<API.User>;
+};
 
 /**
  * Custom render function that wraps the default render from @testing-library/react
@@ -59,7 +65,7 @@ type RenderOptions = Omit<DefaultParams[1], "queries"> & { router?: Partial<Next
  */
 const customRender = (ui: RenderUI, options?: RenderOptions) => {
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <MockProvider>
+    <MockProvider user={{ ...mockUser, ...options?.user }}>
       {options?.router ? (
         <RouterContext.Provider value={{ ...mockRouter, ...options.router }}>
           {children}
@@ -71,6 +77,18 @@ const customRender = (ui: RenderUI, options?: RenderOptions) => {
   );
 
   return testing.render(ui, { wrapper, ...options });
+};
+
+// Mock external modal library
+const oldFn = ModalMock.setAppElement;
+
+ModalMock.setAppElement = element => {
+  if (element === "#__next") {
+    // otherwise it will throw aria warnings.
+    return oldFn(document.createElement("div"));
+  }
+
+  oldFn(element);
 };
 
 // ! We want to export all from testing library and override custom render on purpose

@@ -1,18 +1,15 @@
-import { JSXElementConstructor, ReactElement, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { JSXElementConstructor, ReactElement } from "react";
+import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
-import LogoutIcon from "@/assets/images/icons/power.svg";
-import UserIcon from "@/assets/images/icons/user.svg";
 import Breadcrumbs, { BreadcrumbsItem } from "@/components/features/breadcrumbs";
 import { useBreadcrumbs } from "@/components/features/breadcrumbs/use-breadcrumbs";
-import Button from "@/components/ui/button";
 import Header from "@/components/ui/header";
-import Typography from "@/components/ui/typography";
-import { ROUTES } from "@/constants/routes";
-import { useUser } from "@/hooks/use-user";
-import { signOut } from "@/services/auth";
 import styled from "styled-components";
+
+const Logout = dynamic(() => import("@/components/features/logout"), {
+  ssr: false,
+});
 
 type Align = "TOP" | "CENTER";
 
@@ -42,49 +39,14 @@ const Content = styled.div<ContentProps>`
   width: 100%;
 `;
 
-const UserName = styled(Typography)`
-  margin: 0 24px 0 4px;
-`;
-
-const LoggedInContentWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 function BaseLayout({ children, align = "CENTER" }: Props) {
   const { breadcrumbs } = useBreadcrumbs();
   const { t } = useTranslation();
-  const { push } = useRouter();
-  const { user, isLoggedIn, setUser } = useUser();
-  const [isSSR, setIsSSR] = useState(true);
-
-  useEffect(() => {
-    setIsSSR(false);
-  }, []);
-
-  // TODO create logout button component
-  const handleLogout = async () => {
-    await signOut();
-    push(ROUTES.SIGN_IN());
-    setUser(undefined);
-  };
 
   return (
     <>
       <Header>
-        {!isSSR && isLoggedIn && (
-          <LoggedInContentWrapper>
-            {user && (
-              <>
-                <UserIcon />
-                <UserName>{user?.name}</UserName>
-              </>
-            )}
-            <Button left={<LogoutIcon />} onClick={handleLogout} variant="primary" small>
-              {t("header.logout")}
-            </Button>
-          </LoggedInContentWrapper>
-        )}
+        <Logout />
       </Header>
       <Main>
         {breadcrumbs && (

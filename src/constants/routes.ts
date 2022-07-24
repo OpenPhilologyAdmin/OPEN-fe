@@ -11,6 +11,7 @@ export const ROUTES = {
   CONFIRM_ACCOUNT: () => "/confirm-account",
   MANAGE_USERS: () => "/manage-users",
   IMPORT_FILE: () => "/import-file",
+  LIBRARY: () => "/library",
 };
 
 export type Routes = keyof typeof ROUTES;

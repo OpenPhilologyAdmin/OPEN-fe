@@ -25,7 +25,9 @@ declare namespace API {
     witnesses_count: 0;
     status: ProjectStatus;
     created_by: string;
+    creator_id: number;
     creation_date: string;
+    last_edit_by?: string;
     last_edit_date: string;
   };
 
@@ -127,4 +129,25 @@ declare namespace API {
   type ImportFileResponse = Project;
 
   type GetProjectByIdResponse = Project;
+
+  type GetProjectListResponse = {
+    records: Project[];
+    count: number;
+  };
+
+  type DeleteProjectByIdPayload = {
+    id: number;
+  };
+
+  type DeleteProjectByIdResponse = {
+    message: string;
+  };
+
+  type UpdateProjectByIdPayload = {
+    project: {
+      name: string;
+    };
+  };
+
+  type UpdateProjectByIdResponse = Project;
 }

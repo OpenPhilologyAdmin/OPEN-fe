@@ -84,5 +84,21 @@
     "file_format_error": "Incorrect file format",
     "processing_success": "Your file {{fileName}} was successfully processed.",
     "processing_error": "Application encountered an unexpected error while processing your file {{fileName}}. Please, try again and if error continues to occur, contact system admin."
+  },
+  "library": {
+    "title": "Library",
+    "document_name_column": "Document name",
+    "last_edit_by_column": "Last edit by",
+    "last_edit_date_column": "Last edit date",
+    "created_by_column": "Created by",
+    "creation_date_column": "Creation date",
+    "witnesses_count_column": "Witnesses",
+    "delete_column": "Delete",
+    "loading": "Loading",
+    "delete_description": "This action will permanently delete this document and all collation progress made within.",
+    "delete_question": "Are you sure?",
+    "delete_confirm": "Yes, delete it",
+    "delete_cancel": "No, keep it",
+    "project_name_changed": "Project name updated successfully"
   }
 }

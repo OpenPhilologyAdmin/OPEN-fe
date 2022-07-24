@@ -38,7 +38,7 @@ function Home() {
         <Button href={ROUTES.IMPORT_FILE()} variant="primary" left={<DocumentIcon />}>
           {t("home.create_new_edition")}
         </Button>
-        <Button href={ROUTES.HOME()} variant="primary" left={<BookIcon />}>
+        <Button href={ROUTES.LIBRARY()} variant="primary" left={<BookIcon />}>
           {t("home.go_to_library")}
         </Button>
         {isAdmin && (

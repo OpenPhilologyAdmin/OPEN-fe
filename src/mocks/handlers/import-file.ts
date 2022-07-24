@@ -15,8 +15,10 @@ const uploadedProject: API.ImportFileResponse = {
   witnesses_count: 0,
   status: "processing",
   created_by: "John Doe",
+  last_edit_by: "John Doe",
   creation_date: "2022-06-30T00:00:00.000+02:00",
   last_edit_date: "2022-07-01T00:00:00.000+02:00",
+  creator_id: 0,
 };
 
 const getProjectByIdResponse: API.GetProjectByIdResponse = {
@@ -34,8 +36,10 @@ const getProjectByIdResponse: API.GetProjectByIdResponse = {
   witnesses_count: 0,
   status: "processed",
   created_by: "John Doe",
+  last_edit_by: "John Doe",
   creation_date: "2022-06-30T00:00:00.000+02:00",
   last_edit_date: "2022-07-01T00:00:00.000+02:00",
+  creator_id: 0,
 };
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
