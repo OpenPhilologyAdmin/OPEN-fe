@@ -126,6 +126,7 @@ const SideItem = styled.div`
 const Left = styled(SideItem)`
   ${sideNodeStyle}
   margin-right: 8px;
+  order: -1;
 `;
 
 const Right = styled(SideItem)`
@@ -160,8 +161,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               <Typography variant="small-bold">{label}</Typography>
             </Label>
           )}
-          {left && <Left>{left}</Left>}
           <BaseInput type="text" ref={ref} disabled={disabled} {...props} />
+          {left && <Left>{left}</Left>}
           {right && <Right>{right}</Right>}
           {props.maxLength && current !== undefined && (
             <CharacterLimit max={props.maxLength} current={current} />
