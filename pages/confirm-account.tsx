@@ -7,7 +7,8 @@ import Typography from "@/components/ui/typography";
 import { CONFIRM_ACCOUNT_TOKEN_KEY } from "@/constants/confirm-email-token";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
-import FormLayout from "@/layouts/base/with-form";
+import BaseLayout from "@/layouts/index";
+import FormLayout from "@/layouts/shared/with-form";
 import { hasCookieServerSide } from "@/services/auth";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";
@@ -84,7 +85,11 @@ export const getServerSideProps = withAuth(
 );
 
 ConfirmAccount.getLayout = function getLayout(page: ReactElement) {
-  return <FormLayout>{page}</FormLayout>;
+  return (
+    <BaseLayout>
+      <FormLayout>{page}</FormLayout>
+    </BaseLayout>
+  );
 };
 
 export default ConfirmAccount;

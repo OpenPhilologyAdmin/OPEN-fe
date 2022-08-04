@@ -3,7 +3,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import ResendActivationEmailForm from "@/components/features/resend-activation-email-form";
 import { ROUTES } from "@/constants/routes";
-import FormLayout from "@/layouts/base/with-form";
+import BaseLayout from "@/layouts/index";
+import FormLayout from "@/layouts/shared/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 
 function ResendActivationEmail() {
@@ -31,7 +32,11 @@ export const getServerSideProps = withAuth(
 );
 
 ResendActivationEmail.getLayout = function getLayout(page: ReactElement) {
-  return <FormLayout>{page}</FormLayout>;
+  return (
+    <BaseLayout>
+      <FormLayout>{page}</FormLayout>
+    </BaseLayout>
+  );
 };
 
 export default ResendActivationEmail;

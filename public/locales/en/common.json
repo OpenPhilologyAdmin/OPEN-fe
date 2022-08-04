@@ -100,5 +100,18 @@
     "delete_confirm": "Yes, delete it",
     "delete_cancel": "No, keep it",
     "project_name_changed": "Project name updated successfully"
+  },
+  "witness_list": {
+    "title": "Witness list",
+    "default_column": "Default",
+    "witness_name_column": "Witness name",
+    "siglum_column": "Siglum",
+    "delete_column": "Delete",
+    "delete_description": "This action will permanently delete this witness and all token variants for this witness.",
+    "delete_question": "Are you sure?",
+    "delete_confirm": "Yes, delete it",
+    "delete_cancel": "No, keep it",
+    "witness_name_changed": "Witness name updated successfully",
+    "witness_set_default": "Witness {{witnessName}} set as default"
   }
 }

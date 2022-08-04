@@ -28,7 +28,7 @@ describe("ImportFileForm", () => {
   it("renders correctly and supports txt file upload", async () => {
     const user = userEvent.setup();
 
-    render(<ImportFileFormWithToastProvider />);
+    render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
     const documentNameInput = screen.getByLabelText("import_file.document_name");
@@ -51,7 +51,7 @@ describe("ImportFileForm", () => {
   it("renders correctly and supports json file upload", async () => {
     const user = userEvent.setup();
 
-    render(<ImportFileFormWithToastProvider />);
+    render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
     const documentNameInput = screen.getByLabelText("import_file.document_name");
@@ -75,7 +75,7 @@ describe("ImportFileForm", () => {
   it("renders correctly and displays an error for unsupported file format", async () => {
     const user = userEvent.setup();
 
-    render(<ImportFileFormWithToastProvider />);
+    render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
     const documentNameInput = screen.getByLabelText("import_file.document_name");
@@ -93,7 +93,7 @@ describe("ImportFileForm", () => {
 
     const user = userEvent.setup();
 
-    render(<ImportFileFormWithToastProvider />);
+    render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
 
     const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
     const documentNameInput = screen.getByLabelText("import_file.document_name");

@@ -22,11 +22,9 @@ function EditProjectNameFormWithMockToastProvider(props: EditProjectNameFormProp
 
 describe("EditProjectNameForm", () => {
   it("renders correctly and updates the project name", async () => {
-    const onEdit = jest.fn();
-
     const user = userEvent.setup();
 
-    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} onEdit={onEdit} />);
+    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} />);
 
     const editButton = screen.getByRole("button");
 
@@ -34,15 +32,11 @@ describe("EditProjectNameForm", () => {
 
     const input = screen.getByRole("textbox");
 
-    expect(onEdit).toHaveBeenCalledTimes(1);
-
     await user.type(input, name);
 
     const submitButton = screen.getByRole("button");
 
     await user.click(submitButton);
-
-    expect(onEdit).toHaveBeenCalledTimes(2);
 
     expect(await screen.findByText("library.project_name_changed")).toBeInTheDocument();
   });
@@ -50,10 +44,9 @@ describe("EditProjectNameForm", () => {
   it("renders correctly and shows a generic error message when failed to update project name", async () => {
     mockServer.use(updateProjectByIdHandlerGenericException);
 
-    const onEdit = jest.fn();
     const user = userEvent.setup();
 
-    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} onEdit={onEdit} />);
+    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} />);
 
     const editButton = screen.getByRole("button");
 
@@ -61,15 +54,11 @@ describe("EditProjectNameForm", () => {
 
     const input = screen.getByRole("textbox");
 
-    expect(onEdit).toHaveBeenCalledTimes(1);
-
     await user.type(input, name);
 
     const submitButton = screen.getByRole("button");
 
     await user.click(submitButton);
-
-    expect(onEdit).toHaveBeenCalledTimes(2);
 
     expect(await screen.findByText(errorGeneric)).toBeInTheDocument();
   });
@@ -77,10 +66,9 @@ describe("EditProjectNameForm", () => {
   it("renders correctly and shows a field error message when failed to update project name", async () => {
     mockServer.use(updateProjectByIdHandlerFieldException);
 
-    const onEdit = jest.fn();
     const user = userEvent.setup();
 
-    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} onEdit={onEdit} />);
+    render(<EditProjectNameFormWithMockToastProvider id={id} name={name} />);
 
     const editButton = screen.getByRole("button");
 
@@ -88,15 +76,11 @@ describe("EditProjectNameForm", () => {
 
     const input = screen.getByRole("textbox");
 
-    expect(onEdit).toHaveBeenCalledTimes(1);
-
     await user.type(input, name);
 
     const submitButton = screen.getByRole("button");
 
     await user.click(submitButton);
-
-    expect(onEdit).toHaveBeenCalledTimes(2);
 
     expect(await screen.findByText(errorField)).toBeInTheDocument();
   });

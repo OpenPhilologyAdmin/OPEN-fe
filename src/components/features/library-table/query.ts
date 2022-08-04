@@ -7,7 +7,7 @@ const getProjectList = () => {
   return apiClient.get<API.GetProjectListResponse>("projects");
 };
 
-export const queryKeys = {
+const queryKeys = {
   getProjectList: () => ["projects"],
 } as const;
 

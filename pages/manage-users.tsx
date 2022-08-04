@@ -7,7 +7,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import ManageUsersTable from "@/components/features/manage-users-table";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
-import WithTableLayout from "@/layouts/base/with-table";
+import BaseLayout from "@/layouts/index";
+import WithTableLayout from "@/layouts/shared/with-table";
 import { withAuth } from "@/services/auth/with-auth";
 
 function ManageUsers() {
@@ -45,7 +46,11 @@ export const getServerSideProps = withAuth(
 );
 
 ManageUsers.getLayout = function getLayout(page: ReactElement) {
-  return <WithTableLayout>{page}</WithTableLayout>;
+  return (
+    <BaseLayout align="TOP">
+      <WithTableLayout>{page}</WithTableLayout>
+    </BaseLayout>
+  );
 };
 
 export default ManageUsers;

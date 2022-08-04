@@ -178,3 +178,12 @@ Input.displayName = "Input";
 export { useCharacterLimit } from "./character-limit";
 
 export default Input;
+
+const InputLoader = styled.div`
+  height: 48px;
+  width: 100%;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  background: ${({ theme }) => theme.colors.actionsDisabled};
+`;
+
+export { InputLoader };

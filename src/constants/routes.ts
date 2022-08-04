@@ -12,6 +12,7 @@ export const ROUTES = {
   MANAGE_USERS: () => "/manage-users",
   IMPORT_FILE: () => "/import-file",
   LIBRARY: () => "/library",
+  WITNESS_LIST: (projectId: number) => `/library/${projectId}/witness-list`,
 };
 
 export type Routes = keyof typeof ROUTES;

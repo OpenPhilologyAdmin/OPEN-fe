@@ -4,7 +4,8 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import ImportFileForm from "@/components/features/import-file-form";
-import FormLayout from "@/layouts/base/with-form";
+import BaseLayout from "@/layouts/index";
+import FormLayout from "@/layouts/shared/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 
 function ImportFile() {
@@ -34,7 +35,11 @@ export const getServerSideProps = withAuth(
 );
 
 ImportFile.getLayout = function getLayout(page: ReactElement) {
-  return <FormLayout>{page}</FormLayout>;
+  return (
+    <BaseLayout>
+      <FormLayout>{page}</FormLayout>
+    </BaseLayout>
+  );
 };
 
 export default ImportFile;

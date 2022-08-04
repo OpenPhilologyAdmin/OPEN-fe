@@ -18,19 +18,24 @@ export type AuthPageProps = {
   user: API.User | null;
 };
 
+// TODO refactor idea
+// Extract tokens logic to a separate getInitialProps middleware and keep here only redirects
+// The middleware should store the token in the root app context
 export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
   callback: (
     ctx: GetServerSidePropsContext,
     user: API.User | null,
+    token: string | null,
   ) => Promise<ServerSidePropsGeneric>,
   options: Options,
 ) {
   return (async context => {
     let loggedInUser: API.User | null = null;
+    let token: string | null = null;
 
     try {
       if (hasCookieServerSide(context)) {
-        const token = getServerSideAuthToken(context);
+        token = getServerSideAuthToken(context);
 
         if (token) {
           const { data } = await getLoggedInUser(token);
@@ -61,7 +66,7 @@ export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
 
     // if user is logged in, execute getServerSidePropsCallback
     if (callback && loggedInUser) {
-      const result = await callback(context, loggedInUser);
+      const result = await callback(context, loggedInUser, token);
       const props = result && "props" in result ? result.props : {};
 
       // redirects to 404 on demand
@@ -81,13 +86,14 @@ export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
     }
 
     // if user not logged in and page not protected, just return the unprotected page
-    const result = await callback(context, null);
+    const result = await callback(context, null, null);
     const props = result && "props" in result ? result.props : {};
 
     return {
       ...result,
       props: {
         user: loggedInUser,
+        token,
         ...props,
       },
     };

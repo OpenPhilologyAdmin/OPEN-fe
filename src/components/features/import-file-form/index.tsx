@@ -1,8 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/ui/button";
+import { ROUTES } from "@/constants/routes";
 import { fileToBase64 } from "@/utils/file-to-base-64";
 import { setFormErrors } from "@/utils/set-form-errors";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
@@ -64,6 +66,7 @@ function ImportFileForm() {
   const [fileState, setFileState] = useState<ImportFileState>({
     file: null,
   });
+  const { push } = useRouter();
   const [isPolling, setIsPolling] = useState(false);
   const showExtraFieldsForTxtFiles = fileState.file?.type === ALLOWED_MIME_TYPES.TXT;
   const fileName = fileState.file?.name;
@@ -111,7 +114,7 @@ function ImportFileForm() {
 
   const isLoading = importFileIsLoading || isPolling;
 
-  const { data: getProjectByIdResponse } = useGetProjectById({
+  const { data: project } = useGetProjectById({
     id: importFileResponse?.data.id,
     isPolling,
     options: {
@@ -123,12 +126,14 @@ function ImportFileForm() {
         }
       },
       onSuccess: data => {
-        const status = data.data.status;
+        const { status, id } = data.data;
 
         if (status === "processed") {
           toast.success(
             <Typography>{t("import_file.processing_success", { fileName })}</Typography>,
           );
+
+          push(ROUTES.WITNESS_LIST(id));
         }
 
         if (status === "invalid") {
@@ -139,7 +144,7 @@ function ImportFileForm() {
   });
 
   const importFileApiError = unwrapAxiosError(importFileAxiosError);
-  const importedFileStatus = getProjectByIdResponse?.status;
+  const importedFileStatus = project?.status;
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;

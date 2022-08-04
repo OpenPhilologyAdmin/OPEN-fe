@@ -5,7 +5,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import SignInForm from "@/components/features/sign-in-form";
 import Button from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
-import FormLayout from "@/layouts/base/with-form";
+import BaseLayout from "@/layouts/index";
+import FormLayout from "@/layouts/shared/with-form";
 import { withAuth } from "@/services/auth/with-auth";
 import styled from "styled-components";
 
@@ -55,7 +56,11 @@ export const getServerSideProps = withAuth(
 );
 
 SignIn.getLayout = function getLayout(page: ReactElement) {
-  return <FormLayout>{page}</FormLayout>;
+  return (
+    <BaseLayout>
+      <FormLayout>{page}</FormLayout>
+    </BaseLayout>
+  );
 };
 
 export default SignIn;

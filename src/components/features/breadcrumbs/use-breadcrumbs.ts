@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { capitalize } from "@/utils/capitalize";
 
-type Breadcrumb = { href: string; label: string };
+export type Breadcrumb = { href: string; label: string };
 
 /** Generates breadcrumbs based on URL path */
 export function useBreadcrumbs() {

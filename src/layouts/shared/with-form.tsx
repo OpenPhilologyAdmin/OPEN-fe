@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 
 import styled from "styled-components";
 
-import BaseLayout from ".";
-
 type Props = {
   children: ReactNode;
 };
@@ -16,11 +14,7 @@ const Wrapper = styled.div`
 `;
 
 function FormLayout({ children }: Props) {
-  return (
-    <BaseLayout>
-      <Wrapper>{children}</Wrapper>
-    </BaseLayout>
-  );
+  return <Wrapper>{children}</Wrapper>;
 }
 
 export default FormLayout;

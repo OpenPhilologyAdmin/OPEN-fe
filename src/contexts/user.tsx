@@ -2,13 +2,7 @@ import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } 
 
 import { isLoggedInClientSide } from "@/services/auth";
 
-type User = {
-  id: number;
-  email: string;
-  name: string;
-  account_approved: boolean;
-  role: "admin";
-};
+type User = API.User;
 
 type UserContextType = {
   user?: User;

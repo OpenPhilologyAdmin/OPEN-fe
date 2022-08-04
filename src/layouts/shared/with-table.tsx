@@ -1,11 +1,9 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 
 import styled from "styled-components";
 
-import BaseLayout from ".";
-
 type Props = {
-  children: ReactNode;
+  children: ReactElement;
 };
 
 const Wrapper = styled.div`
@@ -17,11 +15,7 @@ const Wrapper = styled.div`
 `;
 
 function WithTableLayout({ children }: Props) {
-  return (
-    <BaseLayout align="TOP">
-      <Wrapper>{children}</Wrapper>
-    </BaseLayout>
-  );
+  return <Wrapper>{children}</Wrapper>;
 }
 
 export default WithTableLayout;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Typography from "../typography";
 
-type RadioProps = ComponentPropsWithoutRef<"input"> & {
+export type RadioProps = ComponentPropsWithoutRef<"input"> & {
   label?: ReactNode;
   invalid?: boolean;
 };

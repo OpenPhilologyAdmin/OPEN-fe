@@ -11,6 +11,11 @@ import { registerAccountHandler } from "./register-account";
 import { resendActivationEmailHandler } from "./resend-activation-email";
 import { resetPasswordHandler } from "./reset-password";
 import { signInHandler } from "./sign-in";
+import {
+  deleteWitnessByIdEndpointHandler,
+  getWitnessListByProjectId,
+  updateWitnessByIdHandler,
+} from "./witness-list";
 
 export const handlers = [
   signInHandler,
@@ -26,4 +31,7 @@ export const handlers = [
   updateProjectByIdHandler,
   deleteProjectByIdHandler,
   getProjectListHandler,
+  deleteWitnessByIdEndpointHandler,
+  updateWitnessByIdHandler,
+  getWitnessListByProjectId,
 ];

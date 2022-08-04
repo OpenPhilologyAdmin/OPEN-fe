@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/ui/button";
@@ -107,26 +107,26 @@ function LibraryThead() {
 }
 
 function View({ projects, userId }: ViewProps) {
-  const [activeRowProjectId, setActiveRowProjectId] = useState<number | null>(null);
-  const handleOnEdit = (projectId: number | null) =>
-    projectId ? setActiveRowProjectId(projectId) : setActiveRowProjectId(null);
-
   return (
     <Wrapper>
       <WideTable>
         <LibraryThead />
         <Tbody>
           {projects.map(project => (
-            <Tr key={project.id} active={activeRowProjectId === project.id} data-testid="row">
+            <Tr key={project.id} data-testid="row">
               <WideTd align="left">
-                <EditProjectNameForm name={project.name} id={project.id} onEdit={handleOnEdit} />
+                <EditProjectNameForm name={project.name} id={project.id} />
               </WideTd>
               <MediumTd>{project.last_edit_by || "N/A"}</MediumTd>
               <MediumTd>{formatDateInTable(project.last_edit_date)}</MediumTd>
               <MediumTd>{project.created_by}</MediumTd>
               <MediumTd>{formatDateInTable(project.creation_date)}</MediumTd>
               <SmallTd>
-                <Button variant="tertiary" href={ROUTES.LIBRARY()}>
+                <Button
+                  disabled={project.witnesses_count === 0}
+                  variant="tertiary"
+                  href={project.witnesses_count > 0 ? ROUTES.WITNESS_LIST(project.id) : undefined}
+                >
                   {project.witnesses_count}
                 </Button>
               </SmallTd>

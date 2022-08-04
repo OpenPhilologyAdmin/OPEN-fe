@@ -14,7 +14,7 @@ declare namespace API {
     id: string;
     name: string;
     siglum: string;
-    default: false;
+    default: boolean;
   };
 
   type Project = {
@@ -150,4 +150,29 @@ declare namespace API {
   };
 
   type UpdateProjectByIdResponse = Project;
+
+  type GetWitnessListByProjectIdResponse = {
+    records: Witness[];
+    count: number;
+  };
+
+  type UpdateWitnessByIdPayload = {
+    witness: {
+      name?: string;
+      default?: boolean;
+    };
+  };
+
+  type UpdateWitnessByIdResponse = {
+    witness: Witness;
+  };
+
+  type DeleteWitnessByIdPayload = {
+    projectId: number;
+    witnessId: string;
+  };
+
+  type DeleteWitnessByIdResponse = {
+    message: string;
+  };
 }

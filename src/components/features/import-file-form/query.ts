@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "react-query";
 
 import { apiClient } from "@/services/api/client";
+import { getProjectById } from "@/services/project";
 import { AxiosError, AxiosResponse } from "axios";
 
 type UseImportFileOptions = {
@@ -17,10 +18,6 @@ type UseGetProjectByIdParams = {
   };
 };
 
-type GetProjectByIdParams = {
-  id?: number;
-};
-
 const queryKeys = {
   getProjectById: (id?: number) => ["project", id],
 } as const;
@@ -33,10 +30,6 @@ const importFile = (payload: API.ImportFilePayload) => {
 
 export const useImportFile = ({ onSuccess, onError }: UseImportFileOptions) =>
   useMutation(importFile, { onSuccess, onError });
-
-const getProjectById = ({ id }: GetProjectByIdParams) => {
-  return apiClient.get<API.GetProjectByIdResponse>(`/projects/${id}`);
-};
 
 export const useGetProjectById = ({
   id,

@@ -8,30 +8,29 @@ import Button from "@/components/ui/button";
 import Input, { InputLoader as BaseInputLoader, useCharacterLimit } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import Typography from "@/components/ui/typography";
-import { ROUTES } from "@/constants/routes";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import * as zod from "zod";
 
-import { useInvalidateProjectListQuery } from "../query";
-import { useUpdateProjectById } from "./query";
+import { useInvalidateGetWitnessListByProjectId, useUpdateWitnessById } from "../query";
 
-export type UpdateProjectByIdData = {
+export type UpdateWitnessByIdData = {
   name: string;
 };
 
-export type EditProjectNameFormProps = {
+export type EditWitnessNameFormProps = {
   name: string;
-  id: number;
+  projectId: number;
+  witness: API.Witness;
 };
 
 export const FIELDS = {
-  PROJECT_NAME: "name",
+  WITNESS_NAME: "name",
 } as const;
 
 const registerSchema = zod.object({
-  [FIELDS.PROJECT_NAME]: zod.string().min(1).max(50),
+  [FIELDS.WITNESS_NAME]: zod.string().min(1).max(50),
 });
 
 const ButtonIconWithMarginLeft = styled(Button)`
@@ -48,26 +47,26 @@ const InputLoader = styled(BaseInputLoader)`
   width: 364px;
 `;
 
-function EditProjectNameForm({ name, id }: EditProjectNameFormProps) {
-  const [edit, setEdit] = useState(false);
+function EditWitnessNameForm({ name, projectId, witness }: EditWitnessNameFormProps) {
+  const [edit, setEdit] = useState(!witness.name);
   const { t } = useTranslation();
-  const { invalidateProjectListQuery } = useInvalidateProjectListQuery();
+  const { invalidateGetWitnessListByProjectId } = useInvalidateGetWitnessListByProjectId();
   const {
     register,
     handleSubmit,
     getFieldState,
     watch,
     formState: { errors },
-  } = useForm<UpdateProjectByIdData>({
+  } = useForm<UpdateWitnessByIdData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       name,
     },
   });
-  const { mutate: updateProjectById, isLoading } = useUpdateProjectById({
+  const { mutate: updateWitnessById, isLoading } = useUpdateWitnessById({
     onSuccess: () => {
-      toast.success(<Typography>{t("library.project_name_changed")}</Typography>);
-      invalidateProjectListQuery();
+      toast.success(<Typography>{t("witness_list.witness_name_changed")}</Typography>);
+      invalidateGetWitnessListByProjectId({ projectId });
     },
     onError: axiosError => {
       const apiError = unwrapAxiosError(axiosError);
@@ -77,35 +76,36 @@ function EditProjectNameForm({ name, id }: EditProjectNameFormProps) {
           toast.error(<Typography>{apiError.error}</Typography>);
         }
 
-        if (apiError[FIELDS.PROJECT_NAME]) {
-          toast.error(<Typography>{apiError[FIELDS.PROJECT_NAME]}</Typography>);
+        if (apiError[FIELDS.WITNESS_NAME]) {
+          toast.error(<Typography>{apiError[FIELDS.WITNESS_NAME]}</Typography>);
         }
       }
     },
   });
 
-  const { current } = useCharacterLimit(watch(FIELDS.PROJECT_NAME));
+  const { current } = useCharacterLimit(watch(FIELDS.WITNESS_NAME));
 
   if (edit) {
     return (
       <Form
         onSubmit={handleSubmit(data => {
-          updateProjectById({
+          updateWitnessById({
             data: {
-              project: { ...data },
+              witness: { ...data, default: witness.default },
             },
-            id,
+            witnessId: witness.id,
+            projectId,
           });
           setEdit(false);
         })}
       >
         <Input
           type="text"
-          id={FIELDS.PROJECT_NAME}
+          id={FIELDS.WITNESS_NAME}
           disabled={isLoading}
-          errorMessage={errors[FIELDS.PROJECT_NAME]?.message}
-          {...register(FIELDS.PROJECT_NAME)}
-          {...getFieldState(FIELDS.PROJECT_NAME)}
+          errorMessage={errors[FIELDS.WITNESS_NAME]?.message}
+          {...register(FIELDS.WITNESS_NAME)}
+          {...getFieldState(FIELDS.WITNESS_NAME)}
           current={current}
           maxLength={50}
         />
@@ -127,11 +127,7 @@ function EditProjectNameForm({ name, id }: EditProjectNameFormProps) {
     <InputLoader />
   ) : (
     <>
-      <Typography truncate>
-        <Button variant="tertiary" href={ROUTES.LIBRARY()}>
-          {name}
-        </Button>
-      </Typography>
+      <Typography truncate>{name}</Typography>
       <ButtonIconWithMarginLeft
         data-testid="edit-button"
         type="button"
@@ -146,4 +142,4 @@ function EditProjectNameForm({ name, id }: EditProjectNameFormProps) {
   );
 }
 
-export default EditProjectNameForm;
+export default EditWitnessNameForm;

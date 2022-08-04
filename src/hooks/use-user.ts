@@ -13,7 +13,7 @@ const getUser = () => {
   return apiClient.get<API.MeResponse>("/users/me", {});
 };
 
-export const useGetUser = ({ enabled }: { enabled: boolean }) => {
+const useGetUser = ({ enabled }: { enabled: boolean }) => {
   const { data, error, isLoading, isError, isSuccess } = useQuery<
     AxiosResponse<API.MeResponse>,
     AxiosError<API.Error>

@@ -6,9 +6,9 @@ const updateProjectByIdHandlerSuccessResponse: API.UpdateProjectByIdResponse = {
   default_witness: "A",
   witnesses: [
     {
-      id: "A",
+      id: "AS",
       name: "Lorem ipsum",
-      siglum: "A",
+      siglum: "AS",
       default: false,
     },
   ],

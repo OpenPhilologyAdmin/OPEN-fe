@@ -4,7 +4,8 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import LibraryTable from "@/components/features/library-table";
-import WithTableLayout from "@/layouts/base/with-table";
+import BaseLayout from "@/layouts/index";
+import WithTableLayout from "@/layouts/shared/with-table";
 import { withAuth } from "@/services/auth/with-auth";
 
 function Library() {
@@ -34,7 +35,11 @@ export const getServerSideProps = withAuth(
 );
 
 Library.getLayout = function getLayout(page: ReactElement) {
-  return <WithTableLayout>{page}</WithTableLayout>;
+  return (
+    <BaseLayout align="TOP">
+      <WithTableLayout>{page}</WithTableLayout>
+    </BaseLayout>
+  );
 };
 
 export default Library;

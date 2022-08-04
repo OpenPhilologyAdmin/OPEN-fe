@@ -4,6 +4,9 @@ import ChevronRightIcon from "@/assets/images/icons/chevron-small-right.svg";
 import styled from "styled-components";
 
 import Typography from "../../ui/typography";
+import { Breadcrumb as BreadcrumbType } from "./use-breadcrumbs";
+
+export type Breadcrumb = BreadcrumbType;
 
 const Wrapper = styled.nav`
   margin: 16px 0;
@@ -42,5 +45,6 @@ function Breadcrumbs({ children, ...props }: BreadcrumbsProps) {
 }
 
 export { BreadcrumbsItem } from "./breadcrumbs-item";
+export { useBreadcrumbs } from "./use-breadcrumbs";
 
 export default Breadcrumbs;
