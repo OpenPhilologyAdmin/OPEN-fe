@@ -59,7 +59,7 @@ const InputInnerWrapper = styled.div<StyledProps>`
 
       if (disabled) return colors.textDimmed;
 
-      return colors.border;
+      return colors.borderPrimary;
     }};
   border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
   background-color: ${({ theme: { colors }, disabled }) => {

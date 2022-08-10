@@ -17,13 +17,17 @@ const breadcrumbs = [
 ];
 
 describe("Breadcrumbs", () => {
-  it("renders correctly", () => {
-    render(<Breadcrumbs />);
+  it("renders correctly in light variant", () => {
+    render(<Breadcrumbs variant="LIGHT" />);
+  });
+
+  it("renders correctly in dark variant", () => {
+    render(<Breadcrumbs variant="DARK" />);
   });
 
   it("renders correctly with BreadcrumbsItems", () => {
     render(
-      <Breadcrumbs>
+      <Breadcrumbs variant="LIGHT">
         <BreadcrumbsItem href={breadcrumbs[0].href}>{breadcrumbs[0].label}</BreadcrumbsItem>
         <BreadcrumbsItem href={breadcrumbs[1].href}>{breadcrumbs[1].label}</BreadcrumbsItem>
       </Breadcrumbs>,

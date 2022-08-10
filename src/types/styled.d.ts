@@ -20,10 +20,10 @@ declare module "styled-components" {
       actionsDisabled: string;
       error: string;
       touched: string;
-      border: string;
+      borderPrimary: string;
       focusShadow: string;
       focus: string;
-      tableBorder: string;
+      borderSecondary: string;
       tableRowActiveBackground: string;
     };
   }

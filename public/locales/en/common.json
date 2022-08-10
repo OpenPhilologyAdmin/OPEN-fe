@@ -113,5 +113,14 @@
     "delete_cancel": "No, keep it",
     "witness_name_changed": "Witness name updated successfully",
     "witness_set_default": "Witness {{witnessName}} set as default"
+  },
+  "project": {
+    "title": "Project: {{mode}}",
+    "loader_text": "Loading assets",
+    "significant_variants": "Significant variants",
+    "no_tokens_message": "Your project does not have any tokens yet.",
+    "no_significant_variants_message": "Your project does not have any significant variants. To see them, you need to make a decision for one of the available tokens.",
+    "refresh": "Refresh",
+    "generic_error": "Error fetching data"
   }
 }

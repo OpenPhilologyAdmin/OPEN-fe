@@ -33,7 +33,7 @@ const BodyRegular = styled.span<StyledProps>`
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
   ${({ truncate }) => truncate && truncateStyle};
 `;
 
@@ -53,6 +53,7 @@ const BodyLink = styled.span<StyledProps>`
   line-height: 24px;
   font-weight: 500;
   text-decoration-line: underline;
+  color: ${({ theme }) => theme.colors.actionsPrimary};
   ${({ truncate }) => truncate && truncateStyle};
 `;
 
@@ -78,7 +79,7 @@ const SmallRegular = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 20px;
   ${({ truncate }) => truncate && truncateStyle};
 `;
@@ -86,9 +87,9 @@ const SmallRegular = styled.span<StyledProps>`
 const SmallBold = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 24px;
   ${({ truncate }) => truncate && truncateStyle};
 `;
 

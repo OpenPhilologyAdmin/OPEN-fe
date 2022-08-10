@@ -51,7 +51,7 @@ const DropdownWrapper = styled.div<ComponentPropsWithRef<"div">>`
   gap: 12px;
 
   background: ${props => props.theme.colors.backgroundPrimary};
-  border: ${borderWidth}px solid ${props => props.theme.colors.border};
+  border: ${borderWidth}px solid ${props => props.theme.colors.borderPrimary};
   border-radius: 4px;
   position: relative;
   cursor: pointer;

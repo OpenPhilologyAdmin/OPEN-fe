@@ -31,6 +31,19 @@ declare namespace API {
     last_edit_date: string;
   };
 
+  type Token = {
+    id: number;
+    t: string;
+    apparatus_index: number;
+    state: "one_variant" | "not_evaluated" | "evaluated_with_single" | "evaluated_with_multiple";
+  };
+
+  type SignificantVariant = {
+    token_id: number;
+    index: number;
+    value: string;
+  };
+
   type Error = {
     [key: ?string]: string[];
     error?: string | string[];
@@ -174,5 +187,15 @@ declare namespace API {
 
   type DeleteWitnessByIdResponse = {
     message: string;
+  };
+
+  type GetTokensForProjectByIdResponse = {
+    records: Token[];
+    count: number;
+  };
+
+  type GetSignificantVariantsForProjectByIdResponse = {
+    records: SignificantVariant[];
+    count: number;
   };
 }

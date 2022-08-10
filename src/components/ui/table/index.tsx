@@ -51,7 +51,7 @@ const Td = styled(Typography).attrs({ forwardedAs: "td", variant: "body-regular"
   align-items: center;
   justify-content: ${props => props.align || "center"};
   padding: 24px;
-  border-top: 1px solid ${({ theme }) => theme.colors.tableBorder};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
 const Tr = styled.tr<TrProps>`

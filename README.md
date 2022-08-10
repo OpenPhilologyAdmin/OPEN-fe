@@ -45,12 +45,11 @@ yarn typecheck
 They are served in different variations of `.env` files:
 
 - For local environment we use `.env.local`
-- For development environment we use `.env.development`
-- For production environment we use `.env.production`
 
 ## Deployment process
 
 Deployment is done via GitHub Actions. Whole configuration resides in YAML files inside `.github/workflows` directory.
+
 - All code pushed to `develop` branch is deployed to `dev.openphilology.eu`;
 - All code pushed to `main` branch is deployed to `staging.openphilology.eu`;
 - Review apps are applications created for each PR (re)opened and are automatically removed when PR is closed. Review apps are cloned from `develop` app, so all the configuration set there prior to creating review app is copied. Each review app is assigned URL following the pattern: `oplu-${PR-GitHub-ID}.openphilology.eu`. The URL is automatically added to the PR (as a comment) after the app is created.
@@ -85,8 +84,8 @@ const Button = styled(BaseButton)`
 7. Prefer early return whenever possible, see example:
 
 ```javascript
-// Without early return return
-const myfunction = function () {
+// Without early return
+const myFunction = function () {
   if (myCondition) {
     // some other stuff
     return stuff;
@@ -95,7 +94,7 @@ const myfunction = function () {
 };
 
 // With early return
-const myfunction = function () {
+const myFunction = function () {
   if (!myCondition) return null;
   // some other stuff
 };
@@ -129,9 +128,8 @@ OPLU-103-project-setup
 16. Every request should be tested and mocked using MSW.
 17. Everything related to `react-testing-library` is imported from test-utils.
 18. Always use meaningful variables, avoid abbreviations or single-character variable names
-19. Do not store gradients in the theme.
-20. Prefer types to interfaces for type declarations.
-21. Use curly braces for multi-line ifs, even if there is only a single instruction inside.
+19. Prefer types to interfaces for type declarations.
+20. Use curly braces for multi-line ifs, even if there is only a single instruction inside.
 
 ## Core resources
 

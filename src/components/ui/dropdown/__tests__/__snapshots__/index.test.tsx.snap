@@ -6,7 +6,7 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c4 {
@@ -333,7 +333,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c4 {
@@ -660,7 +660,7 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c4 {
@@ -987,7 +987,7 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c7 {
@@ -1325,7 +1325,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c7 {
@@ -1662,7 +1662,7 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   font-style: normal;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .c7 {

@@ -25,7 +25,7 @@ type ContentProps = {
 const Main = styled.main`
   /* Compensate header height */
   height: calc(100vh - 70px);
-  padding: 16px 24px;
+  padding: 0 24px 16px 24px;
   background-image: url("/images/background.jpg");
   background-size: cover;
 `;
@@ -50,7 +50,7 @@ function BaseLayout({ children, align = "CENTER" }: Props) {
       </Header>
       <Main>
         {breadcrumbs && (
-          <Breadcrumbs>
+          <Breadcrumbs variant="DARK">
             <BreadcrumbsItem href="/">{t("home.route_name")}</BreadcrumbsItem>
             {breadcrumbs.slice(0, -1).map(breadcrumb => (
               <BreadcrumbsItem key={breadcrumb.href} href={breadcrumb.href}>

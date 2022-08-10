@@ -128,7 +128,7 @@ function EditProjectNameForm({ name, id }: EditProjectNameFormProps) {
   ) : (
     <>
       <Typography truncate>
-        <Button variant="tertiary" href={ROUTES.LIBRARY()}>
+        <Button variant="tertiary" href={ROUTES.PROJECT(id)}>
           {name}
         </Button>
       </Typography>
