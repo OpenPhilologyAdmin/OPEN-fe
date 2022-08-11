@@ -6,6 +6,7 @@ declare module "styled-components" {
       sm: string;
       md: string;
       lg: string;
+      xl: string;
       circle: string;
     };
     colors: {
@@ -18,6 +19,7 @@ declare module "styled-components" {
       actionsPrimary: string;
       actionsSecondary: string;
       actionsDisabled: string;
+      actionsDisabledStrong: string;
       error: string;
       touched: string;
       borderPrimary: string;

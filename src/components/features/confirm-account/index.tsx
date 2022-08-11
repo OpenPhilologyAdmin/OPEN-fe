@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+import { toast } from "@/components/ui/toast";
 import { CONFIRM_ACCOUNT_TOKEN_KEY } from "@/constants/confirm-email-token";
 import { ROUTES } from "@/constants/routes";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";

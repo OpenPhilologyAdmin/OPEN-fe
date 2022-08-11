@@ -30,6 +30,7 @@ const barStyles = css`
 
 const OpenWrapper = styled.div`
   height: 100%;
+  width: 100%;
 `;
 
 const ClosedWrapper = styled.div`

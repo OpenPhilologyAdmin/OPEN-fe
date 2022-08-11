@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import DeleteIcon from "@/assets/images/icons/trash-2.svg";
 import Button from "@/components/ui/button";
-import Modal from "@/components/ui/modal";
+import Modal, { useModal } from "@/components/ui/modal";
 import { toast } from "@/components/ui/toast";
 import Typography from "@/components/ui/typography";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
@@ -29,7 +28,7 @@ const ButtonsWrapper = styled.div`
 `;
 
 function DeleteProjectButton({ disabled, projectId }: DeleteProjectButtonProps) {
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const { isOpen: isModalOpen, toggleModalVisibility } = useModal();
   const { invalidateProjectListQuery } = useInvalidateProjectListQuery();
   const { t } = useTranslation();
 
@@ -54,12 +53,12 @@ function DeleteProjectButton({ disabled, projectId }: DeleteProjectButtonProps) 
         mode="icon"
         variant="tertiary"
         small
-        onClick={() => setIsOpen(true)}
+        onClick={toggleModalVisibility}
         disabled={disabled}
       >
         <DeleteIcon />
       </Button>
-      <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} contentLabel="Example Modal">
+      <Modal isOpen={isModalOpen} shouldCloseOnOverlayClick={false} contentLabel="Example Modal">
         <ModalContent>
           <Typography>{t("library.delete_description")}</Typography>
           <Typography>{t("library.delete_question")}</Typography>
@@ -67,7 +66,7 @@ function DeleteProjectButton({ disabled, projectId }: DeleteProjectButtonProps) 
             <Button onClick={() => deleteProjectById({ id: projectId })} disabled={disabled}>
               {t("library.delete_confirm")}
             </Button>
-            <Button variant="secondary" onClick={() => setIsOpen(false)} disabled={disabled}>
+            <Button variant="secondary" onClick={toggleModalVisibility} disabled={disabled}>
               {t("library.delete_cancel")}
             </Button>
           </ButtonsWrapper>

@@ -7,8 +7,14 @@ import Button from "@/components/ui/button";
 import Checkbox from "@/components/ui/checkbox";
 import Dropdown, { DropdownItem } from "@/components/ui/dropdown";
 import Input, { useCharacterLimit } from "@/components/ui/input";
+import { MaskError, MaskLoader } from "@/components/ui/mask";
+import Modal, { useModal } from "@/components/ui/modal";
+import Panel, { usePanel } from "@/components/ui/panel";
 import Radio from "@/components/ui/radio";
+import Sup from "@/components/ui/sup";
 import { Container, Tbody, Td, Th, Thead, Tr } from "@/components/ui/table";
+import { toast } from "@/components/ui/toast";
+import Toggle from "@/components/ui/toggle";
 import Typography from "@/components/ui/typography";
 import { ROUTES } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +27,8 @@ const schema = zod.object({
   likesMe: zod.string().min(2),
   likesYou: zod.literal(true),
   likesUs: zod.literal(false),
+  isToggle: zod.literal(false),
+  isNotToggle: zod.literal(true),
 });
 
 const Main = styled.form`
@@ -69,6 +77,8 @@ function StyleGuide() {
     resolver: zodResolver(schema),
   });
 
+  const { isOpen, togglePanelVisibility } = usePanel();
+  const { isOpen: isModalOpen, toggleModalVisibility } = useModal();
   const { current: nameCurrent } = useCharacterLimit(watch("name"));
 
   return (
@@ -290,6 +300,85 @@ function StyleGuide() {
             </Tbody>
           </WideTable>
         </div>
+      </Column>
+      <Column>
+        <ColumHeading>Sup</ColumHeading>
+        <Typography>
+          text with <Sup>sup</Sup>
+        </Typography>
+      </Column>
+      <Column>
+        <ColumHeading>Panel</ColumHeading>
+        <Panel
+          headerSlots={{
+            actionNode: (
+              <Button type="button" variant="secondary" small>
+                action
+              </Button>
+            ),
+            mainNodes: {
+              action: (
+                <Toggle value={String(isOpen)} checked={isOpen} onChange={togglePanelVisibility} />
+              ),
+              text: <Typography>text</Typography>,
+            },
+          }}
+          isOpen={isOpen}
+        >
+          panel children
+        </Panel>
+      </Column>
+      <Column>
+        <ColumHeading>Mask loading</ColumHeading>
+        <MaskLoader text="Loading" />
+      </Column>
+      <Column>
+        <ColumHeading>Mask error</ColumHeading>
+        <MaskError text="Error" buttonText="retry" refetch={() => {}} />
+      </Column>
+      <Column>
+        <ColumHeading>Modal</ColumHeading>
+        <Button onClick={toggleModalVisibility} type="button">
+          open
+        </Button>
+
+        <Modal isOpen={isModalOpen} shouldCloseOnOverlayClick={false}>
+          <Button onClick={toggleModalVisibility} type="button">
+            close
+          </Button>
+        </Modal>
+      </Column>
+      <Column>
+        <ColumHeading>Toast</ColumHeading>
+        <Button
+          onClick={() => {
+            toast.warn(<Typography>warn</Typography>);
+            toast.error(<Typography>error</Typography>);
+            toast.info(<Typography>info</Typography>);
+            toast.success(<Typography>success</Typography>);
+          }}
+          type="button"
+        >
+          spam toasts
+        </Button>
+      </Column>
+      <Column>
+        <ColumHeading>Toggle</ColumHeading>
+        <Toggle disabled />
+        <Toggle checked disabled />
+        <Toggle label={"Label"} id={"likesHim"} disabled />
+        <Toggle
+          {...register("isToggle")}
+          {...getFieldState("isToggle")}
+          label={"Label"}
+          id={"isToggle"}
+        />
+        <Toggle
+          {...register("isNotToggle")}
+          {...getFieldState("isNotToggle")}
+          label={"Label"}
+          id={"isNotToggle"}
+        />
       </Column>
     </Main>
   );

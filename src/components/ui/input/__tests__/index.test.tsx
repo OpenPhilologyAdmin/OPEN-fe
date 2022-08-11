@@ -1,4 +1,4 @@
-import { render, renderHook, screen } from "@/utils/test-utils";
+import { render, renderHook, screen, userEvent } from "@/utils/test-utils";
 
 import Input from "..";
 import { useCharacterLimit } from "../character-limit";
@@ -61,5 +61,31 @@ describe("Input", () => {
     render(<Input invalid={false} errorMessage={errorMessage} />);
 
     expect(screen.queryByText(errorMessage)).not.toBeInTheDocument();
+  });
+
+  it("renders an Input and focuses on keyboard navigation", async () => {
+    const { label, id } = { label: "label", id: "id" };
+    const user = userEvent.setup();
+
+    render(<Input id={id} label={label} />);
+
+    const input = screen.getByLabelText(label);
+
+    await user.keyboard("[Tab]");
+
+    expect(document.activeElement).toBe(input);
+  });
+
+  it("renders an Input and focuses on click", async () => {
+    const { label, id } = { label: "label", id: "id" };
+    const user = userEvent.setup();
+
+    render(<Input id={id} label={label} />);
+
+    const input = screen.getByLabelText(label);
+
+    await user.click(input);
+
+    expect(document.activeElement).toBe(input);
   });
 });

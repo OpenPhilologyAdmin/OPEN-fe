@@ -24,7 +24,7 @@ const RadioMark = styled.label<StyleProps>`
   border-radius: ${({ theme }) => theme.borderRadius.circle};
   border: solid 2px;
   border-color: ${({ theme: { colors }, invalid, disabled }) => {
-    if (disabled) return colors.actionsDisabled;
+    if (disabled) return colors.actionsDisabledStrong;
 
     if (invalid) return colors.error;
 
@@ -47,7 +47,7 @@ const Input = styled.input<StyleProps>`
 
   :checked ~ ${RadioMark} {
     background-color: ${({ theme: { colors }, invalid, disabled }) => {
-      if (disabled) return colors.actionsDisabled;
+      if (disabled) return colors.actionsDisabledStrong;
 
       if (invalid) return colors.error;
 

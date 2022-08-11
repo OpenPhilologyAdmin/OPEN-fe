@@ -100,7 +100,7 @@ function Mask({ variant, buttonText, refetch, projectId }: MaskProps) {
         </ContentTokensWrapper>
       </Content>
       <Panel>
-        {isOpen && projectId && togglePanelVisibility && (
+        {projectId && (
           <SignificantVariants
             isOpen={isOpen}
             togglePanelVisibility={togglePanelVisibility}

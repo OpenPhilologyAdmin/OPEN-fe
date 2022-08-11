@@ -1,5 +1,6 @@
 // Using a third party library for modals
 // See https://github.com/reactjs/react-modal
+import { useState } from "react";
 import Modal from "react-modal";
 
 import { THEME } from "@/constants/theme";
@@ -17,6 +18,13 @@ if (Modal.defaultStyles.content) {
   Modal.defaultStyles.content.borderRadius = THEME.LIGHT.borderRadius.sm;
   Modal.defaultStyles.content.inset = "calc(50% - 144px) calc(50% - 230px)";
   Modal.defaultStyles.content.padding = "48px";
+}
+
+export function useModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleModalVisibility = () => setIsOpen(previousState => !previousState);
+
+  return { isOpen, toggleModalVisibility };
 }
 
 export default Modal;

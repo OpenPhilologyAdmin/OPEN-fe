@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/ui/button";
+import { toast } from "@/components/ui/toast";
 import { NEW_PASSWORD_TOKEN_KEY } from "@/constants/reset-password-token";
 import { ROUTES } from "@/constants/routes";
 import { setFormErrors } from "@/utils/set-form-errors";

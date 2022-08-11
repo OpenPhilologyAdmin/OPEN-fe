@@ -62,4 +62,16 @@ describe("Checkbox", () => {
 
     expect(document.activeElement).toBe(checkbox);
   });
+
+  it("renders a Checkbox and focuses on click", async () => {
+    const user = userEvent.setup();
+
+    render(<Checkbox label={label} id={id} />);
+
+    const checkbox = screen.getByLabelText(label);
+
+    await user.click(checkbox);
+
+    expect(document.activeElement).toBe(checkbox);
+  });
 });

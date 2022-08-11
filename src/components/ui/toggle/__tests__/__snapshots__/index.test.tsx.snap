@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toggle renders a Toggle unchanged 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  height: 24px;
+  width: 100%;
+}
+
+.c1 {
+  border: 2px solid #E1E1E1;
+  border-radius: 16px;
+  height: 20px;
+  width: 32px;
+}
+
+.c4 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 24px;
+  width: 24px;
+  z-index: 0;
+  border-radius: 50%;
+  border: solid 2px;
+  border-color: #5D2DEF;
+  background-color: #FFFFFF;
+  background-position: center;
+}
+
+.c2 {
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  height: 24px;
+  width: 24px;
+  top: 0;
+  left: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c2:checked ~ .c3 {
+  background-color: #5D2DEF;
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+  background-image: url("/images/icons/check-small.svg");
+}
+
+.c2:checked {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+.c2:focus ~ .c3 {
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
+}
+
+<div>
+  <div
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <input
+        class="c2"
+        type="checkbox"
+      />
+      <div
+        class="c3 c4"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -6,6 +6,7 @@ const LIGHT: DefaultTheme = {
     sm: "4px",
     md: "8px",
     lg: "12px",
+    xl: "16px",
     circle: "50%",
   },
   colors: {
@@ -18,6 +19,7 @@ const LIGHT: DefaultTheme = {
     actionsPrimary: "#5D2DEF",
     actionsSecondary: "#FC6145",
     actionsDisabled: "#E1E1E1",
+    actionsDisabledStrong: "#ABABAB",
     error: "#CD0000",
     touched: "#101521",
     borderPrimary: "#868686",

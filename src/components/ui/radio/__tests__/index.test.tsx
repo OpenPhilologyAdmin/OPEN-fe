@@ -62,4 +62,16 @@ describe("Radio", () => {
 
     expect(document.activeElement).toBe(radio);
   });
+
+  it("renders a Radio and focuses on click", async () => {
+    const user = userEvent.setup();
+
+    render(<Radio label={label} id={id} />);
+
+    const radio = screen.getByLabelText(label);
+
+    await user.click(radio);
+
+    expect(document.activeElement).toBe(radio);
+  });
 });

@@ -154,7 +154,9 @@ function View({
           </Button>
         ),
         mainNodes: {
-          action: <Toggle onChange={togglePanelVisibility} />,
+          action: (
+            <Toggle value={String(isOpen)} checked={isOpen} onChange={togglePanelVisibility} />
+          ),
           text: <Typography>{t("project.significant_variants")}</Typography>,
         },
       }}
