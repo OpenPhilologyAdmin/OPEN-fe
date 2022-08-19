@@ -1,0 +1,171 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Token renders a Token unchanged in edit mode and in evaluated_with_multiple state 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c1 {
+  margin-right: 4px;
+  color: #5D2DEF;
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;
+
+exports[`Token renders a Token unchanged in edit mode and in evaluated_with_single state 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c1 {
+  margin-right: 4px;
+  color: #101521;
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;
+
+exports[`Token renders a Token unchanged in edit mode and in not_evaluated state 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c1 {
+  margin-right: 4px;
+  color: #FC6145;
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;
+
+exports[`Token renders a Token unchanged in edit mode and in one_variant state 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.c1 {
+  margin-right: 4px;
+  color: #101521;
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;
+
+exports[`Token renders a Token unchanged in read mode 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.c1 {
+  margin-right: 4px;
+  color: #101521;
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;

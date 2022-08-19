@@ -7,7 +7,11 @@ import {
 } from "./library";
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
 import { newPasswordHandler } from "./new-password";
-import { getGetTokensForProjectById, getSignificantVariantsForProjectById } from "./project";
+import {
+  getGetTokensForProjectById,
+  getInsignificantVariantsForProjectById,
+  getSignificantVariantsForProjectById,
+} from "./project";
 import { registerAccountHandler } from "./register-account";
 import { resendActivationEmailHandler } from "./resend-activation-email";
 import { resetPasswordHandler } from "./reset-password";
@@ -37,4 +41,5 @@ export const handlers = [
   getWitnessListByProjectId,
   getSignificantVariantsForProjectById,
   getGetTokensForProjectById,
+  getInsignificantVariantsForProjectById,
 ];

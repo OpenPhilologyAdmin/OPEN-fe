@@ -27,7 +27,8 @@ const LogoSideWrapper = styled.div`
 const ActionsSideWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const VerticalDivider = styled.hr`

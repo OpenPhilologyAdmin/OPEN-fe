@@ -11,13 +11,13 @@ import Toggle from "@/components/ui/toggle";
 import Typography from "@/components/ui/typography";
 import styled from "styled-components";
 
-import { useGetSignificantVariantsForProjectById } from "./query";
+import { useGetInsignificantVariantsForProjectById } from "./query";
 
-type SignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
+type InsignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
   projectId?: number;
   isOpen: boolean;
-  isRotatedWhenClosed?: boolean;
   togglePanelVisibility: () => void;
+  isRotatedWhenClosed?: boolean;
 };
 
 type MaskProps = {
@@ -26,11 +26,11 @@ type MaskProps = {
   refetch?: () => void;
 };
 
-type ViewProps = SignificantVariantsProps & {
+type ViewProps = InsignificantVariantsProps & {
   isLoading: boolean;
   isError: boolean;
   refetch?: () => void;
-  significantVariants: API.SignificantVariant[];
+  insignificantVariants: API.InsignificantVariant[];
   isRotatedWhenClosed?: boolean;
 };
 
@@ -38,7 +38,7 @@ type DisplayMode = "text" | "list";
 
 type PanelContentProps = {
   displayMode: DisplayMode;
-  significantVariants: API.SignificantVariant[];
+  insignificantVariants: API.InsignificantVariant[];
 };
 
 const Panel = styled(BasePanel)`
@@ -80,7 +80,7 @@ function Mask({ text, variant, refetch }: MaskProps) {
         ),
         mainNodes: {
           action: <Toggle disabled />,
-          text: <Typography>{t("project.significant_variants")}</Typography>,
+          text: <Typography>{t("project.insignificant_variants")}</Typography>,
         },
       }}
       isOpen={true}
@@ -93,16 +93,16 @@ function Mask({ text, variant, refetch }: MaskProps) {
   );
 }
 
-function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
+function PanelContent({ insignificantVariants, displayMode }: PanelContentProps) {
   const { t } = useTranslation();
 
-  if (significantVariants.length === 0)
-    return <Typography>{t("project.no_significant_variants_message")}</Typography>;
+  if (insignificantVariants.length === 0)
+    return <Typography>{t("project.no_insignificant_variants_message")}</Typography>;
 
   if (displayMode === "list") {
     return (
       <>
-        {significantVariants.map(variant => (
+        {insignificantVariants.map(variant => (
           <VariantAsText key={variant.index}>
             <Index>({variant.index})</Index>
             {variant.value}
@@ -115,7 +115,7 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
   if (displayMode === "text") {
     return (
       <VariantListWrapper>
-        {significantVariants.map(variant => (
+        {insignificantVariants.map(variant => (
           <Typography key={variant.index} variant="small-regular">
             <Index>({variant.index})</Index>
             {variant.value}
@@ -129,12 +129,12 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
 }
 
 function View({
-  significantVariants,
+  insignificantVariants,
   isLoading,
   isError,
   togglePanelVisibility,
-  isRotatedWhenClosed,
   isOpen,
+  isRotatedWhenClosed,
   refetch,
   ...props
 }: ViewProps) {
@@ -160,11 +160,11 @@ function View({
           action: (
             <Toggle value={String(isOpen)} checked={isOpen} onChange={togglePanelVisibility} />
           ),
-          text: <Typography>{t("project.significant_variants")}</Typography>,
+          text: <Typography>{t("project.insignificant_variants")}</Typography>,
         },
       }}
-      isOpen={isOpen}
       isRotatedWhenClosed={isRotatedWhenClosed}
+      isOpen={isOpen}
       {...props}
     >
       {isLoading || isError ? (
@@ -178,44 +178,44 @@ function View({
               withBackgroundMask
             />
           )}
-          <PanelContent displayMode={displayMode} significantVariants={significantVariants} />
+          <PanelContent displayMode={displayMode} insignificantVariants={insignificantVariants} />
         </MaskWrapper>
       ) : (
-        <PanelContent displayMode={displayMode} significantVariants={significantVariants} />
+        <PanelContent displayMode={displayMode} insignificantVariants={insignificantVariants} />
       )}
     </Panel>
   );
 }
 
-function SignificantVariants({
+function InsignificantVariants({
   isOpen,
   projectId,
   togglePanelVisibility,
   isRotatedWhenClosed,
   ...props
-}: SignificantVariantsProps) {
+}: InsignificantVariantsProps) {
   const { t } = useTranslation();
   const { data, isLoading, isError, isRefetching, isFetching, refetch } =
-    useGetSignificantVariantsForProjectById({
+    useGetInsignificantVariantsForProjectById({
       projectId,
     });
-  const significantVariants = data?.records;
+  const insignificantVariants = data?.records;
 
-  if (isLoading && !significantVariants)
+  if (isLoading && !insignificantVariants)
     return <Mask variant="loader" text={t("project.loader_text")} />;
 
-  if (isError && !significantVariants)
+  if (isError && !insignificantVariants)
     return <Mask variant="error" text={t("project.generic_error")} refetch={refetch} />;
 
-  if (significantVariants) {
+  if (insignificantVariants) {
     return (
       <View
+        isRotatedWhenClosed={isRotatedWhenClosed}
         projectId={projectId}
         isLoading={isRefetching || isFetching}
         isError={isError && !isRefetching}
-        significantVariants={significantVariants}
+        insignificantVariants={insignificantVariants}
         isOpen={isOpen}
-        isRotatedWhenClosed={isRotatedWhenClosed}
         togglePanelVisibility={togglePanelVisibility}
         refetch={refetch}
         {...props}
@@ -227,4 +227,4 @@ function SignificantVariants({
 }
 
 export { Mask };
-export default SignificantVariants;
+export default InsignificantVariants;

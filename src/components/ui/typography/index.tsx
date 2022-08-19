@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, ElementType } from "react";
 
 import styled, { css } from "styled-components";
 
-type TypographyProps = ComponentPropsWithoutRef<"label"> &
+export type TypographyProps = ComponentPropsWithoutRef<"label"> &
   ComponentPropsWithoutRef<"span"> & {
     variant?: keyof typeof TYPOGRAPHY_VARIANTS;
     as?: ElementType;

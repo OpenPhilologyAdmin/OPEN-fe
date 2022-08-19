@@ -4,9 +4,10 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Breadcrumb } from "@/components/features/breadcrumbs";
-import ReadMode from "@/components/features/read-mode";
+import ProjectView from "@/components/features/project-view";
 import { ROUTES } from "@/constants/routes";
-import WithCustomBreadcrumbs from "@/layouts/with-custom-breadcrumbs";
+import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
+import WithProjectView from "@/layouts/with-project-view";
 import { withAuth } from "@/services/auth/with-auth";
 import { getProjectById } from "@/services/project";
 
@@ -16,14 +17,15 @@ type Props = {
 
 function Project({ project }: Props) {
   const { t } = useTranslation();
+  const { mode } = useCurrentProjectMode();
 
   return (
     <>
       <Head>
-        <title>{t("project.title", { mode: "Read mode" })}</title>
+        <title>{t("project.title", { mode })}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ReadMode project={project} />
+      <ProjectView project={project} />
     </>
   );
 }
@@ -86,9 +88,9 @@ Project.getLayout = function getLayout(page: ReactElement) {
   ];
 
   return (
-    <WithCustomBreadcrumbs align="TOP" breadcrumbs={breadcrumbs} variant="LIGHT">
+    <WithProjectView align="TOP" breadcrumbs={breadcrumbs}>
       {page}
-    </WithCustomBreadcrumbs>
+    </WithProjectView>
   );
 };
 

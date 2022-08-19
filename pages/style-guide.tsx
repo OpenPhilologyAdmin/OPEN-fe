@@ -327,6 +327,25 @@ function StyleGuide() {
         >
           panel children
         </Panel>
+        <Panel
+          headerSlots={{
+            actionNode: (
+              <Button type="button" variant="secondary" small>
+                action
+              </Button>
+            ),
+            mainNodes: {
+              action: (
+                <Toggle value={String(isOpen)} checked={isOpen} onChange={togglePanelVisibility} />
+              ),
+              text: <Typography>text</Typography>,
+            },
+          }}
+          isOpen={isOpen}
+          isRotatedWhenClosed={false}
+        >
+          panel children
+        </Panel>
       </Column>
       <Column>
         <ColumHeading>Mask loading</ColumHeading>

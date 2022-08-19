@@ -1,6 +1,7 @@
 import { rest } from "msw";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+const getInsignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/insignificant_variants`;
 const getSignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/significant_variants`;
 const getGetTokensForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens`;
 export const errorGeneric = "Generic error";
@@ -26,6 +27,12 @@ const getSignificantVariantsForProjectByIdResponse: API.GetSignificantVariantsFo
     count: 1,
   };
 
+const getInsignificantVariantsForProjectByIdResponse: API.GetInsignificantVariantsForProjectByIdResponse =
+  {
+    records: [variant],
+    count: 1,
+  };
+
 const getGetTokensForProjectByIdResponse: API.GetTokensForProjectByIdResponse = {
   records: [token],
   count: 1,
@@ -39,6 +46,17 @@ export const getSignificantVariantsForProjectById = rest.get(
 
 export const getSignificantVariantsForProjectByIdException = rest.get(
   getSignificantVariantsForProjectByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+// insignificant variants
+export const getInsignificantVariantsForProjectById = rest.get(
+  getInsignificantVariantsForProjectByIdEndpoint,
+  (_, res, ctx) => res(ctx.json(getInsignificantVariantsForProjectByIdResponse)),
+);
+
+export const getInsignificantVariantsForProjectByIdException = rest.get(
+  getInsignificantVariantsForProjectByIdEndpoint,
   (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
 );
 

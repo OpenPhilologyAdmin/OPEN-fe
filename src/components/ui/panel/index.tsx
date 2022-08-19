@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 
 export type PanelProps = ComponentPropsWithoutRef<"div"> & {
   isOpen: boolean;
+  isRotatedWhenClosed?: boolean;
   headerSlots?: {
     mainNodes: {
       action: ReactElement;
@@ -29,12 +30,18 @@ const barStyles = css`
 `;
 
 const OpenWrapper = styled.div`
+  position: relative;
   height: 100%;
   width: 100%;
 `;
 
-const ClosedWrapper = styled.div`
+const ClosedRotatedWrapper = styled.div`
   width: 58px;
+`;
+
+const ClosedWrapper = styled.div`
+  height: 48px;
+  width: 100%;
 `;
 
 const RotateWrapper = styled.div`
@@ -50,7 +57,7 @@ const RotateElement = styled.div`
   overflow: visible;
 `;
 
-const ClosedHeader = styled.div`
+const ClosedRotatedHeader = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,13 +67,16 @@ const ClosedHeader = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
-const ClosedHeaderActionNode = styled.div`
+const ClosedRotatedHeaderActionNode = styled.div`
   padding: 24px 0;
 `;
 
 const Header = styled.div`
-  ${barStyles};
+  position: sticky;
+  top: 0;
+  left: 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSecondary};
+  ${barStyles};
 `;
 
 const HeaderActions = styled.div`
@@ -87,7 +97,6 @@ const Footer = styled.div`
 const Main = styled.div`
   padding: 16px;
   width: 100%;
-  height: calc(100% - 96px);
 `;
 
 function usePanel() {
@@ -97,7 +106,14 @@ function usePanel() {
   return { isOpen, togglePanelVisibility };
 }
 
-function Panel({ isOpen, headerSlots, footerSlots, children, ...props }: PanelProps) {
+function Panel({
+  isOpen,
+  headerSlots,
+  footerSlots,
+  children,
+  isRotatedWhenClosed = true,
+  ...props
+}: PanelProps) {
   return isOpen ? (
     <OpenWrapper {...props}>
       {headerSlots && (
@@ -117,15 +133,29 @@ function Panel({ isOpen, headerSlots, footerSlots, children, ...props }: PanelPr
         </Footer>
       )}
     </OpenWrapper>
-  ) : (
-    <ClosedWrapper>
+  ) : isRotatedWhenClosed ? (
+    <ClosedRotatedWrapper>
       {headerSlots && (
-        <ClosedHeader>
-          <ClosedHeaderActionNode>{headerSlots.mainNodes.action}</ClosedHeaderActionNode>
+        <ClosedRotatedHeader>
+          <ClosedRotatedHeaderActionNode>
+            {headerSlots.mainNodes.action}
+          </ClosedRotatedHeaderActionNode>
           <RotateWrapper>
             <RotateElement>{headerSlots.mainNodes.text}</RotateElement>
           </RotateWrapper>
-        </ClosedHeader>
+        </ClosedRotatedHeader>
+      )}
+    </ClosedRotatedWrapper>
+  ) : (
+    <ClosedWrapper>
+      {headerSlots && (
+        <Header>
+          <HeaderActions>
+            {headerSlots.mainNodes.action}
+            <HeaderActionText>{headerSlots.mainNodes.text}</HeaderActionText>
+          </HeaderActions>
+          <div>{headerSlots.actionNode}</div>
+        </Header>
       )}
     </ClosedWrapper>
   );

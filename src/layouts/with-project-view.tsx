@@ -2,8 +2,10 @@ import { ReactElement } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
-import Breadcrumbs, { Breadcrumb, BreadcrumbsItem } from "@/components/features/breadcrumbs";
+import BaseBreadcrumbs, { Breadcrumb, BreadcrumbsItem } from "@/components/features/breadcrumbs";
 import Header from "@/components/ui/header";
+import Toggle from "@/components/ui/toggle";
+import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled from "styled-components";
 
 const Logout = dynamic(() => import("@/components/features/logout"), {
@@ -25,9 +27,9 @@ type ContentProps = {
 const Main = styled.main`
   /* Compensate header height */
   height: calc(100vh - 70px);
-  padding: 0px 24px 16px 24px;
-  background-image: url("/images/background.jpg");
-  background-size: cover;
+  max-height: calc(100vh - 70px);
+  padding: 0;
+  background: ${({ theme }) => theme.colors.backgroundPrimary}; ;
 `;
 
 const Content = styled.div<ContentProps>`
@@ -39,16 +41,35 @@ const Content = styled.div<ContentProps>`
   width: 100%;
 `;
 
-function WithCustomBreadcrumbs({ breadcrumbs, children, align = "CENTER" }: Props) {
+const Breadcrumbs = styled(BaseBreadcrumbs)`
+  padding: 16px 24px;
+`;
+
+const ToggleWrapper = styled.div`
+  margin-right: 24px;
+`;
+
+function WithProjectView({ breadcrumbs, children, align = "CENTER" }: Props) {
   const { t } = useTranslation();
+  const { mode, toggleMode } = useCurrentProjectMode();
 
   return (
     <>
       <Header>
+        <ToggleWrapper>
+          <Toggle
+            value={mode}
+            checked={mode === "EDIT"}
+            onChange={toggleMode}
+            label={t("project.edit_mode")}
+            id="mode-toggle"
+          />
+        </ToggleWrapper>
+
         <Logout />
       </Header>
       <Main>
-        <Breadcrumbs>
+        <Breadcrumbs variant="LIGHT">
           <BreadcrumbsItem href="/">{t("home.route_name")}</BreadcrumbsItem>
           {breadcrumbs.slice(0, -1).map(breadcrumb => (
             <BreadcrumbsItem key={breadcrumb.href} href={breadcrumb.href}>
@@ -65,4 +86,4 @@ function WithCustomBreadcrumbs({ breadcrumbs, children, align = "CENTER" }: Prop
   );
 }
 
-export default WithCustomBreadcrumbs;
+export default WithProjectView;

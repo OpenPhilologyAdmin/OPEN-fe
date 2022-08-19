@@ -12,11 +12,11 @@ exports[`Toggle renders a Toggle unchanged 1`] = `
   align-items: center;
   position: relative;
   height: 24px;
-  width: 100%;
 }
 
 .c1 {
   border: 2px solid #E1E1E1;
+  background-color: #FFFFFF;
   border-radius: 16px;
   height: 20px;
   width: 32px;

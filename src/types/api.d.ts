@@ -1,5 +1,10 @@
 declare namespace API {
   type ProjectStatus = "processing" | "processed" | "invalid";
+  type TokenState =
+    | "one_variant"
+    | "not_evaluated"
+    | "evaluated_with_single"
+    | "evaluated_with_multiple";
 
   type User = {
     id: number;
@@ -35,10 +40,16 @@ declare namespace API {
     id: number;
     t: string;
     apparatus_index: number;
-    state: "one_variant" | "not_evaluated" | "evaluated_with_single" | "evaluated_with_multiple";
+    state: TokenState;
   };
 
   type SignificantVariant = {
+    token_id: number;
+    index: number;
+    value: string;
+  };
+
+  type InsignificantVariant = {
     token_id: number;
     index: number;
     value: string;
@@ -196,6 +207,11 @@ declare namespace API {
 
   type GetSignificantVariantsForProjectByIdResponse = {
     records: SignificantVariant[];
+    count: number;
+  };
+
+  type GetInsignificantVariantsForProjectByIdResponse = {
+    records: InsignificantVariant[];
     count: number;
   };
 }

@@ -19,11 +19,11 @@ const Wrapper = styled.div`
   align-items: center;
   position: relative;
   height: 24px;
-  width: 100%;
 `;
 
 const InnerWrapper = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.borderSecondary};
+  background-color: ${({ theme }) => theme.colors.backgroundPrimary};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   height: 20px;
   width: 32px;
@@ -57,7 +57,7 @@ const Label = styled(Typography).attrs({ as: "label" })<StyleProps>`
 
     return colors.textSecondary;
   }};
-  margin-left: 32px;
+  margin-left: 8px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
@@ -108,12 +108,12 @@ const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
             id={id}
           />
           <Checkmark disabled={disabled} invalid={invalid} />
-          {label && (
-            <Label invalid={invalid} disabled={disabled} htmlFor={id} variant="body-regular">
-              {label}
-            </Label>
-          )}
         </InnerWrapper>
+        {label && (
+          <Label invalid={invalid} disabled={disabled} htmlFor={id} variant="body-regular">
+            {label}
+          </Label>
+        )}
       </Wrapper>
     );
   },

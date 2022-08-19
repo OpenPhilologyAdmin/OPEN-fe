@@ -5,6 +5,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 
 import { ToastProvider } from "@/components/ui/toast";
+import { CurrentProjectModeProvider, Mode } from "@/contexts/current-project-mode";
 import { UserProvider } from "@/contexts/user";
 import { mswServer } from "@/mocks/index";
 import { mockQueryCache, mockQueryClient } from "@/mocks/mock-query";
@@ -28,11 +29,21 @@ afterEach(() => {
 
 afterAll(() => mswServer.close());
 
-function MockProvider({ children, user }: { children: ReactNode; user?: API.User }) {
+function MockProvider({
+  children,
+  user,
+  mode,
+}: {
+  children: ReactNode;
+  user?: API.User;
+  mode: Mode;
+}) {
   return (
     <ThemeProvider initialTheme="LIGHT">
       <UserProvider initialUser={user}>
-        <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
+        <CurrentProjectModeProvider initialMode={mode}>
+          <QueryClientProvider client={mockQueryClient}>{children}</QueryClientProvider>
+        </CurrentProjectModeProvider>
       </UserProvider>
     </ThemeProvider>
   );
@@ -52,6 +63,7 @@ type RenderUI = DefaultParams[0];
 type RenderOptions = Omit<DefaultParams[1], "queries"> & {
   router?: Partial<NextRouter>;
   user?: Partial<API.User>;
+  mode?: Mode;
 };
 
 /**
@@ -65,7 +77,7 @@ type RenderOptions = Omit<DefaultParams[1], "queries"> & {
  */
 const customRender = (ui: RenderUI, options?: RenderOptions) => {
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <MockProvider user={{ ...mockUser, ...options?.user }}>
+    <MockProvider user={{ ...mockUser, ...options?.user }} mode={options?.mode || "READ"}>
       {options?.router ? (
         <RouterContext.Provider value={{ ...mockRouter, ...options.router }}>
           {children}
