@@ -46,13 +46,18 @@ declare namespace API {
   type SignificantVariant = {
     token_id: number;
     index: number;
-    value: string;
+    value: {
+      details: string;
+      selected_reading: string;
+    };
   };
 
   type InsignificantVariant = {
     token_id: number;
     index: number;
-    value: string;
+    value: {
+      details: string;
+    };
   };
 
   type Error = {

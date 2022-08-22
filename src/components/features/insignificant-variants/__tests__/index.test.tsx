@@ -26,7 +26,7 @@ describe("InsignificantVariants", () => {
   it("renders correctly variants when open", async () => {
     render(<InsignificantVariants isOpen togglePanelVisibility={() => {}} projectId={projectId} />);
 
-    expect(await screen.findByText(variantValue)).toBeInTheDocument();
+    expect(await screen.findByText(variantValue.details)).toBeInTheDocument();
   });
 
   it("renders correctly and does not show variants when closed", () => {
@@ -38,6 +38,6 @@ describe("InsignificantVariants", () => {
       />,
     );
 
-    expect(screen.queryByText(variantValue)).not.toBeInTheDocument();
+    expect(screen.queryByText(variantValue.details)).not.toBeInTheDocument();
   });
 });

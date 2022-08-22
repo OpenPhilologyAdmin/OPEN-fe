@@ -67,6 +67,10 @@ const MaskWrapper = styled.div`
   overflow-y: scroll;
 `;
 
+const StyledTypography = styled(Typography)`
+  margin-right: 5px;
+`;
+
 function Mask({ text, variant, refetch }: MaskProps) {
   const { t } = useTranslation();
 
@@ -105,7 +109,10 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
         {significantVariants.map(variant => (
           <VariantAsText key={variant.index}>
             <Index>({variant.index})</Index>
-            {variant.value}
+            <StyledTypography variant="small-text-bold">
+              {variant.value.selected_reading}
+            </StyledTypography>
+            {variant.value.details}
           </VariantAsText>
         ))}
       </>
@@ -118,7 +125,10 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
         {significantVariants.map(variant => (
           <Typography key={variant.index} variant="small-regular">
             <Index>({variant.index})</Index>
-            {variant.value}
+            <StyledTypography variant="small-text-bold">
+              {variant.value.selected_reading}
+            </StyledTypography>
+            {variant.value.details}
           </Typography>
         ))}
       </VariantListWrapper>

@@ -22,7 +22,8 @@ describe("SignificantVariants", () => {
   it("renders correctly variants when open", async () => {
     render(<SignificantVariants isOpen togglePanelVisibility={() => {}} projectId={projectId} />);
 
-    expect(await screen.findByText(variantValue)).toBeInTheDocument();
+    expect(await screen.findByText(variantValue.selected_reading)).toBeInTheDocument();
+    expect(await screen.findByText(variantValue.details)).toBeInTheDocument();
   });
 
   it("renders correctly and does not show variants when closed", () => {
@@ -30,6 +31,7 @@ describe("SignificantVariants", () => {
       <SignificantVariants isOpen={false} togglePanelVisibility={() => {}} projectId={projectId} />,
     );
 
-    expect(screen.queryByText(variantValue)).not.toBeInTheDocument();
+    expect(screen.queryByText(variantValue.selected_reading)).not.toBeInTheDocument();
+    expect(screen.queryByText(variantValue.details)).not.toBeInTheDocument();
   });
 });

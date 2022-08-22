@@ -105,7 +105,7 @@ function PanelContent({ insignificantVariants, displayMode }: PanelContentProps)
         {insignificantVariants.map(variant => (
           <VariantAsText key={variant.index}>
             <Index>({variant.index})</Index>
-            {variant.value}
+            {variant.value.details}
           </VariantAsText>
         ))}
       </>
@@ -118,7 +118,7 @@ function PanelContent({ insignificantVariants, displayMode }: PanelContentProps)
         {insignificantVariants.map(variant => (
           <Typography key={variant.index} variant="small-regular">
             <Index>({variant.index})</Index>
-            {variant.value}
+            {variant.value.details}
           </Typography>
         ))}
       </VariantListWrapper>

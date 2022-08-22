@@ -5,7 +5,7 @@ const getInsignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/
 const getSignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/significant_variants`;
 const getGetTokensForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens`;
 export const errorGeneric = "Generic error";
-export const variantValue = "happy";
+export const variantValue = { selected_reading: "happy", details: "very happy" };
 export const tokenValue = "token";
 
 const variant: API.SignificantVariant = {
