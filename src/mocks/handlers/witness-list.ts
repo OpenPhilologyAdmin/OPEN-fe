@@ -34,6 +34,7 @@ export const project: API.Project = {
   creation_date: "2022-06-30T00:00:00.000+02:00",
   last_edit_by: "John Doe",
   last_edit_date: "2022-07-01T00:00:00.000+02:00",
+  import_errors: {},
 };
 
 const deleteWitnessByIdEndpointHandlerSuccessResponse: API.DeleteWitnessByIdResponse = {

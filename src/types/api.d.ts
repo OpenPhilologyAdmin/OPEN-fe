@@ -34,6 +34,9 @@ declare namespace API {
     creation_date: string;
     last_edit_by?: string;
     last_edit_date: string;
+    import_errors: {
+      [key: string]: string[];
+    };
   };
 
   type Token = {

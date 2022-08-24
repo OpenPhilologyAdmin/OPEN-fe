@@ -126,7 +126,7 @@ function ImportFileForm() {
         }
       },
       onSuccess: data => {
-        const { status, id } = data.data;
+        const { status, id, import_errors } = data.data;
 
         if (status === "processed") {
           toast.success(
@@ -136,8 +136,22 @@ function ImportFileForm() {
           push(ROUTES.WITNESS_LIST(id));
         }
 
+        const errorsArray = Object.values(import_errors).flat();
+
         if (status === "invalid") {
-          toast.error(<Typography>{t("import_file.processing_error", { fileName })}</Typography>);
+          if (errorsArray.length > 0) {
+            toast.error(
+              <>
+                {errorsArray.map(error => (
+                  <div key={error}>
+                    <Typography>{error}</Typography>
+                  </div>
+                ))}
+              </>,
+            );
+          } else {
+            toast.error(<Typography>{t("import_file.processing_error", { fileName })}</Typography>);
+          }
         }
       },
     },

@@ -19,6 +19,7 @@ const updateProjectByIdHandlerSuccessResponse: API.UpdateProjectByIdResponse = {
   creation_date: "2022-06-30T00:00:00.000+02:00",
   last_edit_by: "John Doe",
   last_edit_date: "2022-07-01T00:00:00.000+02:00",
+  import_errors: {},
 };
 
 export const message = "Project deleted";
@@ -48,6 +49,7 @@ const getProjectListSuccessResponse: API.GetProjectListResponse = {
       creation_date: "2022-06-30T00:00:00.000+02:00",
       last_edit_by: "John Doe",
       last_edit_date: "2022-07-01T00:00:00.000+02:00",
+      import_errors: {},
     },
   ],
   count: 1,
