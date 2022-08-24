@@ -57,15 +57,6 @@ const BodyLink = styled.span<StyledProps>`
   ${({ truncate }) => truncate && truncateStyle};
 `;
 
-const ButtonDefault = styled.span<StyledProps>`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  ${({ truncate }) => truncate && truncateStyle};
-`;
-
 const ButtonSmall = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
@@ -164,7 +155,6 @@ const TYPOGRAPHY_VARIANTS = {
   "body-regular": BodyRegular,
   "body-bold": BodyBold,
   "body-link": BodyLink,
-  "button-default": ButtonDefault,
   "button-small": ButtonSmall,
   "small-regular": SmallRegular,
   "small-bold": SmallBold,

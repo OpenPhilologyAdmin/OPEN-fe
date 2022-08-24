@@ -90,7 +90,6 @@ function StyleGuide() {
         <Typography variant="body-bold">hello</Typography>
         <Typography variant="body-link">hello</Typography>
         <Typography variant="body-regular">hello</Typography>
-        <Typography variant="button-default">hello</Typography>
         <Typography variant="button-small">hello</Typography>
         <Typography variant="small-bold">hello</Typography>
         <Typography variant="small-regular">hello</Typography>

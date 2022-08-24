@@ -298,7 +298,7 @@ function Button({
   isLoading,
   ...props
 }: ButtonProps) {
-  const buttonTypographyVariant = props.small ? "button-small" : "button-default";
+  const buttonTypographyVariant = props.small ? "button-small" : "body-bold";
 
   return href ? (
     <Link href={href} passHref>

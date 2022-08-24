@@ -4,9 +4,9 @@ exports[`Button renders a button with loading and disabled prop correctly 1`] = 
 .c2 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
 }
 
 .c0 {
@@ -81,9 +81,9 @@ exports[`Button renders a button with loading prop correctly 1`] = `
 .c2 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
 }
 
 .c0 {
@@ -218,9 +218,9 @@ exports[`Button renders a primary button unchanged 1`] = `
 .c1 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
 }
 
 .c0 {
@@ -330,9 +330,9 @@ exports[`Button renders a secondary button unchanged 1`] = `
 .c1 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
 }
 
 .c0 {
@@ -442,9 +442,9 @@ exports[`Button renders a tertiary button unchanged 1`] = `
 .c1 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  font-weight: 600;
 }
 
 .c0 {
