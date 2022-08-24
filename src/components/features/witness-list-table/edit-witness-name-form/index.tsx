@@ -30,7 +30,7 @@ export const FIELDS = {
 } as const;
 
 const registerSchema = zod.object({
-  [FIELDS.WITNESS_NAME]: zod.string().min(1).max(50),
+  [FIELDS.WITNESS_NAME]: zod.string().min(0).max(50),
 });
 
 const ButtonIconWithMarginLeft = styled(Button)`
