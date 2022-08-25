@@ -55,6 +55,7 @@ function DeleteProjectButton({ disabled, projectId }: DeleteProjectButtonProps) 
         small
         onClick={toggleModalVisibility}
         disabled={disabled}
+        destruct
       >
         <DeleteIcon />
       </Button>

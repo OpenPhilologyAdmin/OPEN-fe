@@ -18,6 +18,7 @@ type StateProps = {
   variant?: ButtonVariant;
   mode?: ButtonMode;
   small?: boolean;
+  destruct?: boolean;
 };
 
 type BaseButtonProps = StateProps & {
@@ -61,12 +62,14 @@ const loaderStyles = css`
   animation: ${rotateAnimation} 1s linear infinite;
 `;
 
-const getColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+const getColor = ({ variant, theme: { colors }, disabled, isLoading, destruct }: GetterProps) => {
   if (disabled && variant && !isLoading) {
     if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
   }
 
   if (variant === "primary") return colors.textPrimary;
+
+  if (destruct && (variant === "secondary" || variant === "tertiary")) return colors.error;
 
   if (variant === "secondary" || variant === "tertiary") return colors.actionsPrimary;
 
@@ -85,7 +88,13 @@ const getHoverColor = ({ variant, theme: { colors }, disabled, isLoading }: Gett
   return null;
 };
 
-const getBackgroundColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+const getBackgroundColor = ({
+  variant,
+  theme: { colors },
+  disabled,
+  isLoading,
+  destruct,
+}: GetterProps) => {
   if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
@@ -93,6 +102,8 @@ const getBackgroundColor = ({ variant, theme: { colors }, disabled, isLoading }:
 
     if (variant === "tertiary") return "transparent";
   }
+
+  if (destruct && variant === "primary") return colors.error;
 
   if (variant === "primary") return colors.actionsPrimary;
 
@@ -126,7 +137,13 @@ const getHoverBackgroundColor = ({
   return null;
 };
 
-const getBorderColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
+const getBorderColor = ({
+  variant,
+  theme: { colors },
+  disabled,
+  isLoading,
+  destruct,
+}: GetterProps) => {
   if (disabled && !isLoading) {
     if (variant === "primary") return colors.actionsDisabled;
 
@@ -134,6 +151,8 @@ const getBorderColor = ({ variant, theme: { colors }, disabled, isLoading }: Get
 
     if (variant === "tertiary") return "transparent";
   }
+
+  if (destruct && (variant === "primary" || variant === "secondary")) return colors.error;
 
   if (variant === "primary" || variant === "secondary") return colors.actionsPrimary;
 
@@ -182,8 +201,14 @@ const getCursor = ({ disabled }: GetterProps) => {
   return "pointer";
 };
 
-const getFocusStyles = ({ mode, variant }: GetterProps) => {
+const getFocusStyles = ({ mode, variant, destruct }: GetterProps) => {
   if (mode === "text" && variant === "tertiary") return null;
+
+  if (destruct) {
+    return css`
+      box-shadow: ${({ theme: { colors } }) => colors.focusDestructShadow};
+    `;
+  }
 
   return css`
     box-shadow: ${({ theme: { colors } }) => colors.focusShadow};

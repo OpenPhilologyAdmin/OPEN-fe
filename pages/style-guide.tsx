@@ -189,6 +189,15 @@ function StyleGuide() {
         <Button variant="tertiary" left={<ChevronRightIcon />}>
           Button
         </Button>
+        <Button variant="primary" destruct left={<ChevronRightIcon />}>
+          Button
+        </Button>
+        <Button variant="secondary" destruct left={<ChevronRightIcon />}>
+          Button
+        </Button>
+        <Button variant="tertiary" destruct left={<ChevronRightIcon />}>
+          Button
+        </Button>
       </Column>
 
       <Column>
@@ -200,6 +209,9 @@ function StyleGuide() {
           <ChevronRightIcon />
         </Button>
         <Button variant="primary" mode="icon" small>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="primary" mode="icon" small destruct>
           <ChevronRightIcon />
         </Button>
         <Button variant="primary" mode="icon" small disabled>
@@ -215,6 +227,9 @@ function StyleGuide() {
         <Button variant="secondary" mode="icon" small>
           <ChevronRightIcon />
         </Button>
+        <Button variant="secondary" mode="icon" small destruct>
+          <ChevronRightIcon />
+        </Button>
         <Button variant="secondary" mode="icon" disabled small>
           <ChevronRightIcon />
         </Button>
@@ -226,6 +241,9 @@ function StyleGuide() {
           <ChevronRightIcon />
         </Button>
         <Button variant="tertiary" mode="icon" small>
+          <ChevronRightIcon />
+        </Button>
+        <Button variant="tertiary" mode="icon" small destruct>
           <ChevronRightIcon />
         </Button>
         <Button variant="tertiary" mode="icon" small disabled>

@@ -214,6 +214,57 @@ exports[`Button renders a button with small prop correctly 1`] = `
 </div>
 `;
 
+exports[`Button renders a destruct icon button unchanged 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  border: 2px solid;
+  outline: none;
+  max-height: 48px;
+  border-radius: 4px;
+  padding: 12px;
+  border-color: #CD0000;
+  background-color: #CD0000;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.c0 svg {
+  fill: #FFFFFF;
+}
+
+.c0:hover {
+  color: #FFFFFF;
+  background-color: #FC6145;
+  border-color: #FC6145;
+}
+
+.c0:hover svg {
+  fill: #FFFFFF;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 4px rgba(205,0,0,0.32);
+}
+
+<div>
+  <button
+    class="c0"
+    mode="icon"
+  >
+    <svg />
+  </button>
+</div>
+`;
+
 exports[`Button renders a primary button unchanged 1`] = `
 .c1 {
   font-family: "Inter";

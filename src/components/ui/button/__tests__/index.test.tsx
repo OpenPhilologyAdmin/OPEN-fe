@@ -53,6 +53,16 @@ describe("Button", () => {
     expect(container).toMatchSnapshot();
   });
 
+  it("renders a destruct icon button unchanged", () => {
+    const { container } = render(
+      <Button variant="primary" destruct mode="icon">
+        <svg></svg>
+      </Button>,
+    );
+
+    expect(container).toMatchSnapshot();
+  });
+
   it("renders a button with left prop correctly", () => {
     render(<Button variant="primary" left={<div>{text}</div>} />);
 

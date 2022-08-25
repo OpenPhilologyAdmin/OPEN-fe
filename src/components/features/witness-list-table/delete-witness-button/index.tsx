@@ -54,6 +54,7 @@ function DeleteWitnessButton({ disabled = false, projectId, witnessId }: DeleteW
         mode="icon"
         variant="tertiary"
         small
+        destruct
         onClick={toggleModalVisibility}
         disabled={disabled}
       >

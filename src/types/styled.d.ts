@@ -24,6 +24,7 @@ declare module "styled-components" {
       touched: string;
       borderPrimary: string;
       focusShadow: string;
+      focusDestructShadow: string;
       focus: string;
       borderSecondary: string;
       tableRowActiveBackground: string;

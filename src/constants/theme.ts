@@ -24,6 +24,7 @@ const LIGHT: DefaultTheme = {
     touched: "#101521",
     borderPrimary: "#868686",
     focusShadow: "0 0 0 4px rgba(93, 45, 239, 0.32)",
+    focusDestructShadow: "0 0 0 4px rgba(205, 0, 0, 0.32)",
     focus: "rgba(93, 45, 239, 0.32)",
     borderSecondary: "#E1E1E1",
     tableRowActiveBackground: "#F1ECFF",
