@@ -66,7 +66,7 @@ function ConfirmAccount({ confirmAccountToken }: ConfirmAccountProps) {
       <Typography>{showError ? t("confirm_account.unexpected_error") : data?.message}</Typography>
 
       <ButtonWrapper>
-        <Button href={ROUTES.REGISTER_ACCOUNT()} disabled={isLoading}>
+        <Button href={ROUTES.SIGN_IN()} disabled={isLoading}>
           {t("confirm_account.go_to_login")}
         </Button>
       </ButtonWrapper>
