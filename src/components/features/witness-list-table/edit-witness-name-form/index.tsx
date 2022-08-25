@@ -20,7 +20,7 @@ export type UpdateWitnessByIdData = {
 };
 
 export type EditWitnessNameFormProps = {
-  name: string;
+  name: string | null;
   projectId: number;
   witness: API.Witness;
 };
@@ -60,7 +60,7 @@ function EditWitnessNameForm({ name, projectId, witness }: EditWitnessNameFormPr
   } = useForm<UpdateWitnessByIdData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name,
+      name: name || "",
     },
   });
   const { mutate: updateWitnessById, isLoading } = useUpdateWitnessById({

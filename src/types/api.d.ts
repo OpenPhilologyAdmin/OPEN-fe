@@ -17,7 +17,7 @@ declare namespace API {
 
   type Witness = {
     id: string;
-    name: string;
+    name: string | null;
     siglum: string;
     default: boolean;
   };
@@ -190,7 +190,7 @@ declare namespace API {
 
   type UpdateWitnessByIdPayload = {
     witness: {
-      name?: string;
+      name: string | null;
       default?: boolean;
     };
   };
