@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 
 import styled from "styled-components";
 
-import Typography from "../../ui/typography";
+import Typography from "../typography";
 
 type UseCharacterLimitProps = string | number | readonly string[] | undefined;
 type CharacterLimitProps = ComponentPropsWithoutRef<"span"> & {
@@ -19,7 +19,6 @@ const Label = styled(Typography)`
   height: 20px;
   border-radius: ${({ theme: { borderRadius } }) => `${borderRadius.sm} 0 ${borderRadius.sm} 0`};
   background-color: ${({ theme: { colors } }) => colors.backgroundSecondary};
-  mix-blend-mode: multiply;
   color: ${({ theme: { colors } }) => colors.textTertiary};
 `;
 

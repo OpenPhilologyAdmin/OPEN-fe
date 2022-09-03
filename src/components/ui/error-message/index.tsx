@@ -3,7 +3,7 @@ import { ComponentPropsWithoutRef } from "react";
 import InfoIcon from "@/assets/images/icons/info-circle.svg";
 import styled from "styled-components";
 
-import Typography from "../../ui/typography";
+import Typography from "../typography";
 
 type ErrorMessageProps = ComponentPropsWithoutRef<"span"> & {
   text?: string;

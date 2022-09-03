@@ -1,6 +1,6 @@
 import { render, renderHook, screen } from "@/utils/test-utils";
 
-import CharacterLimit, { useCharacterLimit } from "../character-limit";
+import CharacterLimit, { useCharacterLimit } from "..";
 
 const { current, value, max } = { current: "asd", value: 3, max: 10 };
 

@@ -3,8 +3,8 @@ import { ComponentPropsWithRef, forwardRef, ReactNode } from "react";
 import styled, { css, DefaultTheme } from "styled-components";
 
 import Typography from "../../ui/typography";
-import BaseCharacterLimit from "./character-limit";
-import BaseErrorMessage from "./error-message";
+import BaseCharacterLimit from "../character-limit";
+import BaseErrorMessage from "../error-message";
 
 type BaseInputProps = {
   left?: boolean;
@@ -176,10 +176,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
-export { useCharacterLimit } from "./character-limit";
-
-export default Input;
-
 const InputLoader = styled.div`
   height: 48px;
   width: 100%;
@@ -188,3 +184,6 @@ const InputLoader = styled.div`
 `;
 
 export { InputLoader };
+export { useCharacterLimit } from "../character-limit";
+
+export default Input;

@@ -1,7 +1,7 @@
 import { render, renderHook, screen, userEvent } from "@/utils/test-utils";
 
+import { useCharacterLimit } from "../../character-limit";
 import Input from "..";
-import { useCharacterLimit } from "../character-limit";
 
 describe("Input", () => {
   it("renders an Input unchanged", () => {

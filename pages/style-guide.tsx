@@ -13,6 +13,7 @@ import Panel, { usePanel } from "@/components/ui/panel";
 import Radio from "@/components/ui/radio";
 import Sup from "@/components/ui/sup";
 import { Container, Tbody, Td, Th, Thead, Tr } from "@/components/ui/table";
+import TextArea from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import Toggle from "@/components/ui/toggle";
 import Typography from "@/components/ui/typography";
@@ -132,6 +133,43 @@ function StyleGuide() {
         />
         <input type="submit" />
       </Column>
+
+      <Column>
+        <ColumHeading>TextArea</ColumHeading>
+
+        <TextArea
+          {...register("name")}
+          {...getFieldState("name")}
+          disabled={true}
+          current={nameCurrent}
+          maxLength={100}
+          resize
+        />
+        <TextArea
+          {...register("name")}
+          {...getFieldState("name")}
+          current={nameCurrent}
+          maxLength={100}
+          resize
+        />
+        <TextArea
+          label="lalala"
+          {...register("name")}
+          {...getFieldState("name")}
+          current={nameCurrent}
+          maxLength={100}
+        />
+        {errors.name?.message && <p>{errors.name?.message}</p>}
+        <TextArea
+          {...register("asd")}
+          {...getFieldState("asd")}
+          invalid
+          errorMessage="error"
+          resize
+        />
+        <input type="submit" />
+      </Column>
+
       <Column>
         <ColumHeading>Radio</ColumHeading>
 

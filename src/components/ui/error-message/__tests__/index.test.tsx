@@ -1,6 +1,6 @@
 import { render, screen } from "@/utils/test-utils";
 
-import ErrorMessage from "../error-message";
+import ErrorMessage from "..";
 
 describe("Input/ErrorMessage", () => {
   it("renders a ErrorMessage correctly", () => {
