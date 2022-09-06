@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, MouseEvent } from "react";
 import { useTranslation } from "next-i18next";
 
 import Button from "@/components/ui/button";
@@ -11,6 +11,9 @@ import {
   Thead,
   Tr as BaseTr,
 } from "@/components/ui/table";
+import Tooltip from "@/components/ui/tooltip";
+import { isEllipsisActive, useTooltip } from "@/components/ui/tooltip/use-tooltip";
+import Typography from "@/components/ui/typography";
 import { ROUTES } from "@/constants/routes";
 import { useUser } from "@/hooks/use-user";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
@@ -107,6 +110,16 @@ function LibraryThead() {
 }
 
 function View({ projects, userId }: ViewProps) {
+  const { handleShowToolTip, handleHideTooltip, isTooltipVisible } = useTooltip();
+
+  const handleMouseOver = (event: MouseEvent<HTMLSpanElement>) => {
+    if (isEllipsisActive(event)) {
+      handleShowToolTip();
+    } else {
+      handleHideTooltip();
+    }
+  };
+
   return (
     <Wrapper>
       <WideTable>
@@ -117,9 +130,27 @@ function View({ projects, userId }: ViewProps) {
               <WideTd align="left">
                 <EditProjectNameForm name={project.name} id={project.id} />
               </WideTd>
-              <MediumTd>{project.last_edit_by || "N/A"}</MediumTd>
+              <MediumTd>
+                <Typography
+                  truncate
+                  data-tip={project.last_edit_by}
+                  onMouseOver={handleMouseOver}
+                  onMouseLeave={handleHideTooltip}
+                >
+                  {project.last_edit_by || "N/A"}
+                </Typography>
+              </MediumTd>
               <MediumTd>{formatDateInTable(project.last_edit_date)}</MediumTd>
-              <MediumTd>{project.created_by}</MediumTd>
+              <MediumTd>
+                <Typography
+                  data-tip={project.created_by}
+                  onMouseOver={handleMouseOver}
+                  onMouseLeave={handleHideTooltip}
+                  truncate
+                >
+                  {project.created_by}
+                </Typography>
+              </MediumTd>
               <MediumTd>{formatDateInTable(project.creation_date)}</MediumTd>
               <SmallTd>
                 <Button
@@ -140,6 +171,7 @@ function View({ projects, userId }: ViewProps) {
           ))}
         </Tbody>
       </WideTable>
+      <Tooltip isTooltipVisible={isTooltipVisible} />
     </Wrapper>
   );
 }
