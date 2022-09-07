@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Token renders a Token unchanged in edit mode and highlighted 1`] = `
+.c2 {
+  font-weight: 800;
+}
+
+.c0 {
+  font-family: "Inter";
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.c1 {
+  margin-right: 4px;
+  cursor: pointer;
+  color: #101521;
+  border: 1px solid transparent;
+  background-color: rgba(16,21,33,0.12);
+  border: 1px solid rgba(16,21,33,0.32);
+}
+
+<div>
+  <span
+    class="c0 c1"
+  >
+    value123
+    <sup
+      class="c2"
+    >
+      (
+      123
+      )
+    </sup>
+  </span>
+</div>
+`;
+
 exports[`Token renders a Token unchanged in edit mode and in evaluated_with_multiple state 1`] = `
 .c2 {
   font-weight: 800;
@@ -15,7 +53,9 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_mult
 
 .c1 {
   margin-right: 4px;
+  cursor: pointer;
   color: #5D2DEF;
+  border: 1px solid transparent;
 }
 
 <div>
@@ -49,7 +89,9 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_sing
 
 .c1 {
   margin-right: 4px;
+  cursor: pointer;
   color: #101521;
+  border: 1px solid transparent;
 }
 
 <div>
@@ -83,7 +125,9 @@ exports[`Token renders a Token unchanged in edit mode and in not_evaluated state
 
 .c1 {
   margin-right: 4px;
+  cursor: pointer;
   color: #FC6145;
+  border: 1px solid transparent;
 }
 
 <div>

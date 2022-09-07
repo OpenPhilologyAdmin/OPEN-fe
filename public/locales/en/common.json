@@ -118,12 +118,17 @@
     "title": "Project: {{mode}}",
     "edit_mode": "Edit mode",
     "loader_text": "Loading assets",
+    "variants": "Variants",
     "significant_variants": "Significant variants",
     "insignificant_variants": "Insignificant variants",
     "no_tokens_message": "Your project does not have any tokens yet.",
     "no_significant_variants_message": "Your project does not have any significant variants. To see them, you need to make a decision for one of the available tokens.",
     "no_insignificant_variants_message": "Your project does not have any insignificant variants. To see them, you need to make a decision for one of the available tokens.",
     "refresh": "Refresh",
-    "generic_error": "Error fetching data"
+    "generic_error": "Error fetching data",
+    "no_token_error": "Please select a token valid for variant selection",
+    "save": "Save",
+    "select_token": "Please select a token to perform variant selection",
+    "no_selection": "No selection"
   }
 }

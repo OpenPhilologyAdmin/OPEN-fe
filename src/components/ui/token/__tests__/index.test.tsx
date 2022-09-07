@@ -1,4 +1,4 @@
-import { render, screen } from "@/utils/test-utils";
+import { render, screen, userEvent } from "@/utils/test-utils";
 
 import Token from "..";
 
@@ -62,5 +62,32 @@ describe("Token", () => {
     expect(screen.getByText(`(${token.apparatus_index})`)).toBeInTheDocument();
 
     expect(container).toMatchSnapshot();
+  });
+
+  it("renders a Token unchanged in edit mode and highlighted", () => {
+    const token = getToken("evaluated_with_single");
+
+    const { container } = render(<Token mode="EDIT" token={token} highlighted />);
+
+    expect(screen.getByText(token.t)).toBeInTheDocument();
+    expect(screen.getByText(`(${token.apparatus_index})`)).toBeInTheDocument();
+
+    expect(container).toMatchSnapshot();
+  });
+
+  it("renders a Token and fires callback on click", async () => {
+    const handleSelectToken = jest.fn();
+    const user = userEvent.setup();
+    const token = getToken("evaluated_with_single");
+
+    render(<Token mode="EDIT" token={token} highlighted onSelectToken={handleSelectToken} />);
+
+    expect(handleSelectToken).toHaveBeenCalledTimes(0);
+
+    const tokenElement = screen.getByText(token.t);
+
+    await user.click(tokenElement);
+
+    expect(handleSelectToken).toHaveBeenCalledTimes(1);
   });
 });

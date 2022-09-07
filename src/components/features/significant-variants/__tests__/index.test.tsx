@@ -13,14 +13,26 @@ describe("SignificantVariants", () => {
     mockServer.use(getSignificantVariantsForProjectByIdException);
 
     render(
-      <SignificantVariants isOpen={true} togglePanelVisibility={() => {}} projectId={projectId} />,
+      <SignificantVariants
+        isOpen={true}
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+      />,
     );
 
     expect(await screen.findByText("project.generic_error")).toBeInTheDocument();
   });
 
   it("renders correctly variants when open", async () => {
-    render(<SignificantVariants isOpen togglePanelVisibility={() => {}} projectId={projectId} />);
+    render(
+      <SignificantVariants
+        isOpen
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+      />,
+    );
 
     expect(await screen.findByText(variantValue.selected_reading)).toBeInTheDocument();
     expect(await screen.findByText(variantValue.details)).toBeInTheDocument();
@@ -28,7 +40,12 @@ describe("SignificantVariants", () => {
 
   it("renders correctly and does not show variants when closed", () => {
     render(
-      <SignificantVariants isOpen={false} togglePanelVisibility={() => {}} projectId={projectId} />,
+      <SignificantVariants
+        isOpen={false}
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+      />,
     );
 
     expect(screen.queryByText(variantValue.selected_reading)).not.toBeInTheDocument();

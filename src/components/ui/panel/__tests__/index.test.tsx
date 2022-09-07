@@ -10,10 +10,7 @@ const NODES_TEXTS = {
     },
     ACTION: "header action",
   },
-  FOOTER: {
-    MAIN: "footer main",
-    ACTION: "footer action",
-  },
+
   CHILDREN: "children",
 };
 
@@ -27,10 +24,6 @@ function PanelWithCommonProps(props: PanelProps) {
           text: <div>{NODES_TEXTS.HEADER.MAIN.TEXT}</div>,
         },
         actionNode: <div>{NODES_TEXTS.HEADER.ACTION}</div>,
-      }}
-      footerSlots={{
-        mainNode: <div>{NODES_TEXTS.FOOTER.MAIN}</div>,
-        actionNode: <div>{NODES_TEXTS.FOOTER.ACTION}</div>,
       }}
     >
       {NODES_TEXTS.CHILDREN}
@@ -49,10 +42,6 @@ describe("Panel", () => {
     expect(screen.getByText(NODES_TEXTS.HEADER.MAIN.ACTION)).toBeInTheDocument();
     expect(screen.getByText(NODES_TEXTS.HEADER.MAIN.TEXT)).toBeInTheDocument();
     expect(screen.getByText(NODES_TEXTS.HEADER.ACTION)).toBeInTheDocument();
-
-    // footer
-    expect(screen.getByText(NODES_TEXTS.FOOTER.MAIN)).toBeInTheDocument();
-    expect(screen.getByText(NODES_TEXTS.FOOTER.ACTION)).toBeInTheDocument();
   });
 
   it("renders correctly without action node and children when closed", () => {
@@ -65,9 +54,5 @@ describe("Panel", () => {
     expect(screen.getByText(NODES_TEXTS.HEADER.MAIN.ACTION)).toBeInTheDocument();
     expect(screen.getByText(NODES_TEXTS.HEADER.MAIN.TEXT)).toBeInTheDocument();
     expect(screen.queryByText(NODES_TEXTS.HEADER.ACTION)).not.toBeInTheDocument();
-
-    // footer
-    expect(screen.queryByText(NODES_TEXTS.FOOTER.ACTION)).not.toBeInTheDocument();
-    expect(screen.queryByText(NODES_TEXTS.FOOTER.ACTION)).not.toBeInTheDocument();
   });
 });

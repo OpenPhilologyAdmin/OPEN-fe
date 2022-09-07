@@ -39,14 +39,16 @@ export const useGetInsignificantVariantsForProjectById = ({
   return { data: data?.data, error, isError, isLoading, isFetching, isRefetching, refetch };
 };
 
-export const useInvalidateGetinsignificantVariantsForProjectByIdQuery = () => {
+export const useInvalidateGetInsignificantVariantsForProjectByIdQuery = () => {
   const queryClient = useQueryClient();
 
   const invalidateGetInsignificantVariantsForProjectById = ({
     projectId,
   }: UseGetInsignificantVariantsForProjectByIdParams) => {
     if (projectId) {
-      queryClient.invalidateQueries(queryKeys.getInsignificantVariantsForProjectById(projectId));
+      return queryClient.invalidateQueries(
+        queryKeys.getInsignificantVariantsForProjectById(projectId),
+      );
     }
   };
 

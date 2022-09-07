@@ -12,10 +12,6 @@ export type PanelProps = ComponentPropsWithoutRef<"div"> & {
     };
     actionNode?: ReactElement;
   };
-  footerSlots?: {
-    mainNode?: ReactElement;
-    actionNode?: ReactElement;
-  };
 };
 
 const barStyles = css`
@@ -73,6 +69,7 @@ const ClosedRotatedHeaderActionNode = styled.div`
 
 const Header = styled.div`
   position: sticky;
+  z-index: 1;
   top: 0;
   left: 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSecondary};
@@ -89,13 +86,8 @@ const HeaderActionText = styled.div`
   margin-left: 8px;
 `;
 
-// TODO style footer slots when they will be used
-const Footer = styled.div`
-  ${barStyles};
-`;
-
 const Main = styled.div`
-  padding: 16px;
+  padding: 24px;
   width: 100%;
 `;
 
@@ -109,7 +101,6 @@ function usePanel() {
 function Panel({
   isOpen,
   headerSlots,
-  footerSlots,
   children,
   isRotatedWhenClosed = true,
   ...props
@@ -126,15 +117,9 @@ function Panel({
         </Header>
       )}
       <Main>{children}</Main>
-      {footerSlots && (
-        <Footer>
-          <div>{footerSlots.mainNode}</div>
-          <div>{footerSlots.actionNode}</div>
-        </Footer>
-      )}
     </OpenWrapper>
   ) : isRotatedWhenClosed ? (
-    <ClosedRotatedWrapper>
+    <ClosedRotatedWrapper {...props}>
       {headerSlots && (
         <ClosedRotatedHeader>
           <ClosedRotatedHeaderActionNode>
@@ -147,7 +132,7 @@ function Panel({
       )}
     </ClosedRotatedWrapper>
   ) : (
-    <ClosedWrapper>
+    <ClosedWrapper {...props}>
       {headerSlots && (
         <Header>
           <HeaderActions>

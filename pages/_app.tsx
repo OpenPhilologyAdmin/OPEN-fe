@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <ThemeProvider initialTheme="LIGHT">
       <QueryClientProvider client={queryClient}>
         <UserProvider initialUser={pageProps.user}>
-          <CurrentProjectModeProvider initialMode="READ">
+          <CurrentProjectModeProvider initialMode="EDIT">
             <GlobalStyle />
             <ToastProvider />
             {getLayout(<Component {...pageProps} />)}

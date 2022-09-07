@@ -1,4 +1,4 @@
-import { getGetTokensForProjectByIdException, tokenValue } from "@/mocks/handlers/project";
+import { getTokensForProjectByIdException, tokenValue } from "@/mocks/handlers/project";
 import { mockServer, render, screen } from "@/utils/test-utils";
 
 import ProjectView from "..";
@@ -27,7 +27,7 @@ const project: API.Project = {
 
 describe("ProjectView", () => {
   it("renders correctly and shows generic error when tokens are not fetched in read mode", async () => {
-    mockServer.use(getGetTokensForProjectByIdException);
+    mockServer.use(getTokensForProjectByIdException);
 
     render(<ProjectView project={project} />, { mode: "READ" });
 
@@ -35,7 +35,7 @@ describe("ProjectView", () => {
   });
 
   it("renders correctly and shows generic error when tokens are not fetched in edit mode", async () => {
-    mockServer.use(getGetTokensForProjectByIdException);
+    mockServer.use(getTokensForProjectByIdException);
 
     render(<ProjectView project={project} />, { mode: "EDIT" });
 
@@ -76,5 +76,17 @@ describe("ProjectView", () => {
     render(<ProjectView project={project} />, { mode: "EDIT" });
 
     expect(screen.getByText("project.insignificant_variants")).toBeInTheDocument();
+  });
+
+  it("renders correctly and does not display variants selection section in read mode", () => {
+    render(<ProjectView project={project} />, { mode: "READ" });
+
+    expect(screen.queryByText("project.variants")).not.toBeInTheDocument();
+  });
+
+  it("renders correctly and displays variants selection section in edit mode", () => {
+    render(<ProjectView project={project} />, { mode: "EDIT" });
+
+    expect(screen.getByText("project.variants")).toBeInTheDocument();
   });
 });

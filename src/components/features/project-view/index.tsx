@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import { MaskError, MaskLoader } from "@/components/ui/mask";
@@ -9,38 +10,42 @@ import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled, { css } from "styled-components";
 
 import BaseInsignificantVariants from "../insignificant-variants";
+import { useInvalidateGetInsignificantVariantsForProjectByIdQuery } from "../insignificant-variants/query";
 import BaseSignificantVariants from "../significant-variants";
-import { useGetTokensForProjectById } from "./query";
+import { useInvalidateGetSignificantVariantsForProjectByIdQuery } from "../significant-variants/query";
+import BaseVariantsSelection from "../variants-selection";
+import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
 
 type ProjectViewProps = {
   project: API.Project;
 };
 
-type TallPanelProps = {
+type StyledPanelProps = {
   isTall: boolean;
+  $isOpen: boolean;
 };
 
-type ViewProps = {
+type ProjectViewChildrenCommonProps = {
+  refetch: () => void;
+  isSignificantVariantsPanelOpen: boolean;
+  isInsignificantVariantsPanelOpen: boolean;
+  isVariantsSelectionPanelOpen: boolean;
+  toggleInsignificantVariantsPanelVisibility: () => void;
+  toggleSignificantVariantsPanelVisibility: () => void;
+  toggleVariantsSelectionPanelVisibility: () => void;
+};
+
+type ViewProps = ProjectViewChildrenCommonProps & {
   isLoading: boolean;
   isError: boolean;
   tokens: API.Token[];
   projectId: number;
-  refetch: () => void;
-  isSignificantVariantsPanelOpen: boolean;
-  isInsignificantVariantsPanelOpen: boolean;
-  toggleInsignificantVariantsPanelVisibility: () => void;
-  toggleSignificantVariantsPanelVisibility: () => void;
 };
 
-type MaskProps = {
-  projectId?: number;
+type MaskProps = ProjectViewChildrenCommonProps & {
+  projectId: number;
   variant: "loader" | "error";
   buttonText?: string;
-  refetch?: () => void;
-  isSignificantVariantsPanelOpen: boolean;
-  isInsignificantVariantsPanelOpen: boolean;
-  toggleInsignificantVariantsPanelVisibility: () => void;
-  toggleSignificantVariantsPanelVisibility: () => void;
 };
 
 type LayoutProps = {
@@ -50,27 +55,33 @@ type LayoutProps = {
 type GetGridTemplateColumnsProps = {
   isSignificantVariantsPanelOpen: boolean;
   isInsignificantVariantsPanelOpen: boolean;
+  isVariantsSelectionPanelOpen: boolean;
   mode: Mode;
 };
 
 const getGridTemplateColumns = ({
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
+  isVariantsSelectionPanelOpen,
   mode,
 }: GetGridTemplateColumnsProps) => {
   if (mode === "READ") {
     return isSignificantVariantsPanelOpen ? "1fr 270px" : "1fr 58px";
-  } else {
-    if (isSignificantVariantsPanelOpen) {
-      return "1fr 270px";
-    }
-
-    if (isInsignificantVariantsPanelOpen) {
-      return "1fr 270px";
-    }
-
-    return "1fr 58px";
   }
+
+  if (isSignificantVariantsPanelOpen) {
+    return `1fr ${isVariantsSelectionPanelOpen ? "270px" : "58px"} 270px`;
+  }
+
+  if (isInsignificantVariantsPanelOpen) {
+    return `1fr ${isVariantsSelectionPanelOpen ? "270px" : "58px"} 270px`;
+  }
+
+  if (isVariantsSelectionPanelOpen) {
+    return "1fr 270px 58px";
+  }
+
+  return "1fr 58px 58px";
 };
 
 const Layout = styled.div<LayoutProps>`
@@ -101,7 +112,7 @@ const ContentTopBar = styled.div`
 
 const MaskWrapper = styled.div`
   position: relative;
-  height: calc(100% - 36px);
+  height: calc(100% - 78px);
   padding: 24px 24px 16px 24px;
   overflow-y: scroll;
 `;
@@ -119,21 +130,29 @@ const Token = styled(BaseToken)`
 const PanelsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 144px);
+  height: calc(100vh - 96px);
+  border-right: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
-const panelStyles = css<TallPanelProps>`
+const panelStyles = css<StyledPanelProps>`
   flex-shrink: 0;
   overflow-y: scroll;
-  max-height: 50%;
-  max-height: ${({ isTall }) => (isTall ? "calc(100% - 32px)" : "50%")};
+  max-height: ${({ isTall }) => (isTall ? "calc(100% - 80px)" : "calc(50% - 24px)")};
+  height: ${({ $isOpen }) => !$isOpen && "unset"};
 `;
 
-const SignificantVariants = styled(BaseSignificantVariants)<TallPanelProps>`
-  ${panelStyles}
+const SignificantVariants = styled(BaseSignificantVariants)<StyledPanelProps>`
+  ${panelStyles};
+  ${({ $isOpen }) => !$isOpen && `border-bottom: none`};
 `;
-const InsignificantVariants = styled(BaseInsignificantVariants)<TallPanelProps>`
-  ${panelStyles}
+
+const InsignificantVariants = styled(BaseInsignificantVariants)<StyledPanelProps>`
+  ${panelStyles};
+`;
+
+const VariantsSelection = styled(BaseVariantsSelection)<StyledPanelProps>`
+  ${panelStyles};
+  ${({ $isOpen, theme }) => !$isOpen && `border-right: 1px solid ${theme.colors.borderSecondary}`};
 `;
 
 function Mask({
@@ -143,8 +162,10 @@ function Mask({
   projectId,
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
+  isVariantsSelectionPanelOpen,
   toggleInsignificantVariantsPanelVisibility,
   toggleSignificantVariantsPanelVisibility,
+  toggleVariantsSelectionPanelVisibility,
 }: MaskProps) {
   const { t } = useTranslation();
   const { mode } = useCurrentProjectMode();
@@ -154,6 +175,7 @@ function Mask({
       gridTemplateColumns={getGridTemplateColumns({
         isInsignificantVariantsPanelOpen,
         isSignificantVariantsPanelOpen,
+        isVariantsSelectionPanelOpen,
         mode,
       })}
     >
@@ -170,19 +192,37 @@ function Mask({
           )}
         </ContentTokensWrapper>
       </Content>
+      {mode === "EDIT" && (
+        <PanelsWrapper>
+          <VariantsSelection
+            tokenId={null}
+            projectId={projectId}
+            isTall={true}
+            isRotatedWhenClosed
+            isOpen={isVariantsSelectionPanelOpen}
+            $isOpen={isVariantsSelectionPanelOpen}
+            togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
+            onGroupedVariantSelectionSubmit={async () => {}}
+          />
+        </PanelsWrapper>
+      )}
       <PanelsWrapper>
         <SignificantVariants
-          isOpen={true}
+          isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
+          isOpen={isSignificantVariantsPanelOpen}
+          $isOpen={isSignificantVariantsPanelOpen}
           togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
           projectId={projectId}
-          isTall={false}
+          isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
         />
         {mode === "EDIT" && (
           <InsignificantVariants
-            isOpen={true}
+            isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
+            isOpen={isInsignificantVariantsPanelOpen}
+            $isOpen={isInsignificantVariantsPanelOpen}
             togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
             projectId={projectId}
-            isTall={false}
+            isTall={!isSignificantVariantsPanelOpen}
           />
         )}
       </PanelsWrapper>
@@ -198,17 +238,35 @@ function View({
   refetch,
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
+  isVariantsSelectionPanelOpen,
   toggleInsignificantVariantsPanelVisibility,
   toggleSignificantVariantsPanelVisibility,
+  toggleVariantsSelectionPanelVisibility,
 }: ViewProps) {
   const { t } = useTranslation();
   const { mode } = useCurrentProjectMode();
+  const [selectedTokenId, setSelectedTokenId] = useState<number | null>(
+    tokens.find(token => token.state !== "one_variant")?.id || null,
+  );
+
+  const handleSelectToken = useCallback((token: API.Token) => {
+    if (token.state !== "one_variant") {
+      setSelectedTokenId(token.id);
+    }
+  }, []);
+
+  const { invalidateGetInsignificantVariantsForProjectById } =
+    useInvalidateGetInsignificantVariantsForProjectByIdQuery();
+  const { invalidateGetSignificantVariantsForProjectById } =
+    useInvalidateGetSignificantVariantsForProjectByIdQuery();
+  const { invalidateGetTokensForProjectById } = useInvalidateGetTokensForProjectByIdQuery();
 
   return (
     <Layout
       gridTemplateColumns={getGridTemplateColumns({
         isInsignificantVariantsPanelOpen,
         isSignificantVariantsPanelOpen,
+        isVariantsSelectionPanelOpen,
         mode,
       })}
     >
@@ -227,14 +285,47 @@ function View({
           <ContentTokensWrapper>
             {tokens.length === 0 && <Typography>{t("project.no_tokens_message")}</Typography>}
             {tokens.map(token => (
-              <Token key={token.id} token={token} mode={mode} />
+              <Token
+                data-testid="token"
+                key={token.id}
+                token={token}
+                mode={mode}
+                onSelectToken={handleSelectToken}
+                highlighted={token.id === selectedTokenId}
+              />
             ))}
           </ContentTokensWrapper>
         </MaskWrapper>
       </Content>
+      {mode === "EDIT" && (
+        <PanelsWrapper>
+          <VariantsSelection
+            tokenId={selectedTokenId}
+            projectId={projectId}
+            isOpen={isVariantsSelectionPanelOpen}
+            $isOpen={isVariantsSelectionPanelOpen}
+            togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
+            isRotatedWhenClosed
+            isTall={true}
+            onGroupedVariantSelectionSubmit={async () => {
+              await invalidateGetTokensForProjectById({
+                mode: "EDIT",
+                projectId,
+              });
+              await invalidateGetSignificantVariantsForProjectById({
+                projectId,
+              });
+              await invalidateGetInsignificantVariantsForProjectById({
+                projectId,
+              });
+            }}
+          />
+        </PanelsWrapper>
+      )}
       <PanelsWrapper>
         <SignificantVariants
           isOpen={isSignificantVariantsPanelOpen}
+          $isOpen={isSignificantVariantsPanelOpen}
           togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
           projectId={projectId}
           isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
@@ -242,6 +333,7 @@ function View({
         />
         {mode === "EDIT" && (
           <InsignificantVariants
+            $isOpen={isInsignificantVariantsPanelOpen}
             isOpen={isInsignificantVariantsPanelOpen}
             togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
             projectId={projectId}
@@ -270,6 +362,10 @@ function ProjectView({ project }: ProjectViewProps) {
     isOpen: isInsignificantVariantsPanelOpen,
     togglePanelVisibility: toggleInsignificantVariantsPanelVisibility,
   } = usePanel();
+  const {
+    isOpen: isVariantsSelectionPanelOpen,
+    togglePanelVisibility: toggleVariantsSelectionPanelVisibility,
+  } = usePanel();
 
   const tokens = data?.records;
 
@@ -277,11 +373,14 @@ function ProjectView({ project }: ProjectViewProps) {
     return (
       <Mask
         variant="loader"
+        refetch={refetch}
         projectId={project.id}
         isSignificantVariantsPanelOpen={isSignificantVariantsPanelOpen}
         toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
         isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
+        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
+        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
       />
     );
   }
@@ -297,11 +396,13 @@ function ProjectView({ project }: ProjectViewProps) {
         toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
         isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
+        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
+        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
       />
     );
   }
 
-  if (tokens) {
+  if (tokens && project) {
     return (
       <View
         tokens={tokens}
@@ -313,6 +414,8 @@ function ProjectView({ project }: ProjectViewProps) {
         toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
         isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
+        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
+        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
       />
     );
   }

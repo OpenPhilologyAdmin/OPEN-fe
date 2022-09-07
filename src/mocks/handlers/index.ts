@@ -8,9 +8,11 @@ import {
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
 import { newPasswordHandler } from "./new-password";
 import {
-  getGetTokensForProjectById,
   getInsignificantVariantsForProjectById,
   getSignificantVariantsForProjectById,
+  getTokenDetailsForProjectById,
+  getTokensForProjectById,
+  updateGroupedVariantsForTokenById,
 } from "./project";
 import { registerAccountHandler } from "./register-account";
 import { resendActivationEmailHandler } from "./resend-activation-email";
@@ -40,6 +42,8 @@ export const handlers = [
   updateWitnessByIdHandler,
   getWitnessListByProjectId,
   getSignificantVariantsForProjectById,
-  getGetTokensForProjectById,
+  getTokensForProjectById,
   getInsignificantVariantsForProjectById,
+  updateGroupedVariantsForTokenById,
+  getTokenDetailsForProjectById,
 ];

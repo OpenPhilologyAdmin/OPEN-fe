@@ -1,3 +1,6 @@
+import { memo, useMemo } from "react";
+
+import { convertHexToRGBA } from "@/utils/hex-to-rgba";
 import styled, { css } from "styled-components";
 
 import Sup from "../sup";
@@ -6,48 +9,71 @@ import Typography, { TypographyProps } from "../typography";
 type TokenProps = TypographyProps & {
   token: API.Token;
   mode: "READ" | "EDIT";
+  highlighted?: boolean;
+  onSelectToken?: (token: API.Token) => void;
 };
 
 type StyledProps = {
   $variant: API.TokenState;
+  highlighted?: boolean;
 };
 
-const getTokenStyle = ({ $variant }: StyledProps) => {
-  if ($variant === "not_evaluated") {
-    return css`
-      color: ${({ theme }) => theme.colors.actionsSecondary};
-    `;
-  }
-
-  if ($variant === "evaluated_with_multiple") {
-    return css`
-      color: ${({ theme }) => theme.colors.actionsPrimary};
-    `;
-  }
-
-  if ($variant === "evaluated_with_single") {
-    return css`
-      color: ${({ theme }) => theme.colors.textSecondary};
-    `;
-  }
-
+const getActionableTokenVariantStyle = (color: string, highlighted: boolean) => {
   return css`
-    color: ${({ theme }) => theme.colors.textSecondary};
+    cursor: pointer;
+    color: ${color};
+    border: 1px solid transparent;
+
+    ${highlighted &&
+    css`
+      background-color: ${convertHexToRGBA(color, 0.12)};
+      border: 1px solid ${convertHexToRGBA(color, 0.32)};
+    `};
   `;
 };
 
 const Wrapper = styled(Typography)<StyledProps>`
   margin-right: 4px;
-  ${({ $variant }) => getTokenStyle({ $variant })}
+  ${({ $variant, highlighted }) => {
+    if ($variant === "not_evaluated") {
+      return css`
+        ${({ theme }) =>
+          getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted)}
+      `;
+    }
+
+    if ($variant === "evaluated_with_multiple") {
+      return css`
+        ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted)}
+      `;
+    }
+
+    if ($variant === "evaluated_with_single") {
+      return css`
+        ${({ theme }) => getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted)}
+      `;
+    }
+
+    return css`
+      color: ${({ theme }) => theme.colors.textSecondary};
+    `;
+  }}
 `;
 
-function Token({ token, mode, ...props }: TokenProps) {
-  const editModeTypographyVariant = token.state === "one_variant" ? "body-regular" : "body-bold";
+function Token({ token, mode, highlighted, onSelectToken, ...props }: TokenProps) {
+  const editModeTypographyVariant = useMemo(
+    () => (token.state === "one_variant" ? "body-regular" : "body-bold"),
+    [token.state],
+  );
 
   return (
     <Wrapper
       {...props}
+      onClick={() => {
+        if (onSelectToken) onSelectToken(token);
+      }}
       $variant={token.state}
+      highlighted={highlighted}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
     >
       {token.t}
@@ -56,4 +82,4 @@ function Token({ token, mode, ...props }: TokenProps) {
   );
 }
 
-export default Token;
+export default memo(Token);

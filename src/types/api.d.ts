@@ -1,4 +1,5 @@
 declare namespace API {
+  type EditorialRemarkType = "st." | "corr." | "em." | "conj.";
   type ProjectStatus = "processing" | "processed" | "invalid";
   type TokenState =
     | "one_variant"
@@ -39,11 +40,38 @@ declare namespace API {
     };
   };
 
+  type GroupedVariant = {
+    id: string;
+    witnesses: string[];
+    t: string;
+    selected: boolean;
+    possible: boolean;
+  };
+
   type Token = {
     id: number;
     t: string;
     apparatus_index: number;
     state: TokenState;
+  };
+
+  type TokenDetails = {
+    id: number;
+    apparatus: {
+      selected_reading: stringl;
+      details: string;
+    } | null;
+    grouped_variants: GroupedVariant[];
+    variants: [
+      {
+        witness: string;
+        t: string;
+      },
+    ];
+    editorial_remark: {
+      type: EditorialRemarkType;
+      t: string;
+    };
   };
 
   type SignificantVariant = {
@@ -222,4 +250,14 @@ declare namespace API {
     records: InsignificantVariant[];
     count: number;
   };
+
+  type GetTokenDetailsForProjectByIdResponse = TokenDetails;
+
+  type UpdateGroupedVariantsForTokenByIdPayload = {
+    token: {
+      grouped_variants: Pick<GroupedVariant, "id" | "possible" | "selected">[];
+    };
+  };
+
+  type UpdateGroupedVariantsForTokenByIdResponse = TokenDetails;
 }

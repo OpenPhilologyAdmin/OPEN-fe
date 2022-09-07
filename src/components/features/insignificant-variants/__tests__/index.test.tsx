@@ -17,6 +17,7 @@ describe("InsignificantVariants", () => {
         isOpen={true}
         togglePanelVisibility={() => {}}
         projectId={projectId}
+        isRotatedWhenClosed
       />,
     );
 
@@ -24,7 +25,14 @@ describe("InsignificantVariants", () => {
   });
 
   it("renders correctly variants when open", async () => {
-    render(<InsignificantVariants isOpen togglePanelVisibility={() => {}} projectId={projectId} />);
+    render(
+      <InsignificantVariants
+        isOpen
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+      />,
+    );
 
     expect(await screen.findByText(variantValue.details)).toBeInTheDocument();
   });
@@ -35,6 +43,7 @@ describe("InsignificantVariants", () => {
         isOpen={false}
         togglePanelVisibility={() => {}}
         projectId={projectId}
+        isRotatedWhenClosed
       />,
     );
 

@@ -46,7 +46,9 @@ export const useInvalidateGetSignificantVariantsForProjectByIdQuery = () => {
     projectId,
   }: UseGetSignificantVariantsForProjectByIdParams) => {
     if (projectId) {
-      queryClient.invalidateQueries(queryKeys.getSignificantVariantsForProjectById(projectId));
+      return queryClient.invalidateQueries(
+        queryKeys.getSignificantVariantsForProjectById(projectId),
+      );
     }
   };
 

@@ -110,4 +110,6 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
 
 Radio.displayName = "Radio";
 
+export { Wrapper };
+
 export default Radio;
