@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef } from "react";
+import { ComponentPropsWithRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import EditIcon from "@/assets/images/icons/edit-2.svg";
@@ -7,6 +7,7 @@ import Typography from "@/components/ui/typography";
 import VariantsPanel from "@/components/ui/variants-panel";
 import styled from "styled-components";
 
+import EditionForm from "./edition-form";
 import {
   useGetTokenDetailsForProjectById,
   useInvalidateGetTokenDetailsForProjectById,
@@ -19,14 +20,16 @@ export type VariantsSelectionProps = ComponentPropsWithRef<"div"> & {
   isOpen: boolean;
   isRotatedWhenClosed: boolean;
   togglePanelVisibility: () => void;
-  onGroupedVariantSelectionSubmit: () => Promise<void>;
+  invalidateProjectViewQueriesCallback: () => Promise<void>;
 };
 
 type PanelContentProps = {
+  isEditingVariants: boolean;
   projectId: number;
   tokenId: number;
   token?: API.TokenDetails;
-  onGroupedVariantSelectionSubmit: () => Promise<void>;
+  toggleIsEditingVariants: () => void;
+  invalidateProjectViewQueriesCallback: () => Promise<void>;
 };
 
 const SelectedReading = styled(Typography)`
@@ -41,30 +44,47 @@ function PanelContent({
   projectId,
   tokenId,
   token,
-  onGroupedVariantSelectionSubmit,
+  isEditingVariants,
+  toggleIsEditingVariants,
+  invalidateProjectViewQueriesCallback,
 }: PanelContentProps) {
   const { t } = useTranslation();
   const { invalidateGetTokenDetailsForProjectById } = useInvalidateGetTokenDetailsForProjectById();
+  const handleInvalidateProjectViewQueries = async () => {
+    await invalidateGetTokenDetailsForProjectById(projectId, tokenId);
+    await invalidateProjectViewQueriesCallback();
+  };
 
   if (!token) return <Typography>{t("project.no_token_error")}</Typography>;
 
   return (
     <div>
-      {token.apparatus && (
-        <ApparatusWrapper>
-          <SelectedReading variant="body-bold">{token.apparatus.selected_reading}</SelectedReading>
-          <Typography>{token.apparatus.details}</Typography>
-        </ApparatusWrapper>
+      {isEditingVariants ? (
+        <EditionForm
+          projectId={projectId}
+          tokenId={tokenId}
+          variants={token.variants}
+          onCancel={toggleIsEditingVariants}
+          onVariantEditionSave={handleInvalidateProjectViewQueries}
+        />
+      ) : (
+        <>
+          {token.apparatus && (
+            <ApparatusWrapper>
+              <SelectedReading variant="body-bold">
+                {token.apparatus.selected_reading}
+              </SelectedReading>
+              <Typography>{token.apparatus.details}</Typography>
+            </ApparatusWrapper>
+          )}
+          <SelectionForm
+            projectId={projectId}
+            tokenId={tokenId}
+            groupedVariants={token.grouped_variants}
+            onGroupedVariantSelectionSubmit={handleInvalidateProjectViewQueries}
+          />
+        </>
       )}
-      <SelectionForm
-        projectId={projectId}
-        tokenId={tokenId}
-        groupedVariants={token.grouped_variants}
-        onGroupedVariantSelectionSubmit={async () => {
-          await invalidateGetTokenDetailsForProjectById(projectId, tokenId);
-          await onGroupedVariantSelectionSubmit();
-        }}
-      />
     </div>
   );
 }
@@ -75,10 +95,13 @@ function VariantsSelection({
   isOpen,
   isRotatedWhenClosed,
   togglePanelVisibility,
-  onGroupedVariantSelectionSubmit,
+  invalidateProjectViewQueriesCallback,
   ...props
 }: VariantsSelectionProps) {
   const { t } = useTranslation();
+  const [isEditingVariants, setIsEditingVariants] = useState(false);
+  const toggleIsEditingVariants = () => setIsEditingVariants(previousValue => !previousValue);
+
   const {
     data: token,
     isError,
@@ -106,7 +129,14 @@ function VariantsSelection({
       refetch={refetch}
       togglePanelVisibility={togglePanelVisibility}
       actionNode={
-        <Button type="button" mode="icon" variant="secondary" small disabled>
+        <Button
+          type="button"
+          mode="icon"
+          variant="secondary"
+          small
+          onClick={toggleIsEditingVariants}
+          aria-label={t("project.edit_toggle")}
+        >
           <EditIcon />
         </Button>
       }
@@ -116,10 +146,12 @@ function VariantsSelection({
         <Typography>{t("project.select_token")}</Typography>
       ) : (
         <PanelContent
-          onGroupedVariantSelectionSubmit={onGroupedVariantSelectionSubmit}
           token={token}
           tokenId={tokenId}
           projectId={projectId}
+          isEditingVariants={isEditingVariants}
+          toggleIsEditingVariants={toggleIsEditingVariants}
+          invalidateProjectViewQueriesCallback={invalidateProjectViewQueriesCallback}
         />
       )}
     </VariantsPanel>

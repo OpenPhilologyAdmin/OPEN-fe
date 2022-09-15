@@ -271,7 +271,8 @@ const BaseButton = styled.button<BaseButtonProps>`
     ${({ isLoading }) => isLoading && loaderStyles};
   }
 
-  &:hover {
+  &:hover,
+  &:active {
     color: ${props => getHoverColor({ ...props })};
     background-color: ${props => getHoverBackgroundColor({ ...props })};
     border-color: ${props => getHoverBorderColor({ ...props })};

@@ -48,6 +48,11 @@ declare namespace API {
     possible: boolean;
   };
 
+  type Variant = {
+    witness: string;
+    t: string;
+  };
+
   type Token = {
     id: number;
     t: string;
@@ -58,16 +63,11 @@ declare namespace API {
   type TokenDetails = {
     id: number;
     apparatus: {
-      selected_reading: stringl;
+      selected_reading: string;
       details: string;
     } | null;
     grouped_variants: GroupedVariant[];
-    variants: [
-      {
-        witness: string;
-        t: string;
-      },
-    ];
+    variants: Variant[];
     editorial_remark: {
       type: EditorialRemarkType;
       t: string;
@@ -260,4 +260,16 @@ declare namespace API {
   };
 
   type UpdateGroupedVariantsForTokenByIdResponse = TokenDetails;
+
+  type UpdateVariantsForTokenByIdPayload = {
+    token: {
+      variants: Variant[];
+      editorial_remark?: {
+        type: EditorialRemarkType;
+        t: string;
+      };
+    };
+  };
+
+  type UpdateVariantsForTokenByIdResponse = TokenDetails;
 }

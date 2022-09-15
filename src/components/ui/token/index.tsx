@@ -34,7 +34,6 @@ const getActionableTokenVariantStyle = (color: string, highlighted: boolean) => 
 };
 
 const Wrapper = styled(Typography)<StyledProps>`
-  margin-right: 4px;
   ${({ $variant, highlighted }) => {
     if ($variant === "not_evaluated") {
       return css`

@@ -7,11 +7,12 @@ const getTokensForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens`;
 const getTokenDetailsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id`;
 
 const updateGroupedVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/grouped_variants`;
+const updateVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/variants`;
 export const errorGeneric = "Generic error";
 export const variantValue = { selected_reading: "happy", details: "very happy" };
 export const tokenValue = "token";
-export const errorPossibleField = "possible Field error";
-export const errorSelectedField = "selected Field error";
+export const errorGroupedVariantsField = "grouped variant field error";
+export const errorVariantsField = "variant field error";
 
 const variant: API.SignificantVariant = {
   index: 1,
@@ -35,6 +36,13 @@ export const groupedVariants: API.GroupedVariant[] = [
     witnesses: ["a"],
   },
   { id: "b", possible: false, selected: true, t: "asd", witnesses: ["b"] },
+];
+
+export const variants: API.Variant[] = [
+  {
+    t: "asd",
+    witness: "a",
+  },
 ];
 
 const tokenDetails: API.TokenDetails = {
@@ -74,6 +82,9 @@ const getTokenDetailsForProjectByIdSuccessResponse: API.GetTokenDetailsForProjec
 const updateGroupedVariantsForTokenByIdSuccessResponse: API.UpdateGroupedVariantsForTokenByIdResponse =
   tokenDetails;
 
+const updateVariantsForTokenByIdSuccessResponse: API.UpdateVariantsForTokenByIdResponse =
+  tokenDetails;
+
 // significant variants
 export const getSignificantVariantsForProjectById = rest.get(
   getSignificantVariantsForProjectByIdEndpoint,
@@ -97,7 +108,6 @@ export const getInsignificantVariantsForProjectByIdException = rest.get(
 );
 
 // variants selection
-
 export const getTokenDetailsForProjectById = rest.get(
   getTokenDetailsForProjectByIdEndpoint,
   (_, res, ctx) => res(ctx.json(getTokenDetailsForProjectByIdSuccessResponse)),
@@ -118,14 +128,26 @@ export const updateGroupedVariantsForTokenByIdGenericException = rest.patch(
   (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
 );
 
-export const updateGroupedVariantsForTokenByIdSelectedFieldException = rest.patch(
+export const updateGroupedVariantsForTokenByIdGroupedVariantsFieldException = rest.patch(
   updateGroupedVariantsForTokenByIdEndpoint,
-  (_, res, ctx) => res(ctx.status(400), ctx.json({ selected: [errorSelectedField] })),
+  (_, res, ctx) =>
+    res(ctx.status(400), ctx.json({ grouped_variants: [errorGroupedVariantsField] })),
 );
 
-export const updateGroupedVariantsForTokenByIdPossibleFieldException = rest.patch(
-  updateGroupedVariantsForTokenByIdEndpoint,
-  (_, res, ctx) => res(ctx.status(400), ctx.json({ possible: [errorPossibleField] })),
+// variants edition
+export const updateVariantsForTokenById = rest.patch(
+  updateVariantsForTokenByIdEndpoint,
+  (_, res, ctx) => res(ctx.json(updateVariantsForTokenByIdSuccessResponse)),
+);
+
+export const updateVariantsForTokenByIdGenericException = rest.patch(
+  updateVariantsForTokenByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const updateVariantsForTokenByIdVariantsFieldException = rest.patch(
+  updateVariantsForTokenByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ variants: [errorVariantsField] })),
 );
 
 // tokens

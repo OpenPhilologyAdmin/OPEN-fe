@@ -13,6 +13,7 @@ import {
   getTokenDetailsForProjectById,
   getTokensForProjectById,
   updateGroupedVariantsForTokenById,
+  updateVariantsForTokenById,
 } from "./project";
 import { registerAccountHandler } from "./register-account";
 import { resendActivationEmailHandler } from "./resend-activation-email";
@@ -46,4 +47,5 @@ export const handlers = [
   getInsignificantVariantsForProjectById,
   updateGroupedVariantsForTokenById,
   getTokenDetailsForProjectById,
+  updateVariantsForTokenById,
 ];

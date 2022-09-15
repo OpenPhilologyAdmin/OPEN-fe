@@ -36,10 +36,7 @@ const NoSelectionWrapper = styled.div`
   margin-bottom: 12px;
 `;
 
-const FIELDS = {
-  SELECTED: "selected",
-  POSSIBLE: "possible",
-};
+const ERROR_FIELDS = ["grouped_variants"];
 
 const getFormattedWitnesses = (witnesses: string[]) => witnesses.join(", ").concat(": ");
 
@@ -90,11 +87,10 @@ function SelectionForm({
             toast.error(<Typography>{apiError.error}</Typography>);
           }
 
-          Object.values(FIELDS).forEach(field => {
-            if (apiError[field]) {
-              apiError[field].forEach(error => toast.error(<Typography>{error}</Typography>));
-            }
-          });
+          // grouped_variants error
+          if (apiError[ERROR_FIELDS[0]]) {
+            toast.error(<Typography>{apiError[ERROR_FIELDS[0]]}</Typography>);
+          }
         }
       },
     });

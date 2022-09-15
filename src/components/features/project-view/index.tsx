@@ -5,7 +5,7 @@ import { MaskError, MaskLoader } from "@/components/ui/mask";
 import { usePanel } from "@/components/ui/panel";
 import Sup from "@/components/ui/sup";
 import Toggle, { useToggle } from "@/components/ui/toggle";
-import BaseToken from "@/components/ui/token";
+import Token from "@/components/ui/token";
 import Typography from "@/components/ui/typography";
 import { Mode } from "@/contexts/current-project-mode";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
@@ -128,10 +128,6 @@ const ContentTokensWrapper = styled.div`
   z-index: 0;
 `;
 
-const Token = styled(BaseToken)`
-  margin-right: 4px;
-`;
-
 const PanelsWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -208,7 +204,7 @@ function Mask({
             isOpen={isVariantsSelectionPanelOpen}
             $isOpen={isVariantsSelectionPanelOpen}
             togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
-            onGroupedVariantSelectionSubmit={async () => {}}
+            invalidateProjectViewQueriesCallback={async () => {}}
           />
         </PanelsWrapper>
       )}
@@ -329,7 +325,7 @@ function View({
             togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
             isRotatedWhenClosed
             isTall={true}
-            onGroupedVariantSelectionSubmit={async () => {
+            invalidateProjectViewQueriesCallback={async () => {
               await invalidateGetTokensForProjectById({
                 mode: "EDIT",
                 projectId,

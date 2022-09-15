@@ -19,9 +19,9 @@ function VariantsSelectionWithCommonPropsAndToastProvider(props: Partial<Variant
         isOpen={props.isOpen || true}
         togglePanelVisibility={() => {}}
         isRotatedWhenClosed
-        onGroupedVariantSelectionSubmit={
-          props.onGroupedVariantSelectionSubmit
-            ? props.onGroupedVariantSelectionSubmit
+        invalidateProjectViewQueriesCallback={
+          props.invalidateProjectViewQueriesCallback
+            ? props.invalidateProjectViewQueriesCallback
             : () => Promise.resolve()
         }
       />

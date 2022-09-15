@@ -50,7 +50,7 @@ const Wrapper = styled.div<StyledProps>`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  z-index: 2;
+  z-index: 20;
 `;
 
 const Spinner = styled.div`
@@ -89,7 +89,7 @@ const MaskBackground = styled.div`
   top: 0;
   left: 0;
   backdrop-filter: blur(1px);
-  z-index: 1;
+  z-index: 15;
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.8);

@@ -90,6 +90,22 @@ describe("ProjectView", () => {
     expect(screen.getByText("project.variants")).toBeInTheDocument();
   });
 
+  it("renders correctly and displays variants selection section in edit mode and toggles variant edition", async () => {
+    const user = userEvent.setup();
+
+    render(<ProjectView project={project} />, { mode: "EDIT" });
+
+    const editButton = await screen.findByLabelText("project.edit_toggle");
+
+    await user.click(editButton);
+
+    expect(await screen.findByText("project.add_editorial_remark")).toBeInTheDocument();
+
+    await user.click(editButton);
+
+    expect(await screen.findByText("project.no_selection")).toBeInTheDocument();
+  });
+
   it("renders correctly and toggles apparatus index visibility in EDIT mode", async () => {
     const user = userEvent.setup();
     const { container } = render(<ProjectView project={project} />, { mode: "EDIT" });

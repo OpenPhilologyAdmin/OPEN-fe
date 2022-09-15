@@ -1,5 +1,6 @@
-import { ComponentPropsWithRef, forwardRef } from "react";
+import { ComponentPropsWithRef, forwardRef, useEffect, useRef } from "react";
 
+import { mergeRefs } from "@/utils/merge-refs";
 import styled, { css, DefaultTheme } from "styled-components";
 
 import BaseCharacterLimit from "../character-limit";
@@ -34,6 +35,7 @@ export type TextAreaProps = ComponentPropsWithRef<"textarea"> &
     disabled?: boolean;
     current?: number | string;
     errorMessage?: string;
+    adjustInitialHeightToContent?: boolean;
   };
 
 export const getTextAreaColor = ({ disabled, theme: { colors } }: GetTextAreaColorsProps) => {
@@ -51,7 +53,8 @@ const TextAreaInnerWrapper = styled.div<StyledProps>`
   align-items: center;
   min-height: 48px;
   width: 100%;
-  border: solid 2px
+  border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
+  border: solid 1px
     ${({ theme: { colors }, invalid, disabled }) => {
       if (invalid) return colors.error;
 
@@ -59,7 +62,6 @@ const TextAreaInnerWrapper = styled.div<StyledProps>`
 
       return colors.borderPrimary;
     }};
-  border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
   background-color: ${({ theme: { colors }, disabled }) => {
     if (disabled) return colors.backgroundSecondary;
 
@@ -91,11 +93,10 @@ const TextAreaInnerWrapper = styled.div<StyledProps>`
         background-color: ${disabled
           ? theme.colors.backgroundSecondary
           : theme.colors.backgroundPrimary};
-        padding: 0 4px 4px 0;
-        width: 16px;
-        height: 16px;
-        bottom: 0px;
-        right: 0px;
+        width: 15px;
+        height: 15px;
+        bottom: 1px;
+        right: 1px;
       `}
   }
 `;
@@ -162,12 +163,33 @@ export const TextAreaStyledWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  border-radius: ${({ theme: { borderRadius } }) => borderRadius.sm};
 `;
 
 /**Only support vertical resize */
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ label, invalid, current, errorMessage, disabled, resize = false, ...props }, ref) => {
+  (
+    {
+      label,
+      invalid,
+      current,
+      errorMessage,
+      disabled,
+      adjustInitialHeightToContent = false,
+      resize = false,
+      ...props
+    },
+    ref,
+  ) => {
     const withCounter = !!(props.maxLength && current !== undefined);
+    const autoHeightRef = useRef<HTMLTextAreaElement>(null);
+    const mergedRef = mergeRefs(ref, autoHeightRef);
+
+    useEffect(() => {
+      if (autoHeightRef.current && adjustInitialHeightToContent) {
+        autoHeightRef.current.style.height = autoHeightRef.current.scrollHeight + "px";
+      }
+    }, []);
 
     return (
       <TextAreaStyledWrapper>
@@ -182,7 +204,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
               <Typography variant="small-bold">{label}</Typography>
             </Label>
           )}
-          <BaseTextArea ref={ref} disabled={disabled} resize={resize} {...props} />
+          <BaseTextArea ref={mergedRef} disabled={disabled} resize={resize} {...props} />
           {props.maxLength && current !== undefined && (
             <CharacterLimit max={props.maxLength} current={current} resize={resize} />
           )}

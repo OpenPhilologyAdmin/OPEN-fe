@@ -37,13 +37,15 @@ exports[`Button renders a button with loading and disabled prop correctly 1`] = 
   animation: bKPVWD 1s linear infinite;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
   -webkit-animation: bKPVWD 1s linear infinite;
   animation: bKPVWD 1s linear infinite;
@@ -114,13 +116,15 @@ exports[`Button renders a button with loading prop correctly 1`] = `
   animation: bKPVWD 1s linear infinite;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
   -webkit-animation: bKPVWD 1s linear infinite;
   animation: bKPVWD 1s linear infinite;
@@ -188,13 +192,15 @@ exports[`Button renders a button with small prop correctly 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
 }
 
@@ -241,13 +247,15 @@ exports[`Button renders a destruct icon button unchanged 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
 }
 
@@ -300,13 +308,15 @@ exports[`Button renders a primary button unchanged 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
 }
 
@@ -353,13 +363,15 @@ exports[`Button renders a primary icon button unchanged 1`] = `
   fill: #FFFFFF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FFFFFF;
   background-color: #FC6145;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FFFFFF;
 }
 
@@ -412,13 +424,15 @@ exports[`Button renders a secondary button unchanged 1`] = `
   fill: #5D2DEF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FC6145;
   background-color: #FFFFFF;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FC6145;
 }
 
@@ -465,13 +479,15 @@ exports[`Button renders a secondary icon button unchanged 1`] = `
   fill: #5D2DEF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FC6145;
   background-color: #FFFFFF;
   border-color: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FC6145;
 }
 
@@ -524,13 +540,15 @@ exports[`Button renders a tertiary button unchanged 1`] = `
   fill: #5D2DEF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FC6145;
   background-color: transparent;
   border-color: transparent;
 }
 
-.c0:hover:after {
+.c0:hover:after,
+.c0:active:after {
   content: "";
   width: 100%;
   position: absolute;
@@ -540,7 +558,8 @@ exports[`Button renders a tertiary button unchanged 1`] = `
   background: #FC6145;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FC6145;
 }
 
@@ -593,13 +612,15 @@ exports[`Button renders a tertiary icon button unchanged 1`] = `
   fill: #5D2DEF;
 }
 
-.c0:hover {
+.c0:hover,
+.c0:active {
   color: #FC6145;
   background-color: transparent;
   border-color: transparent;
 }
 
-.c0:hover svg {
+.c0:hover svg,
+.c0:active svg {
   fill: #FC6145;
 }
 

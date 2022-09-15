@@ -1,10 +1,8 @@
 import {
   errorGeneric,
-  errorPossibleField,
-  errorSelectedField,
+  errorGroupedVariantsField,
   updateGroupedVariantsForTokenByIdGenericException,
-  updateGroupedVariantsForTokenByIdPossibleFieldException,
-  updateGroupedVariantsForTokenByIdSelectedFieldException,
+  updateGroupedVariantsForTokenByIdGroupedVariantsFieldException,
 } from "@/mocks/handlers/project";
 import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
 
@@ -63,7 +61,7 @@ describe("SelectionForm", () => {
   });
 
   it("renders correctly and shows possible field error", async () => {
-    mockServer.use(updateGroupedVariantsForTokenByIdPossibleFieldException);
+    mockServer.use(updateGroupedVariantsForTokenByIdGroupedVariantsFieldException);
 
     const user = userEvent.setup();
 
@@ -84,32 +82,7 @@ describe("SelectionForm", () => {
 
     await user.click(saveButton);
 
-    expect(await screen.findByText(errorPossibleField)).toBeInTheDocument();
-  });
-
-  it("renders correctly and shows selected field error", async () => {
-    mockServer.use(updateGroupedVariantsForTokenByIdSelectedFieldException);
-
-    const user = userEvent.setup();
-
-    render(<SelectionFormWithCommonPropsAndToastProvider />);
-
-    const noSelectionRadio = screen.getByLabelText("project.no_selection") as HTMLInputElement;
-    const firstRadioAfterNoSelection = screen.getAllByTestId("selected")[0] as HTMLInputElement;
-
-    expect(noSelectionRadio.checked).toEqual(true);
-    expect(firstRadioAfterNoSelection.checked).toEqual(false);
-
-    await user.click(firstRadioAfterNoSelection);
-
-    expect(noSelectionRadio.checked).toEqual(false);
-    expect(firstRadioAfterNoSelection.checked).toEqual(true);
-
-    const saveButton = screen.getByRole("button", { name: "project.save" });
-
-    await user.click(saveButton);
-
-    expect(await screen.findByText(errorSelectedField)).toBeInTheDocument();
+    expect(await screen.findByText(errorGroupedVariantsField)).toBeInTheDocument();
   });
 
   it("renders correctly and selects possible checkbox automatically after marking radio as selected and disabled the checkbox", async () => {
