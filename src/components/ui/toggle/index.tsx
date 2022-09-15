@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef, ReactNode } from "react";
+import { ComponentPropsWithoutRef, forwardRef, ReactNode, useState } from "react";
 
 import styled from "styled-components";
 
@@ -94,6 +94,13 @@ const Input = styled.input<StyleProps>`
   }
 `;
 
+function useToggle(defaultValue: boolean) {
+  const [isOn, setIsOn] = useState(defaultValue);
+  const toggle = () => setIsOn(previousState => !previousState);
+
+  return { isOn, toggle };
+}
+
 const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
   ({ disabled, id, label, invalid, ...props }, ref) => {
     return (
@@ -121,4 +128,5 @@ const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
 
 Toggle.displayName = "Toggle";
 
+export { useToggle };
 export default Toggle;

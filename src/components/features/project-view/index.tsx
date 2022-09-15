@@ -3,6 +3,8 @@ import { useTranslation } from "next-i18next";
 
 import { MaskError, MaskLoader } from "@/components/ui/mask";
 import { usePanel } from "@/components/ui/panel";
+import Sup from "@/components/ui/sup";
+import Toggle, { useToggle } from "@/components/ui/toggle";
 import BaseToken from "@/components/ui/token";
 import Typography from "@/components/ui/typography";
 import { Mode } from "@/contexts/current-project-mode";
@@ -33,6 +35,8 @@ type ProjectViewChildrenCommonProps = {
   toggleInsignificantVariantsPanelVisibility: () => void;
   toggleSignificantVariantsPanelVisibility: () => void;
   toggleVariantsSelectionPanelVisibility: () => void;
+  isApparatusIndexDisplayed: boolean;
+  toggleApparatusIndexDisplay?: () => void;
 };
 
 type ViewProps = ProjectViewChildrenCommonProps & {
@@ -106,6 +110,7 @@ const ContentTopBar = styled.div`
   flex-shrink: 0;
   height: 48px;
   padding: 0 8px;
+  gap: 4px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSecondary};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
@@ -163,6 +168,7 @@ function Mask({
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
   isVariantsSelectionPanelOpen,
+  isApparatusIndexDisplayed,
   toggleInsignificantVariantsPanelVisibility,
   toggleSignificantVariantsPanelVisibility,
   toggleVariantsSelectionPanelVisibility,
@@ -214,6 +220,7 @@ function Mask({
           togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
           projectId={projectId}
           isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
+          apparatusIndexVisible={isApparatusIndexDisplayed}
         />
         {mode === "EDIT" && (
           <InsignificantVariants
@@ -223,6 +230,7 @@ function Mask({
             togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
             projectId={projectId}
             isTall={!isSignificantVariantsPanelOpen}
+            apparatusIndexVisible={isApparatusIndexDisplayed}
           />
         )}
       </PanelsWrapper>
@@ -239,9 +247,11 @@ function View({
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
   isVariantsSelectionPanelOpen,
+  isApparatusIndexDisplayed,
   toggleInsignificantVariantsPanelVisibility,
   toggleSignificantVariantsPanelVisibility,
   toggleVariantsSelectionPanelVisibility,
+  toggleApparatusIndexDisplay,
 }: ViewProps) {
   const { t } = useTranslation();
   const { mode } = useCurrentProjectMode();
@@ -271,7 +281,18 @@ function View({
       })}
     >
       <Content>
-        <ContentTopBar />
+        <ContentTopBar>
+          <Typography>
+            {"A"}
+            <Sup>{"(1)"}</Sup>
+          </Typography>
+          <Toggle
+            id="apparatus-index-toggle"
+            value={String(isApparatusIndexDisplayed)}
+            checked={isApparatusIndexDisplayed}
+            onChange={toggleApparatusIndexDisplay}
+          />
+        </ContentTopBar>
         <MaskWrapper>
           {isLoading && <MaskLoader text={t("project.loader_text")} withBackgroundMask />}
           {isError && (
@@ -292,6 +313,7 @@ function View({
                 mode={mode}
                 onSelectToken={handleSelectToken}
                 highlighted={token.id === selectedTokenId}
+                apparatusIndexVisible={isApparatusIndexDisplayed}
               />
             ))}
           </ContentTokensWrapper>
@@ -330,6 +352,7 @@ function View({
           projectId={projectId}
           isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
           isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
+          apparatusIndexVisible={isApparatusIndexDisplayed}
         />
         {mode === "EDIT" && (
           <InsignificantVariants
@@ -339,6 +362,7 @@ function View({
             projectId={projectId}
             isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
             isTall={!isSignificantVariantsPanelOpen}
+            apparatusIndexVisible={isApparatusIndexDisplayed}
           />
         )}
       </PanelsWrapper>
@@ -349,6 +373,7 @@ function View({
 function ProjectView({ project }: ProjectViewProps) {
   const { t } = useTranslation();
   const { mode } = useCurrentProjectMode();
+  const { isOn: isApparatusIndexDisplayed, toggle: toggleApparatusIndexDisplay } = useToggle(true);
   const { data, isLoading, isError, isFetching, isRefetching, refetch } =
     useGetTokensForProjectById({
       projectId: project.id,
@@ -381,6 +406,8 @@ function ProjectView({ project }: ProjectViewProps) {
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
         isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
         toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
+        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
       />
     );
   }
@@ -398,6 +425,8 @@ function ProjectView({ project }: ProjectViewProps) {
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
         isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
         toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
+        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
       />
     );
   }
@@ -416,6 +445,8 @@ function ProjectView({ project }: ProjectViewProps) {
         toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
         isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
         toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
+        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
       />
     );
   }

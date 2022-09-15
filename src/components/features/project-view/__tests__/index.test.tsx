@@ -1,5 +1,5 @@
 import { getTokensForProjectByIdException, tokenValue } from "@/mocks/handlers/project";
-import { mockServer, render, screen } from "@/utils/test-utils";
+import { mockServer, render, screen, userEvent } from "@/utils/test-utils";
 
 import ProjectView from "..";
 
@@ -88,5 +88,39 @@ describe("ProjectView", () => {
     render(<ProjectView project={project} />, { mode: "EDIT" });
 
     expect(screen.getByText("project.variants")).toBeInTheDocument();
+  });
+
+  it("renders correctly and toggles apparatus index visibility in EDIT mode", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<ProjectView project={project} />, { mode: "EDIT" });
+
+    // significant variants + insignificant variants + token + toggle label
+    expect(screen.getAllByText("(1)").length).toBe(4);
+
+    const toggle = container.querySelector("#apparatus-index-toggle");
+
+    if (toggle) {
+      await user.click(toggle);
+    }
+
+    // toggle label
+    expect(screen.getAllByText("(1)").length).toBe(1);
+  });
+
+  it("renders correctly and toggles apparatus index visibility in READ mode", async () => {
+    const user = userEvent.setup();
+    const { container } = render(<ProjectView project={project} />, { mode: "READ" });
+
+    // significant variants + token + toggle label
+    expect(screen.getAllByText("(1)").length).toBe(3);
+
+    const toggle = container.querySelector("#apparatus-index-toggle");
+
+    if (toggle) {
+      await user.click(toggle);
+    }
+
+    // toggle label
+    expect(screen.getAllByText("(1)").length).toBe(1);
   });
 });

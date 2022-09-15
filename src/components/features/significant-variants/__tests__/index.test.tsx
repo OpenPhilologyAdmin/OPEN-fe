@@ -38,6 +38,34 @@ describe("SignificantVariants", () => {
     expect(await screen.findByText(variantValue.details)).toBeInTheDocument();
   });
 
+  it("renders correctly with apparatus index when visible", async () => {
+    render(
+      <SignificantVariants
+        isOpen
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+        apparatusIndexVisible
+      />,
+    );
+
+    expect(await screen.findByText("(1)")).toBeInTheDocument();
+  });
+
+  it("renders correctly without apparatus index when hidden", async () => {
+    render(
+      <SignificantVariants
+        isOpen
+        togglePanelVisibility={() => {}}
+        projectId={projectId}
+        isRotatedWhenClosed
+        apparatusIndexVisible={false}
+      />,
+    );
+
+    expect(screen.queryByText("(1)")).not.toBeInTheDocument();
+  });
+
   it("renders correctly and does not show variants when closed", () => {
     render(
       <SignificantVariants

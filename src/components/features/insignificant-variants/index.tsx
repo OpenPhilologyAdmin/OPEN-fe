@@ -15,6 +15,7 @@ type InsignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
   isOpen: boolean;
   togglePanelVisibility: () => void;
   isRotatedWhenClosed: boolean;
+  apparatusIndexVisible?: boolean;
 };
 
 type DisplayMode = "text" | "list";
@@ -22,6 +23,7 @@ type DisplayMode = "text" | "list";
 type PanelContentProps = {
   displayMode: DisplayMode;
   insignificantVariants?: API.InsignificantVariant[];
+  apparatusIndexVisible?: boolean;
 };
 
 const VariantListWrapper = styled.div`
@@ -39,7 +41,11 @@ const Index = styled(Typography).attrs({ variant: "small-bold" })`
   margin-right: 4px;
 `;
 
-function PanelContent({ insignificantVariants, displayMode }: PanelContentProps) {
+function PanelContent({
+  insignificantVariants,
+  displayMode,
+  apparatusIndexVisible,
+}: PanelContentProps) {
   const { t } = useTranslation();
 
   if (!insignificantVariants || insignificantVariants.length === 0)
@@ -50,7 +56,7 @@ function PanelContent({ insignificantVariants, displayMode }: PanelContentProps)
       <>
         {insignificantVariants.map(variant => (
           <VariantAsText key={variant.index}>
-            <Index>({variant.index})</Index>
+            {apparatusIndexVisible && <Index>({variant.index})</Index>}
             {variant.value.details}
           </VariantAsText>
         ))}
@@ -63,7 +69,7 @@ function PanelContent({ insignificantVariants, displayMode }: PanelContentProps)
       <VariantListWrapper>
         {insignificantVariants.map(variant => (
           <Typography key={variant.index} variant="small-regular">
-            <Index>({variant.index})</Index>
+            {apparatusIndexVisible && <Index>({variant.index})</Index>}
             {variant.value.details}
           </Typography>
         ))}
@@ -79,6 +85,7 @@ function InsignificantVariants({
   projectId,
   togglePanelVisibility,
   isRotatedWhenClosed,
+  apparatusIndexVisible = true,
   ...props
 }: InsignificantVariantsProps) {
   const { t } = useTranslation();
@@ -118,7 +125,11 @@ function InsignificantVariants({
       }
       {...props}
     >
-      <PanelContent displayMode={displayMode} insignificantVariants={insignificantVariants} />
+      <PanelContent
+        displayMode={displayMode}
+        insignificantVariants={insignificantVariants}
+        apparatusIndexVisible={apparatusIndexVisible}
+      />
     </VariantsPanel>
   );
 }

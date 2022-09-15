@@ -17,11 +17,13 @@ type SignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
   isOpen: boolean;
   isRotatedWhenClosed: boolean;
   togglePanelVisibility: () => void;
+  apparatusIndexVisible?: boolean;
 };
 
 type PanelContentProps = {
   displayMode: DisplayMode;
   significantVariants?: API.SignificantVariant[];
+  apparatusIndexVisible?: boolean;
 };
 
 const VariantListWrapper = styled.div`
@@ -43,7 +45,11 @@ const StyledTypography = styled(Typography)`
   margin-right: 5px;
 `;
 
-function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
+function PanelContent({
+  significantVariants,
+  displayMode,
+  apparatusIndexVisible,
+}: PanelContentProps) {
   const { t } = useTranslation();
 
   if (!significantVariants || significantVariants.length === 0)
@@ -54,7 +60,7 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
       <>
         {significantVariants.map(variant => (
           <VariantAsText key={variant.index}>
-            <Index>({variant.index})</Index>
+            {apparatusIndexVisible && <Index>({variant.index})</Index>}
             <StyledTypography variant="small-text-bold">
               {variant.value.selected_reading}
             </StyledTypography>
@@ -70,7 +76,7 @@ function PanelContent({ significantVariants, displayMode }: PanelContentProps) {
       <VariantListWrapper>
         {significantVariants.map(variant => (
           <Typography key={variant.index} variant="small-regular">
-            <Index>({variant.index})</Index>
+            {apparatusIndexVisible && <Index>({variant.index})</Index>}
             <StyledTypography variant="small-text-bold">
               {variant.value.selected_reading}
             </StyledTypography>
@@ -89,6 +95,7 @@ function SignificantVariants({
   projectId,
   togglePanelVisibility,
   isRotatedWhenClosed,
+  apparatusIndexVisible = true,
   ...props
 }: SignificantVariantsProps) {
   const { t } = useTranslation();
@@ -128,7 +135,11 @@ function SignificantVariants({
       }
       {...props}
     >
-      <PanelContent displayMode={displayMode} significantVariants={significantVariants} />
+      <PanelContent
+        displayMode={displayMode}
+        significantVariants={significantVariants}
+        apparatusIndexVisible={apparatusIndexVisible}
+      />
     </VariantsPanel>
   );
 }

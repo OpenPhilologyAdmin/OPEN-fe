@@ -11,6 +11,7 @@ type TokenProps = TypographyProps & {
   mode: "READ" | "EDIT";
   highlighted?: boolean;
   onSelectToken?: (token: API.Token) => void;
+  apparatusIndexVisible?: boolean;
 };
 
 type StyledProps = {
@@ -72,7 +73,14 @@ const Wrapper = styled(Typography)<StyledProps>`
   }}
 `;
 
-function Token({ token, mode, highlighted, onSelectToken, ...props }: TokenProps) {
+function Token({
+  token,
+  mode,
+  highlighted,
+  apparatusIndexVisible = true,
+  onSelectToken,
+  ...props
+}: TokenProps) {
   const editModeTypographyVariant = useMemo(
     () => (token.state === "one_variant" ? "body-regular" : "body-bold"),
     [token.state],
@@ -89,7 +97,7 @@ function Token({ token, mode, highlighted, onSelectToken, ...props }: TokenProps
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
     >
       {token.t}
-      {token.apparatus_index && <Sup>({token.apparatus_index})</Sup>}
+      {apparatusIndexVisible && token.apparatus_index && <Sup>({token.apparatus_index})</Sup>}
     </Wrapper>
   );
 }

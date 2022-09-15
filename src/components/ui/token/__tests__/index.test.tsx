@@ -90,4 +90,20 @@ describe("Token", () => {
 
     expect(handleSelectToken).toHaveBeenCalledTimes(1);
   });
+
+  it("renders a Token with apparatus index when visible", () => {
+    const token = getToken("evaluated_with_single");
+
+    render(<Token mode="EDIT" token={token} highlighted apparatusIndexVisible />);
+
+    expect(screen.getByText("(123)")).toBeInTheDocument();
+  });
+
+  it("renders a Token without apparatus index when hidden", () => {
+    const token = getToken("evaluated_with_single");
+
+    render(<Token mode="EDIT" token={token} highlighted apparatusIndexVisible={false} />);
+
+    expect(screen.queryByText("(123)")).not.toBeInTheDocument();
+  });
 });
