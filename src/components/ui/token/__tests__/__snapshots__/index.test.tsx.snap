@@ -22,6 +22,14 @@ exports[`Token renders a Token unchanged in edit mode and highlighted 1`] = `
   border: 1px solid rgba(16,21,33,0.32);
 }
 
+.c1:hover {
+  cursor: pointer;
+  color: #101521;
+  border: 1px solid transparent;
+  background-color: rgba(16,21,33,0.12);
+  border: 1px solid rgba(16,21,33,0.32);
+}
+
 <div>
   <span
     class="c0 c1"
@@ -56,6 +64,14 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_mult
   cursor: pointer;
   color: #5D2DEF;
   border: 1px solid transparent;
+}
+
+.c1:hover {
+  cursor: pointer;
+  color: #5D2DEF;
+  border: 1px solid transparent;
+  background-color: rgba(93,45,239,0.12);
+  border: 1px solid rgba(93,45,239,0.32);
 }
 
 <div>
@@ -94,6 +110,14 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_sing
   border: 1px solid transparent;
 }
 
+.c1:hover {
+  cursor: pointer;
+  color: #101521;
+  border: 1px solid transparent;
+  background-color: rgba(16,21,33,0.12);
+  border: 1px solid rgba(16,21,33,0.32);
+}
+
 <div>
   <span
     class="c0 c1"
@@ -128,6 +152,14 @@ exports[`Token renders a Token unchanged in edit mode and in not_evaluated state
   cursor: pointer;
   color: #FC6145;
   border: 1px solid transparent;
+}
+
+.c1:hover {
+  cursor: pointer;
+  color: #FC6145;
+  border: 1px solid transparent;
+  background-color: rgba(252,97,69,0.12);
+  border: 1px solid rgba(252,97,69,0.32);
 }
 
 <div>

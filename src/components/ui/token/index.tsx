@@ -39,18 +39,30 @@ const Wrapper = styled(Typography)<StyledProps>`
       return css`
         ${({ theme }) =>
           getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted)}
+
+        &:hover {
+          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsSecondary, true)}
+        }
       `;
     }
 
     if ($variant === "evaluated_with_multiple") {
       return css`
         ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted)}
+
+        &:hover {
+          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsPrimary, true)}
+        }
       `;
     }
 
     if ($variant === "evaluated_with_single") {
       return css`
         ${({ theme }) => getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted)}
+
+        &:hover {
+          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.textSecondary, true)}
+        }
       `;
     }
 
