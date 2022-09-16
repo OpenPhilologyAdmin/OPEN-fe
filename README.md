@@ -52,7 +52,6 @@ Deployment is done via GitHub Actions. Whole configuration resides in YAML files
 
 - All code pushed to `develop` branch is deployed to `dev.openphilology.eu`;
 - All code pushed to `main` branch is deployed to `staging.openphilology.eu`;
-- Review apps are applications created for each PR (re)opened and are automatically removed when PR is closed. Review apps are cloned from `develop` app, so all the configuration set there prior to creating review app is copied. Each review app is assigned URL following the pattern: `oplu-${PR-GitHub-ID}.openphilology.eu`. The URL is automatically added to the PR (as a comment) after the app is created.
 
 To add/change/remove environment variables you need to access the machine Dokku is running on via SSH. Access details are in 1password vault. Once you're in, please use [Dokku CLI commands](https://dokku.com/docs/configuration/environment-variables/).
 
