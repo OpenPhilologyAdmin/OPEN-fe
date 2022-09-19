@@ -1,11 +1,8 @@
 import { useCallback, useState } from "react";
-import { useTranslation } from "next-i18next";
 
-import { MaskError, MaskLoader } from "@/components/ui/mask";
 import { usePanel } from "@/components/ui/panel";
 import Sup from "@/components/ui/sup";
 import Toggle, { useToggle } from "@/components/ui/toggle";
-import Token from "@/components/ui/token";
 import Typography from "@/components/ui/typography";
 import { Mode } from "@/contexts/current-project-mode";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
@@ -17,6 +14,7 @@ import BaseSignificantVariants from "../significant-variants";
 import { useInvalidateGetSignificantVariantsForProjectByIdQuery } from "../significant-variants/query";
 import BaseVariantsSelection from "../variants-selection";
 import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
+import VariantsTab from "./variants-tab";
 
 type ProjectViewProps = {
   project: API.Project;
@@ -25,31 +23,6 @@ type ProjectViewProps = {
 type StyledPanelProps = {
   isTall: boolean;
   $isOpen: boolean;
-};
-
-type ProjectViewChildrenCommonProps = {
-  refetch: () => void;
-  isSignificantVariantsPanelOpen: boolean;
-  isInsignificantVariantsPanelOpen: boolean;
-  isVariantsSelectionPanelOpen: boolean;
-  toggleInsignificantVariantsPanelVisibility: () => void;
-  toggleSignificantVariantsPanelVisibility: () => void;
-  toggleVariantsSelectionPanelVisibility: () => void;
-  isApparatusIndexDisplayed: boolean;
-  toggleApparatusIndexDisplay?: () => void;
-};
-
-type ViewProps = ProjectViewChildrenCommonProps & {
-  isLoading: boolean;
-  isError: boolean;
-  tokens: API.Token[];
-  projectId: number;
-};
-
-type MaskProps = ProjectViewChildrenCommonProps & {
-  projectId: number;
-  variant: "loader" | "error";
-  buttonText?: string;
 };
 
 type LayoutProps = {
@@ -115,17 +88,11 @@ const ContentTopBar = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
-const MaskWrapper = styled.div`
+const VariantsTabWrapper = styled.div`
   position: relative;
   height: calc(100% - 78px);
   padding: 24px 24px 16px 24px;
   overflow-y: scroll;
-`;
-
-const ContentTokensWrapper = styled.div`
-  height: 100%;
-  overflow-x: hidden;
-  z-index: 0;
 `;
 
 const PanelsWrapper = styled.div`
@@ -156,103 +123,34 @@ const VariantsSelection = styled(BaseVariantsSelection)<StyledPanelProps>`
   ${({ $isOpen, theme }) => !$isOpen && `border-right: 1px solid ${theme.colors.borderSecondary}`};
 `;
 
-function Mask({
-  variant,
-  buttonText,
-  refetch,
-  projectId,
-  isInsignificantVariantsPanelOpen,
-  isSignificantVariantsPanelOpen,
-  isVariantsSelectionPanelOpen,
-  isApparatusIndexDisplayed,
-  toggleInsignificantVariantsPanelVisibility,
-  toggleSignificantVariantsPanelVisibility,
-  toggleVariantsSelectionPanelVisibility,
-}: MaskProps) {
-  const { t } = useTranslation();
+function ProjectView({ project }: ProjectViewProps) {
   const { mode } = useCurrentProjectMode();
+  const { isOn: isApparatusIndexDisplayed, toggle: toggleApparatusIndexDisplay } = useToggle(true);
+  const {
+    isOpen: isSignificantVariantsPanelOpen,
+    togglePanelVisibility: toggleSignificantVariantsPanelVisibility,
+  } = usePanel();
+  const {
+    isOpen: isInsignificantVariantsPanelOpen,
+    togglePanelVisibility: toggleInsignificantVariantsPanelVisibility,
+  } = usePanel();
+  const {
+    isOpen: isVariantsSelectionPanelOpen,
+    togglePanelVisibility: toggleVariantsSelectionPanelVisibility,
+  } = usePanel();
 
-  return (
-    <Layout
-      gridTemplateColumns={getGridTemplateColumns({
-        isInsignificantVariantsPanelOpen,
-        isSignificantVariantsPanelOpen,
-        isVariantsSelectionPanelOpen,
-        mode,
-      })}
-    >
-      <Content>
-        <ContentTopBar />
-        <ContentTokensWrapper>
-          {variant === "loader" && <MaskLoader text={t("project.loader_text")} />}
-          {variant === "error" && buttonText && refetch && (
-            <MaskError
-              text={t("project.generic_error")}
-              buttonText={buttonText}
-              refetch={refetch}
-            />
-          )}
-        </ContentTokensWrapper>
-      </Content>
-      {mode === "EDIT" && (
-        <PanelsWrapper>
-          <VariantsSelection
-            tokenId={null}
-            projectId={projectId}
-            isTall={true}
-            isRotatedWhenClosed
-            isOpen={isVariantsSelectionPanelOpen}
-            $isOpen={isVariantsSelectionPanelOpen}
-            togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
-            invalidateProjectViewQueriesCallback={async () => {}}
-          />
-        </PanelsWrapper>
-      )}
-      <PanelsWrapper>
-        <SignificantVariants
-          isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
-          isOpen={isSignificantVariantsPanelOpen}
-          $isOpen={isSignificantVariantsPanelOpen}
-          togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
-          projectId={projectId}
-          isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
-          apparatusIndexVisible={isApparatusIndexDisplayed}
-        />
-        {mode === "EDIT" && (
-          <InsignificantVariants
-            isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
-            isOpen={isInsignificantVariantsPanelOpen}
-            $isOpen={isInsignificantVariantsPanelOpen}
-            togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
-            projectId={projectId}
-            isTall={!isSignificantVariantsPanelOpen}
-            apparatusIndexVisible={isApparatusIndexDisplayed}
-          />
-        )}
-      </PanelsWrapper>
-    </Layout>
-  );
-}
+  const projectId = project.id;
 
-function View({
-  tokens,
-  isLoading,
-  isError,
-  projectId,
-  refetch,
-  isInsignificantVariantsPanelOpen,
-  isSignificantVariantsPanelOpen,
-  isVariantsSelectionPanelOpen,
-  isApparatusIndexDisplayed,
-  toggleInsignificantVariantsPanelVisibility,
-  toggleSignificantVariantsPanelVisibility,
-  toggleVariantsSelectionPanelVisibility,
-  toggleApparatusIndexDisplay,
-}: ViewProps) {
-  const { t } = useTranslation();
-  const { mode } = useCurrentProjectMode();
+  const { data, isLoading, isError, isFetching, isRefetching, refetch } =
+    useGetTokensForProjectById({
+      projectId,
+      mode,
+    });
+
+  const tokens = data?.records;
+
   const [selectedTokenId, setSelectedTokenId] = useState<number | null>(
-    tokens.find(token => token.state !== "one_variant")?.id || null,
+    tokens?.find(token => token.state !== "one_variant")?.id || null,
   );
 
   const handleSelectToken = useCallback((token: API.Token) => {
@@ -289,31 +187,20 @@ function View({
             onChange={toggleApparatusIndexDisplay}
           />
         </ContentTopBar>
-        <MaskWrapper>
-          {isLoading && <MaskLoader text={t("project.loader_text")} withBackgroundMask />}
-          {isError && (
-            <MaskError
-              text={t("project.loader_text")}
-              refetch={refetch}
-              buttonText={t("project.refresh")}
-              withBackgroundMask
-            />
-          )}
-          <ContentTokensWrapper>
-            {tokens.length === 0 && <Typography>{t("project.no_tokens_message")}</Typography>}
-            {tokens.map(token => (
-              <Token
-                data-testid="token"
-                key={token.id}
-                token={token}
-                mode={mode}
-                onSelectToken={handleSelectToken}
-                highlighted={token.id === selectedTokenId}
-                apparatusIndexVisible={isApparatusIndexDisplayed}
-              />
-            ))}
-          </ContentTokensWrapper>
-        </MaskWrapper>
+        <VariantsTabWrapper>
+          <VariantsTab
+            mode={mode}
+            tokens={tokens}
+            selectedTokenId={selectedTokenId}
+            isFetching={isFetching}
+            isRefetching={isRefetching}
+            isLoading={isLoading}
+            isError={isError}
+            isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+            onSelectToken={handleSelectToken}
+            refetch={refetch}
+          />
+        </VariantsTabWrapper>
       </Content>
       {mode === "EDIT" && (
         <PanelsWrapper>
@@ -364,90 +251,6 @@ function View({
       </PanelsWrapper>
     </Layout>
   );
-}
-
-function ProjectView({ project }: ProjectViewProps) {
-  const { t } = useTranslation();
-  const { mode } = useCurrentProjectMode();
-  const { isOn: isApparatusIndexDisplayed, toggle: toggleApparatusIndexDisplay } = useToggle(true);
-  const { data, isLoading, isError, isFetching, isRefetching, refetch } =
-    useGetTokensForProjectById({
-      projectId: project.id,
-      mode,
-    });
-  const {
-    isOpen: isSignificantVariantsPanelOpen,
-    togglePanelVisibility: toggleSignificantVariantsPanelVisibility,
-  } = usePanel();
-  const {
-    isOpen: isInsignificantVariantsPanelOpen,
-    togglePanelVisibility: toggleInsignificantVariantsPanelVisibility,
-  } = usePanel();
-  const {
-    isOpen: isVariantsSelectionPanelOpen,
-    togglePanelVisibility: toggleVariantsSelectionPanelVisibility,
-  } = usePanel();
-
-  const tokens = data?.records;
-
-  if (isLoading && !tokens && !isRefetching) {
-    return (
-      <Mask
-        variant="loader"
-        refetch={refetch}
-        projectId={project.id}
-        isSignificantVariantsPanelOpen={isSignificantVariantsPanelOpen}
-        toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
-        isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
-        toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
-        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
-        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
-        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
-      />
-    );
-  }
-
-  if (isError && !tokens) {
-    return (
-      <Mask
-        variant="error"
-        refetch={refetch}
-        buttonText={t("project.refresh")}
-        projectId={project.id}
-        isSignificantVariantsPanelOpen={isSignificantVariantsPanelOpen}
-        toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
-        isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
-        toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
-        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
-        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
-        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
-      />
-    );
-  }
-
-  if (tokens && project) {
-    return (
-      <View
-        tokens={tokens}
-        isLoading={isFetching || isRefetching}
-        isError={isError && !isRefetching}
-        projectId={project.id}
-        refetch={refetch}
-        isSignificantVariantsPanelOpen={isSignificantVariantsPanelOpen}
-        toggleSignificantVariantsPanelVisibility={toggleSignificantVariantsPanelVisibility}
-        isInsignificantVariantsPanelOpen={isInsignificantVariantsPanelOpen}
-        toggleInsignificantVariantsPanelVisibility={toggleInsignificantVariantsPanelVisibility}
-        isVariantsSelectionPanelOpen={isVariantsSelectionPanelOpen}
-        toggleVariantsSelectionPanelVisibility={toggleVariantsSelectionPanelVisibility}
-        isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-        toggleApparatusIndexDisplay={toggleApparatusIndexDisplay}
-      />
-    );
-  }
-
-  return null;
 }
 
 export default ProjectView;

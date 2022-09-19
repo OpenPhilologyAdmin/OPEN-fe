@@ -111,7 +111,9 @@ describe("ProjectView", () => {
     const { container } = render(<ProjectView project={project} />, { mode: "EDIT" });
 
     // significant variants + insignificant variants + token + toggle label
-    expect(screen.getAllByText("(1)").length).toBe(4);
+    const apparatusIndices = await screen.findAllByText("(1)");
+
+    expect(apparatusIndices.length).toBe(4);
 
     const toggle = container.querySelector("#apparatus-index-toggle");
 
@@ -127,8 +129,10 @@ describe("ProjectView", () => {
     const user = userEvent.setup();
     const { container } = render(<ProjectView project={project} />, { mode: "READ" });
 
-    // significant variants + token + toggle label
-    expect(screen.getAllByText("(1)").length).toBe(3);
+    // significant variants + insignificant variants + token + toggle label
+    const apparatusIndices = await screen.findAllByText("(1)");
+
+    expect(apparatusIndices.length).toBe(3);
 
     const toggle = container.querySelector("#apparatus-index-toggle");
 
