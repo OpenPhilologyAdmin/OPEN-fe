@@ -8,6 +8,7 @@ import {
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
 import { newPasswordHandler } from "./new-password";
 import {
+  getEditorialRemarks,
   getInsignificantVariantsForProjectById,
   getSignificantVariantsForProjectById,
   getTokenDetailsForProjectById,
@@ -48,4 +49,5 @@ export const handlers = [
   updateGroupedVariantsForTokenById,
   getTokenDetailsForProjectById,
   updateVariantsForTokenById,
+  getEditorialRemarks,
 ];

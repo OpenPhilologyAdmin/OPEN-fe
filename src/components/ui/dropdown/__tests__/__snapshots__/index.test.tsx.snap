@@ -9,6 +9,14 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
   font-weight: 400;
 }
 
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
+
 .c4 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -112,18 +120,18 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -154,14 +162,14 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -318,10 +326,14 @@ exports[`Dropdown multi-choice dropdown with selection renders unchanged 1`] = `
       class="c11 c12"
       id=":rk:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>
@@ -334,6 +346,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .c4 {
@@ -439,18 +459,18 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -481,14 +501,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -645,10 +665,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
       class="c11 c12"
       id=":rm:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>
@@ -661,6 +685,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .c4 {
@@ -766,18 +798,18 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -808,14 +840,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -972,10 +1004,14 @@ exports[`Dropdown multi-choice dropdown without selection renders unchanged with
       class="c11 c12"
       id=":ro:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>
@@ -988,6 +1024,14 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .c7 {
@@ -1104,18 +1148,18 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -1146,14 +1190,14 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -1310,10 +1354,14 @@ exports[`Dropdown single-choice dropdown with selection renders unchanged 1`] = 
       class="c11 c12"
       id=":re:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>
@@ -1326,6 +1374,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .c7 {
@@ -1442,18 +1498,18 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -1484,14 +1540,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -1647,10 +1703,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
       class="c11 c12"
       id=":rg:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>
@@ -1663,6 +1723,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+.c13 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .c7 {
@@ -1779,18 +1847,18 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
 }
 
 .c0:focus {
-  outline-color: rgba(93,45,239,0.32);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(93,45,239,0.32);
 }
 
 .c12 {
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: #FFFFFF;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: #FFFFFF;
+  color: #ABABAB;
   white-space: nowrap;
   cursor: pointer;
 }
@@ -1821,14 +1889,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 }
 
 .c2 + .c11 {
   z-index: auto;
 }
 
-.c13 {
+.c14 {
   width: 24px;
   height: 24px;
   -webkit-flex-shrink: 0;
@@ -1984,10 +2052,14 @@ exports[`Dropdown single-choice dropdown without selection renders unchanged wit
       class="c11 c12"
       id=":ri:"
     >
-      Options dropdown
+      <span
+        class="c13"
+      >
+        Options dropdown
+      </span>
     </label>
     <svg
-      class="c13"
+      class="c14"
     />
   </div>
 </div>

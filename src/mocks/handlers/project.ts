@@ -1,6 +1,7 @@
 import { rest } from "msw";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
+const getEditorialRemarksEndpoint = `${baseUrl}/editorial_remarks`;
 const getInsignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/insignificant_variants`;
 const getSignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/significant_variants`;
 const getTokensForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens`;
@@ -13,6 +14,7 @@ export const variantValue = { selected_reading: "happy", details: "very happy" }
 export const tokenValue = "token";
 export const errorGroupedVariantsField = "grouped variant field error";
 export const errorVariantsField = "variant field error";
+export const errorEditorialRemark = "editorial remark field error";
 
 const variant: API.SignificantVariant = {
   index: 1,
@@ -44,6 +46,18 @@ export const variants: API.Variant[] = [
     witness: "a",
   },
 ];
+
+export const editorialRemark: API.EditorialRemark = {
+  t: "custom text wow",
+  type: "em.",
+};
+
+const editorialRemarksMap = {
+  Conjecture: "conj.",
+  Correction: "corr.",
+  Emendation: "em.",
+  Standardisation: "st.",
+} as const;
 
 const tokenDetails: API.TokenDetails = {
   apparatus: {
@@ -78,6 +92,8 @@ const getTokensForProjectByIdResponse: API.GetTokensForProjectByIdResponse = {
 
 const getTokenDetailsForProjectByIdSuccessResponse: API.GetTokenDetailsForProjectByIdResponse =
   tokenDetails;
+
+const getEditorialRemarksResponse: API.GetEditorialRemarksResponse = editorialRemarksMap;
 
 const updateGroupedVariantsForTokenByIdSuccessResponse: API.UpdateGroupedVariantsForTokenByIdResponse =
   tokenDetails;
@@ -135,6 +151,14 @@ export const updateGroupedVariantsForTokenByIdGroupedVariantsFieldException = re
 );
 
 // variants edition
+export const getEditorialRemarks = rest.get(getEditorialRemarksEndpoint, (_, res, ctx) =>
+  res(ctx.json(getEditorialRemarksResponse)),
+);
+
+export const getEditorialRemarksException = rest.get(getEditorialRemarksEndpoint, (_, res, ctx) =>
+  res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
 export const updateVariantsForTokenById = rest.patch(
   updateVariantsForTokenByIdEndpoint,
   (_, res, ctx) => res(ctx.json(updateVariantsForTokenByIdSuccessResponse)),
@@ -148,6 +172,11 @@ export const updateVariantsForTokenByIdGenericException = rest.patch(
 export const updateVariantsForTokenByIdVariantsFieldException = rest.patch(
   updateVariantsForTokenByIdEndpoint,
   (_, res, ctx) => res(ctx.status(400), ctx.json({ variants: [errorVariantsField] })),
+);
+
+export const updateVariantsForTokenByIdEditorialRemarkFieldException = rest.patch(
+  updateVariantsForTokenByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ editorial_remark: [errorEditorialRemark] })),
 );
 
 // tokens

@@ -1,6 +1,9 @@
 import {
+  editorialRemark,
+  errorEditorialRemark,
   errorGeneric,
   errorVariantsField,
+  updateVariantsForTokenByIdEditorialRemarkFieldException,
   updateVariantsForTokenByIdGenericException,
   updateVariantsForTokenByIdVariantsFieldException,
   variants,
@@ -20,6 +23,7 @@ function EditionFormWithCommonPropsAndToastProvider(props: Partial<EditionFormPr
         projectId={projectId}
         tokenId={tokenId}
         variants={variants}
+        editorialRemark={editorialRemark}
         onCancel={() => {}}
         {...props}
       />
@@ -60,6 +64,22 @@ describe("EditionForm", () => {
     expect(await screen.findByText(errorVariantsField)).toBeInTheDocument();
   });
 
+  it("renders correctly and shows editorial remark field error", async () => {
+    mockServer.use(updateVariantsForTokenByIdEditorialRemarkFieldException);
+
+    const user = userEvent.setup();
+
+    render(<EditionFormWithCommonPropsAndToastProvider />);
+
+    const textarea = screen.getByLabelText(variants[0].witness);
+    const saveButton = screen.getByRole("button", { name: "project.save" });
+
+    await user.type(textarea, "test");
+    await user.click(saveButton);
+
+    expect(await screen.findByText(errorEditorialRemark)).toBeInTheDocument();
+  });
+
   it("renders correctly fires onCancel callback", async () => {
     const onCancel = jest.fn();
     const user = userEvent.setup();
@@ -82,6 +102,26 @@ describe("EditionForm", () => {
     render(<EditionFormWithCommonPropsAndToastProvider />);
 
     const textarea = screen.getByLabelText(variants[0].witness);
+
+    const saveButton = screen.getByRole("button", { name: "project.save" });
+
+    await user.type(textarea, "test");
+    await user.click(saveButton);
+
+    expect(await screen.findByText("project.edit_token_variant_submit")).toBeInTheDocument();
+  });
+
+  it("renders correctly initial editorial remark and submits the form", async () => {
+    const user = userEvent.setup();
+
+    render(<EditionFormWithCommonPropsAndToastProvider />);
+
+    const textarea = screen.getByLabelText(variants[0].witness);
+    const initialTypeLabel = await screen.findByLabelText("Emendation");
+    const initialEditorialRemark = await screen.findByDisplayValue(editorialRemark.t);
+
+    expect(initialEditorialRemark).toBeInTheDocument();
+    expect(initialTypeLabel).toBeInTheDocument();
 
     const saveButton = screen.getByRole("button", { name: "project.save" });
 

@@ -8,17 +8,24 @@ import Typography from "@/components/ui/typography";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import styled from "styled-components";
 
+import AddEditorialRemark, { useAddEditorialRemark } from "./add-editorial-remark";
 import { useUpdateVariantsForTokenById } from "./query";
+
+type VariantsData = {
+  variants: API.Variant[];
+  editorialRemark?: API.EditorialRemark;
+};
 
 export type EditionFormProps = {
   projectId: number;
   tokenId: number;
   variants: API.Variant[];
+  editorialRemark?: API.EditorialRemark;
   onVariantEditionSave?: () => Promise<void>;
   onCancel: () => void;
 };
 
-const ERROR_FIELDS = ["variants"];
+const ERROR_FIELDS = ["variants", "editorial_remark"];
 
 const Form = styled.form`
   display: flex;
@@ -33,24 +40,19 @@ const ButtonsWrapper = styled.div`
   gap: 12px;
 `;
 
-const EditorialRemarkButton = styled(Button)`
-  margin: 6px 0 6px 0;
-`;
-
-/** Exception to react-hook-form rule from the README.
- * This component uses controlled inputs and doesn't use react-hook-form.
- * The reason for this is that the inputs are dynamic.
- * The purpose of the library is to make it easier to handle forms, here it wouldn't be the case.
- */
 function EditionForm({
   variants,
   projectId,
   tokenId,
   onCancel,
   onVariantEditionSave,
+  editorialRemark,
 }: EditionFormProps) {
   const { t } = useTranslation();
-  const [variantsData, setVariantsData] = useState(variants);
+  const [variantsData, setVariantsData] = useState<VariantsData>({ variants, editorialRemark });
+  const { showEditorialRemark, setShowEditorialRemark } = useAddEditorialRemark(
+    !!variantsData.editorialRemark?.t,
+  );
   const { mutate: updateVariantsForTokenById, isLoading } = useUpdateVariantsForTokenById({
     onSuccess: async () => {
       if (onVariantEditionSave) {
@@ -67,21 +69,25 @@ function EditionForm({
           toast.error(<Typography>{apiError.error}</Typography>);
         }
 
-        // Error for variants
-        if (apiError[ERROR_FIELDS[0]]) {
-          toast.error(<Typography>{apiError[ERROR_FIELDS[0]]}</Typography>);
-        }
+        // Error for variants and editorial remark
+        ERROR_FIELDS.forEach(field => {
+          if (apiError[field]) {
+            toast.error(<Typography>{apiError[field]}</Typography>);
+          }
+        });
       }
     },
   });
+
   const handleSetVariantData = (variant: API.Variant, value: string) => {
-    setVariantsData(previousVariantsData =>
-      previousVariantsData.map(currentVariant =>
+    setVariantsData(previousVariantsData => ({
+      editorialRemark: previousVariantsData.editorialRemark,
+      variants: previousVariantsData.variants.map(currentVariant =>
         currentVariant.witness === variant.witness
           ? { ...currentVariant, t: value }
           : currentVariant,
       ),
-    );
+    }));
   };
 
   return (
@@ -92,7 +98,8 @@ function EditionForm({
         updateVariantsForTokenById({
           data: {
             token: {
-              variants: variantsData,
+              variants: variantsData.variants,
+              editorial_remark: variantsData.editorialRemark,
             },
           },
           projectId,
@@ -100,7 +107,7 @@ function EditionForm({
         });
       }}
     >
-      {variantsData.map(variant => (
+      {variantsData.variants.map(variant => (
         <TextArea
           key={variant.witness}
           id={variant.witness}
@@ -111,9 +118,17 @@ function EditionForm({
           adjustInitialHeightToContent
         />
       ))}
-      <EditorialRemarkButton disabled variant="tertiary" small type="button">
-        {t("project.add_editorial_remark")}
-      </EditorialRemarkButton>
+      <AddEditorialRemark
+        initialEditorialRemark={editorialRemark}
+        showEditorialRemark={showEditorialRemark}
+        toggleEditorialRemarkVisibility={() => setShowEditorialRemark(true)}
+        onEditorialRemarkSelect={editorialRemark =>
+          setVariantsData(previousVariantsData => ({
+            variants: previousVariantsData.variants,
+            editorialRemark: editorialRemark,
+          }))
+        }
+      />
       <ButtonsWrapper>
         <Button small type="submit" isLoading={isLoading} disabled={isLoading}>
           {t("project.save")}
@@ -124,7 +139,10 @@ function EditionForm({
           type="button"
           isLoading={isLoading}
           disabled={isLoading}
-          onClick={onCancel}
+          onClick={() => {
+            setShowEditorialRemark(false);
+            onCancel();
+          }}
         >
           {t("project.cancel")}
         </Button>

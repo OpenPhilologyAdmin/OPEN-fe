@@ -29,7 +29,6 @@ const ItemWrapper = styled.label<ComponentPropsWithRef<"label">>`
   padding: 6px 16px;
   display: flex;
   column-gap: 8px;
-
   cursor: pointer;
 `;
 

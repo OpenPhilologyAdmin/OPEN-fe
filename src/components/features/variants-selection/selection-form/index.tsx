@@ -61,11 +61,6 @@ const updateSelectedVariantInGroupedVariants = (
     groupedVariants.map(variant => ({ ...variant, selected: false })),
   );
 
-/** Exception to react-hook-form rule from the README.
- * This component uses controlled inputs and doesn't use react-hook-form.
- * The reason for this is that the inputs are dynamic and interdependent.
- * The purpose of the library is to make it easier to handle forms, here it wouldn't be the case.
- */
 function SelectionForm({
   tokenId,
   projectId,

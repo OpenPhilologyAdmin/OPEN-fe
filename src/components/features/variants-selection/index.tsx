@@ -64,6 +64,7 @@ function PanelContent({
           projectId={projectId}
           tokenId={tokenId}
           variants={token.variants}
+          editorialRemark={token.editorial_remark}
           onCancel={toggleIsEditingVariants}
           onVariantEditionSave={handleInvalidateProjectViewQueries}
         />

@@ -60,6 +60,11 @@ declare namespace API {
     state: TokenState;
   };
 
+  type EditorialRemark = {
+    type: EditorialRemarkType;
+    t: string;
+  };
+
   type TokenDetails = {
     id: number;
     apparatus: {
@@ -68,10 +73,7 @@ declare namespace API {
     } | null;
     grouped_variants: GroupedVariant[];
     variants: Variant[];
-    editorial_remark: {
-      type: EditorialRemarkType;
-      t: string;
-    };
+    editorial_remark: EditorialRemark;
   };
 
   type SignificantVariant = {
@@ -272,4 +274,11 @@ declare namespace API {
   };
 
   type UpdateVariantsForTokenByIdResponse = TokenDetails;
+
+  type GetEditorialRemarksResponse = {
+    Standardisation: "st.";
+    Correction: "corr.";
+    Emendation: "em.";
+    Conjecture: "conj.";
+  };
 }

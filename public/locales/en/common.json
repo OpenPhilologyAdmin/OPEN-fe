@@ -133,6 +133,11 @@
     "no_selection": "No selection",
     "add_editorial_remark": "Add editorial remark",
     "edit_token_variant_submit": "You edited the variants successfully, previous selections for the token were removed, please select the correct reading again",
-    "edit_toggle": "Toggle variants edit mode"
+    "edit_toggle": "Toggle variants edit mode",
+    "editorial_remark_title": "Editorial remark",
+    "editorial_remark_error": "Failed to fetch editorial remark types",
+    "editorial_remark_loading": "Loading editorial remark types",
+    "editorial_remark_type": "Type",
+    "editorial_remark_content": "Content"
   }
 }

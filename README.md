@@ -123,7 +123,7 @@ OPLU-103-project-setup
 13. Name constants in UPPER_SNAKE_CASE.
 14. In hooks directory, store only hooks that are used more than once, do not store feature-specific hooks there, such
     hooks belong to their feature.
-15. For working with forms use react-hook-form and zod, [see example](https://github.com/react-hook-form/resolvers#zod).
+15. For working with static forms use react-hook-form and zod, [see example](https://github.com/react-hook-form/resolvers#zod). For dynamic forms use what suits the use case best.
 16. Every request should be tested and mocked using MSW.
 17. Everything related to `react-testing-library` is imported from test-utils.
 18. Always use meaningful variables, avoid abbreviations or single-character variable names

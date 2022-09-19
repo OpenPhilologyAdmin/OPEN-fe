@@ -58,7 +58,8 @@ const DropdownWrapper = styled.div<ComponentPropsWithRef<"div">>`
   user-select: none;
 
   &:focus {
-    outline-color: ${props => props.theme.colors.focus};
+    outline: none;
+    box-shadow: ${({ theme: { colors } }) => colors.focusShadow};
   }
 `;
 
@@ -66,11 +67,10 @@ const DropdownLabel = styled(Typography).attrs({ as: "label", variant: "body-bol
   position: absolute;
   top: -15px;
   left: 8px;
-  padding-inline: 8px;
-  background: ${props => props.theme.colors.backgroundPrimary};
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
+  padding: 0 8px;
+  height: 20px;
+  background-color: ${({ theme: { colors } }) => colors.backgroundPrimary};
+  color: ${({ theme: { colors } }) => colors.textDimmed};
   white-space: nowrap;
   cursor: pointer;
 `;
@@ -103,10 +103,10 @@ const DropdownOptions = styled.div<DropdownOptionsProps>`
   border: inherit;
   background: inherit;
   overflow-y: auto;
-  z-index: 1;
+  z-index: 10;
 
   & + ${DropdownLabel} {
-    z-index: ${props => (props.open ? 1 : "auto")};
+    z-index: ${props => (props.open ? 10 : "auto")};
   }
 `;
 
@@ -238,7 +238,9 @@ function Dropdown({ label, multiple, prompt, onChange, children }: DropdownProps
           </>
         ))}
       </DropdownOptions>
-      <DropdownLabel id={labelId}>{label}</DropdownLabel>
+      <DropdownLabel id={labelId}>
+        <Typography variant="small-bold">{label}</Typography>
+      </DropdownLabel>
       <DropdownArrow />
     </DropdownWrapper>
   );
