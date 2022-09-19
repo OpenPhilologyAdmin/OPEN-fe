@@ -1,8 +1,8 @@
 import { ComponentPropsWithoutRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
+import ContinuousIcon from "@/assets/images/icons/continuous.svg";
 import ListPointersIcon from "@/assets/images/icons/list-pointers.svg";
-import ListRightIcon from "@/assets/images/icons/list-right.svg";
 import Button from "@/components/ui/button";
 import Typography from "@/components/ui/typography";
 import VariantsPanel from "@/components/ui/variants-panel";
@@ -29,7 +29,6 @@ type PanelContentProps = {
 const VariantListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
 `;
 
 const VariantAsText = styled(Typography).attrs({ variant: "small-regular" })`
@@ -120,7 +119,7 @@ function InsignificantVariants({
       togglePanelVisibility={togglePanelVisibility}
       actionNode={
         <Button type="button" mode="icon" variant="secondary" small onClick={toggleDisplayMode}>
-          {displayMode === "text" ? <ListRightIcon /> : <ListPointersIcon />}
+          {displayMode === "text" ? <ContinuousIcon /> : <ListPointersIcon />}
         </Button>
       }
       {...props}

@@ -17,6 +17,7 @@ type TokenProps = TypographyProps & {
 type StyledProps = {
   $variant: API.TokenState;
   highlighted?: boolean;
+  $apparatusIndexVisible?: boolean;
 };
 
 const getActionableTokenVariantStyle = (color: string, highlighted: boolean) => {
@@ -34,6 +35,11 @@ const getActionableTokenVariantStyle = (color: string, highlighted: boolean) => 
 };
 
 const Wrapper = styled(Typography)<StyledProps>`
+  ${({ $apparatusIndexVisible }) =>
+    $apparatusIndexVisible &&
+    css`
+      margin-right: 3px;
+    `}
   ${({ $variant, highlighted }) => {
     if ($variant === "not_evaluated") {
       return css`
@@ -93,6 +99,7 @@ function Token({
       }}
       $variant={token.state}
       highlighted={highlighted}
+      $apparatusIndexVisible={apparatusIndexVisible}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
     >
       {token.t}

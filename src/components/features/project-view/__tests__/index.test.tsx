@@ -113,7 +113,7 @@ describe("ProjectView", () => {
     // significant variants + insignificant variants + token + toggle label
     const apparatusIndices = await screen.findAllByText("(1)");
 
-    expect(apparatusIndices.length).toBe(4);
+    expect(apparatusIndices.length).toBe(3);
 
     const toggle = container.querySelector("#apparatus-index-toggle");
 
@@ -121,8 +121,8 @@ describe("ProjectView", () => {
       await user.click(toggle);
     }
 
-    // toggle label
-    expect(screen.getAllByText("(1)").length).toBe(1);
+    // no apparatus indices when toggle enabled
+    expect(screen.queryAllByText("(1)").length).toBe(0);
   });
 
   it("renders correctly and toggles apparatus index visibility in READ mode", async () => {
@@ -132,7 +132,7 @@ describe("ProjectView", () => {
     // significant variants + insignificant variants + token + toggle label
     const apparatusIndices = await screen.findAllByText("(1)");
 
-    expect(apparatusIndices.length).toBe(3);
+    expect(apparatusIndices.length).toBe(2);
 
     const toggle = container.querySelector("#apparatus-index-toggle");
 
@@ -140,7 +140,7 @@ describe("ProjectView", () => {
       await user.click(toggle);
     }
 
-    // toggle label
-    expect(screen.getAllByText("(1)").length).toBe(1);
+    // no apparatus indices when toggle enabled
+    expect(screen.queryAllByText("(1)").length).toBe(0);
   });
 });

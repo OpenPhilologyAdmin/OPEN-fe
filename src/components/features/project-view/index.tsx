@@ -1,9 +1,8 @@
 import { useCallback, useState } from "react";
 
+import FootnoteIcon from "@/assets/images/icons/footnote.svg";
 import { usePanel } from "@/components/ui/panel";
-import Sup from "@/components/ui/sup";
 import Toggle, { useToggle } from "@/components/ui/toggle";
-import Typography from "@/components/ui/typography";
 import { Mode } from "@/contexts/current-project-mode";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled, { css } from "styled-components";
@@ -92,7 +91,6 @@ const VariantsTabWrapper = styled.div`
   position: relative;
   height: calc(100% - 78px);
   padding: 24px 24px 16px 24px;
-  overflow-y: scroll;
 `;
 
 const PanelsWrapper = styled.div`
@@ -176,10 +174,7 @@ function ProjectView({ project }: ProjectViewProps) {
     >
       <Content>
         <ContentTopBar>
-          <Typography>
-            {"A"}
-            <Sup>{"(1)"}</Sup>
-          </Typography>
+          <FootnoteIcon />
           <Toggle
             id="apparatus-index-toggle"
             value={String(isApparatusIndexDisplayed)}

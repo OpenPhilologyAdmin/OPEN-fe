@@ -9,7 +9,6 @@ import {
   Thead,
   Tr as BaseTr,
 } from "@/components/ui/table";
-import { useUser } from "@/hooks/use-user";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import styled, { css } from "styled-components";
 
@@ -25,7 +24,6 @@ export type WitnessListTableProps = {
 type ViewProps = {
   witnesses: API.Witness[];
   project: API.Project;
-  userId: number;
 };
 
 type ErrorProps = {
@@ -103,8 +101,8 @@ function WitnessListThead() {
   );
 }
 
-function View({ project, userId, witnesses }: ViewProps) {
-  const canDelete = witnesses.length > 1 && userId === project.creator_id;
+function View({ project, witnesses }: ViewProps) {
+  const canDelete = witnesses.length > 1;
 
   return (
     <Wrapper>
@@ -191,7 +189,6 @@ function Error({ apiError }: ErrorProps) {
 }
 
 function WitnessListTable({ project }: WitnessListTableProps) {
-  const { user } = useUser();
   const {
     data,
     isLoading,
@@ -205,8 +202,8 @@ function WitnessListTable({ project }: WitnessListTableProps) {
 
   if (isLoading && !witnesses) return <Loader />;
 
-  if (project && user && witnesses) {
-    return <View project={project} witnesses={witnesses} userId={user.id} />;
+  if (project && witnesses) {
+    return <View project={project} witnesses={witnesses} />;
   }
 
   return null;

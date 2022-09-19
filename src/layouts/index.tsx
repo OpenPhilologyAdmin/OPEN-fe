@@ -24,7 +24,7 @@ type ContentProps = {
 
 const Main = styled.main`
   /* Compensate header height */
-  height: calc(100vh - 70px);
+  height: calc(100vh - 72px);
   padding: 0 24px 16px 24px;
   background-image: url("/images/background.jpg");
   background-size: cover;

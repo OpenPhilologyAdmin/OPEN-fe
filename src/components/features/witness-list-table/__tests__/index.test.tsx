@@ -26,14 +26,10 @@ describe("WitnessListTable", () => {
     expect(await screen.findByText(errorGeneric)).toBeInTheDocument();
   });
 
-  it("renders correctly and deletes the witness when project creator id matches user id", async () => {
+  it("renders correctly and deletes the witness", async () => {
     const user = userEvent.setup();
 
-    render(<WitnessListTableWithMockToastProvider />, {
-      user: {
-        id: 1,
-      },
-    });
+    render(<WitnessListTableWithMockToastProvider />);
 
     const [deleteButton] = await screen.findAllByTestId("delete-button");
 
@@ -52,19 +48,6 @@ describe("WitnessListTable", () => {
     const rows = await screen.findAllByTestId("row");
 
     expect(rows.length).toEqual(2);
-  });
-
-  it("renders disabled delete button when user id doesn't match project creator id", async () => {
-    const user = userEvent.setup();
-
-    render(<WitnessListTableWithMockToastProvider />, { user: { id: 1111 } });
-
-    const [deleteButton] = await screen.findAllByTestId("delete-button");
-
-    await user.click(deleteButton);
-
-    expect(deleteButton).toBeDisabled();
-    expect(screen.queryByText("witness_list.delete_title")).not.toBeInTheDocument();
   });
 
   it("renders correctly and updates the witness name", async () => {

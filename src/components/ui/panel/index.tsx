@@ -32,6 +32,7 @@ const OpenWrapper = styled.div`
 `;
 
 const ClosedRotatedWrapper = styled.div`
+  overflow: hidden !important;
   width: 58px;
 `;
 

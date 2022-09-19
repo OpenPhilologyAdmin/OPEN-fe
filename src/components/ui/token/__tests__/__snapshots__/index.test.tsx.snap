@@ -15,6 +15,7 @@ exports[`Token renders a Token unchanged in edit mode and highlighted 1`] = `
 }
 
 .c1 {
+  margin-right: 3px;
   cursor: pointer;
   color: #101521;
   border: 1px solid transparent;
@@ -61,6 +62,7 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_mult
 }
 
 .c1 {
+  margin-right: 3px;
   cursor: pointer;
   color: #5D2DEF;
   border: 1px solid transparent;
@@ -105,6 +107,7 @@ exports[`Token renders a Token unchanged in edit mode and in evaluated_with_sing
 }
 
 .c1 {
+  margin-right: 3px;
   cursor: pointer;
   color: #101521;
   border: 1px solid transparent;
@@ -149,6 +152,7 @@ exports[`Token renders a Token unchanged in edit mode and in not_evaluated state
 }
 
 .c1 {
+  margin-right: 3px;
   cursor: pointer;
   color: #FC6145;
   border: 1px solid transparent;
@@ -193,6 +197,7 @@ exports[`Token renders a Token unchanged in edit mode and in one_variant state 1
 }
 
 .c1 {
+  margin-right: 3px;
   color: #101521;
 }
 
@@ -227,6 +232,7 @@ exports[`Token renders a Token unchanged in read mode 1`] = `
 }
 
 .c1 {
+  margin-right: 3px;
   color: #101521;
 }
 

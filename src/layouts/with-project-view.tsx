@@ -26,8 +26,8 @@ type ContentProps = {
 
 const Main = styled.main`
   /* Compensate header height */
-  height: calc(100vh - 70px);
-  max-height: calc(100vh - 70px);
+  height: calc(100vh - 72px);
+  max-height: calc(100vh - 72px);
   padding: 0;
   background: ${({ theme }) => theme.colors.backgroundPrimary}; ;
 `;
