@@ -17,6 +17,7 @@ import TextArea from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import Toggle from "@/components/ui/toggle";
 import Typography from "@/components/ui/typography";
+import NewTypography from "@/components/ui/typography/new_index";
 import { ROUTES } from "@/constants/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
@@ -54,6 +55,15 @@ const Column = styled.div`
   overflow: scroll;
 `;
 
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  row-gap: 12px;
+  min-width: 500px;
+  overflow: scroll;
+`;
+
 const ColumHeading = styled.h1`
   margin: 0 10px;
   font-size: 30px;
@@ -84,20 +94,62 @@ function StyleGuide() {
 
   return (
     <Main onSubmit={handleSubmit(d => console.log(d))}>
-      <Column>
-        <ColumHeading>Typography</ColumHeading>
-        <Typography>hello</Typography>
-        <Typography variant="header">hello</Typography>
-        <Typography variant="body-bold">hello</Typography>
-        <Typography variant="body-link">hello</Typography>
-        <Typography variant="body-regular">hello</Typography>
-        <Typography variant="button-small">hello</Typography>
-        <Typography variant="small-bold">hello</Typography>
-        <Typography variant="small-regular">hello</Typography>
-        <Typography variant="small-text-bold">hello</Typography>
-        <Typography variant="small-text-regular">hello</Typography>
-        <Typography variant="small-text-super">hello</Typography>
-      </Column>
+      <Row>
+        <Column>
+          <ColumHeading>New Typography</ColumHeading>
+          <NewTypography>hello</NewTypography>
+          <NewTypography variant="header">header</NewTypography>
+          <NewTypography variant="body" bold>
+            body-bold
+          </NewTypography>
+          <NewTypography variant="body" link>
+            body-link
+          </NewTypography>
+          <NewTypography variant="body">body-regular</NewTypography>
+          <NewTypography variant="small" bold>
+            button-small
+          </NewTypography>
+          <NewTypography variant="small">tiny</NewTypography>
+          <NewTypography variant="regular">text-regular</NewTypography>
+          <NewTypography variant="regular" bold>
+            text-bold
+          </NewTypography>
+          <NewTypography variant="strong" compact bold>
+            text-super
+          </NewTypography>
+          <NewTypography variant="strong" compact shrink bold>
+            small-bold
+          </NewTypography>
+          <NewTypography variant="small">small-regular</NewTypography>
+          <NewTypography variant="strong" compact shrink bold>
+            small-text-bold
+          </NewTypography>
+          <NewTypography variant="strong" compact shrink>
+            small-text-regular
+          </NewTypography>
+          <NewTypography variant="strong" compact bold>
+            small-text-super
+          </NewTypography>
+        </Column>
+        <Column>
+          <ColumHeading>Typography</ColumHeading>
+          <Typography>hello</Typography>
+          <Typography variant="header">header</Typography>
+          <Typography variant="body-bold">body-bold</Typography>
+          <Typography variant="body-link">body-link</Typography>
+          <Typography variant="body-regular">body-regular</Typography>
+          <Typography variant="button-small">button-small</Typography>
+          <Typography variant="tiny">tiny</Typography>
+          <Typography variant="text-regular">text-regular</Typography>
+          <Typography variant="text-bold">text-bold</Typography>
+          <Typography variant="text-super">text-super</Typography>
+          <Typography variant="small-bold">small-bold</Typography>
+          <Typography variant="small-regular">small-regular</Typography>
+          <Typography variant="small-text-bold">small-text-bold</Typography>
+          <Typography variant="small-text-regular">small-text-regular</Typography>
+          <Typography variant="small-text-super">small-text-super</Typography>
+        </Column>
+      </Row>
 
       <Column>
         <ColumHeading>Input</ColumHeading>

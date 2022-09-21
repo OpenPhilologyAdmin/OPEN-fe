@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import ContinuousIcon from "@/assets/images/icons/continuous.svg";
 import ListPointersIcon from "@/assets/images/icons/list-pointers.svg";
 import Button from "@/components/ui/button";
-import Typography from "@/components/ui/typography";
+import NewTypography from "@/components/ui/typography/new_index";
 import VariantsPanel from "@/components/ui/variants-panel";
 import styled from "styled-components";
 
@@ -31,12 +31,17 @@ const VariantListWrapper = styled.div`
   flex-direction: column;
 `;
 
-const VariantAsText = styled(Typography).attrs({ variant: "small-regular" })`
+const VariantAsText = styled(NewTypography).attrs({ variant: "small" })`
   word-break: break-all;
   margin-right: 4px;
 `;
 
-const Index = styled(Typography).attrs({ variant: "small-bold" })`
+const Index = styled(NewTypography).attrs({
+  variant: "strong",
+  compact: true,
+  shrink: true,
+  bold: true,
+})`
   margin-right: 4px;
 `;
 
@@ -48,7 +53,7 @@ function PanelContent({
   const { t } = useTranslation();
 
   if (!insignificantVariants || insignificantVariants.length === 0)
-    return <Typography>{t("project.no_insignificant_variants_message")}</Typography>;
+    return <NewTypography>{t("project.no_insignificant_variants_message")}</NewTypography>;
 
   if (displayMode === "list") {
     return (
@@ -67,10 +72,10 @@ function PanelContent({
     return (
       <VariantListWrapper>
         {insignificantVariants.map(variant => (
-          <Typography key={variant.index} variant="small-regular">
+          <NewTypography key={variant.index} variant="small">
             {apparatusIndexVisible && <Index>({variant.index})</Index>}
             {variant.value.details}
-          </Typography>
+          </NewTypography>
         ))}
       </VariantListWrapper>
     );

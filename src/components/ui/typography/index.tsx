@@ -78,18 +78,18 @@ const SmallRegular = styled.span<StyledProps>`
 const SmallBold = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 700; // 600 in figma
   font-size: 14px;
-  line-height: 24px;
+  line-height: 24px; // 20 in figma
   ${({ truncate }) => truncate && truncateStyle};
 `;
 
 const Tiny = styled.span<StyledProps>`
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 500; // 600 in figma
   font-size: 12px;
-  line-height: 12px;
+  line-height: 12px; // 14 in figma
   letter-spacing: 0.05em;
   ${({ truncate }) => truncate && truncateStyle};
 `;
@@ -167,6 +167,25 @@ const TYPOGRAPHY_VARIANTS = {
   "small-text-super": SmallTextSuper,
 };
 
+/**
+ *
+ * @deprecated Please use <NewTypography instead;
+ *
+ * header: variant="header
+ *"body-regular": variant="body",
+  "body-bold": variant="body" bold,
+  "body-link": variant="body" link,
+  "button-small": variant="small" bold,
+  "small-regular": variant="small",
+  "small-bold": variant="strong" compact shrink bold,
+  tiny: variant="tiny",
+  "text-regular": variant="regular",
+  "text-bold": variant="regular" bold,
+  "text-super": variant="strong" compact bold,
+  "small-text-regular": variant="strong" compact shrink,
+  "small-text-bold": variant="strong" compact shrink bold,
+  "small-text-super": variant="strong" compact bold,
+ */
 function Typography({ variant = "body-regular", children, ...props }: TypographyProps) {
   const TypographyVariant = TYPOGRAPHY_VARIANTS[variant];
 
