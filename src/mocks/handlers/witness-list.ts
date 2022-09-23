@@ -4,9 +4,11 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 const getWitnessListByProjectIdEndpoint = `${baseUrl}/projects/:id/witnesses`;
 const updateWitnessByIdEndpoint = `${baseUrl}/projects/:id/witnesses/:id`;
 const deleteWitnessByIdEndpoint = `${baseUrl}/projects/:id/witnesses/:id`;
+const addWitnessEndpoint = `${baseUrl}/projects/:id/witnesses`;
 export const message = "Project deleted";
 export const errorGeneric = "Generic error";
 export const errorField = "Name too long.";
+export const addWitnessMessage = "add_witness.add_witness_message";
 
 export const witness: API.Witness = {
   id: "AS",
@@ -39,6 +41,11 @@ export const project: API.Project = {
 
 const deleteWitnessByIdEndpointHandlerSuccessResponse: API.DeleteWitnessByIdResponse = {
   message,
+};
+
+const addWitnessEndpointHandlerSuccessResponse: API.AddWitnessResponse = {
+  name: "witness",
+  siglum: "",
 };
 
 const updateWitnessByIdHandlerSuccessResponse: API.UpdateWitnessByIdResponse = {
@@ -90,5 +97,15 @@ export const deleteWitnessByIdEndpointHandler = rest.delete(
 
 export const deleteWitnessByIdEndpointHandlerGenericException = rest.delete(
   deleteWitnessByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+//add
+export const addWitnessByEndpointHandler = rest.post(addWitnessEndpoint, (_, res, ctx) =>
+  res(ctx.json(addWitnessEndpointHandlerSuccessResponse)),
+);
+
+export const addWitnessEndpointHandlerGenericException = rest.post(
+  addWitnessEndpoint,
   (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
 );

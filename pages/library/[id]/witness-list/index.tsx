@@ -5,15 +5,30 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Breadcrumb } from "@/components/features/breadcrumbs";
 import WitnessListTable from "@/components/features/witness-list-table";
+import AddWitnessButton from "@/components/features/witness-list-table/add-witness-button";
 import { ROUTES } from "@/constants/routes";
 import WithTableLayout from "@/layouts/shared/with-table";
 import WithCustomBreadcrumbs from "@/layouts/with-custom-breadcrumbs";
 import { withAuth } from "@/services/auth/with-auth";
 import { getProjectById } from "@/services/project";
+import styled from "styled-components";
 
 type Props = {
   project: API.Project;
 };
+
+const Footer = styled.div`
+  position: fixed;
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
+  width: 100%;
+  background: ${({ theme }) => theme.colors.backgroundPrimary};
+  padding: 15px;
+  display: flex;
+  justify-content: flex-end;
+  bottom: 0;
+  left: 0;
+  height: 72px;
+`;
 
 function WitnessList({ project }: Props) {
   const { t } = useTranslation();
@@ -25,6 +40,9 @@ function WitnessList({ project }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <WitnessListTable project={project} />
+      <Footer>
+        <AddWitnessButton project={project} variant="secondary" />
+      </Footer>
     </>
   );
 }

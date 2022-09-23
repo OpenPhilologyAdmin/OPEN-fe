@@ -88,7 +88,7 @@ Project.getLayout = function getLayout(page: ReactElement) {
   ];
 
   return (
-    <WithProjectView align="TOP" breadcrumbs={breadcrumbs}>
+    <WithProjectView align="TOP" breadcrumbs={breadcrumbs} project={page.props.project}>
       {page}
     </WithProjectView>
   );

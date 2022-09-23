@@ -21,6 +21,7 @@ import { resendActivationEmailHandler } from "./resend-activation-email";
 import { resetPasswordHandler } from "./reset-password";
 import { signInHandler } from "./sign-in";
 import {
+  addWitnessByEndpointHandler,
   deleteWitnessByIdEndpointHandler,
   getWitnessListByProjectId,
   updateWitnessByIdHandler,
@@ -50,4 +51,5 @@ export const handlers = [
   getTokenDetailsForProjectById,
   updateVariantsForTokenById,
   getEditorialRemarks,
+  addWitnessByEndpointHandler,
 ];

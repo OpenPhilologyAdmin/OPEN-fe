@@ -83,7 +83,7 @@ const Tr = styled(BaseTr)`
 const Tbody = styled(BaseTbody)`
   overflow-y: scroll;
   // compensate wrapping UI to be responsive
-  max-height: calc(100vh - 250px);
+  max-height: calc(100vh - 240px);
 `;
 
 function WitnessListThead() {

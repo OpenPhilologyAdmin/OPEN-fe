@@ -9,6 +9,7 @@ Modal.setAppElement("#__next");
 
 if (Modal.defaultStyles.overlay) {
   Modal.defaultStyles.overlay.backgroundColor = "rgba(16, 21, 33, 0.33)";
+  Modal.defaultStyles.overlay.zIndex = "10000";
 }
 
 // Requires setting height and width with inset because modal is positioned absolutely

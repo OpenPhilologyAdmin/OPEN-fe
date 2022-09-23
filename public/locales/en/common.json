@@ -139,5 +139,13 @@
     "editorial_remark_loading": "Loading editorial remark types",
     "editorial_remark_type": "Type",
     "editorial_remark_content": "Content"
+  },
+  "add_witness": {
+    "witness_name": "Witness name",
+    "siglum": "Siglum",
+    "submit": "Add witness",
+    "cancel": "Cancel",
+    "open_modal_button": "Add new witness",
+    "add_witness_message": "Your witness witness {{name}}, {{siglum}} has been successfully added to project {{projectName}}. You can change the variants for this witness in the project Edit mode."
   }
 }

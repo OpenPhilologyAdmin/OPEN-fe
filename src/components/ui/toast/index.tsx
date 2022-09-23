@@ -8,6 +8,7 @@ const ToastContainer = styled(BaseToastContainer)`
   &&&.Toastify__toast-container {
     top: 150px;
     width: 648px;
+    z-index: 99999;
 
     .Toastify__toast-theme--light {
       color: ${({ theme }) => theme.colors.textSecondary};

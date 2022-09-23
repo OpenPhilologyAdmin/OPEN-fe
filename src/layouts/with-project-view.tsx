@@ -1,10 +1,12 @@
-import { ReactElement } from "react";
+import { ReactElement, useContext } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
 import BaseBreadcrumbs, { Breadcrumb, BreadcrumbsItem } from "@/components/features/breadcrumbs";
+import AddWitnessButton from "@/components/features/witness-list-table/add-witness-button";
 import Header from "@/components/ui/header";
 import Toggle from "@/components/ui/toggle";
+import { TokenContext } from "@/contexts/selectedToken";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled from "styled-components";
 
@@ -18,6 +20,7 @@ type Props = {
   children: ReactElement;
   breadcrumbs: Breadcrumb[];
   align?: Align;
+  project: API.Project;
 };
 
 type ContentProps = {
@@ -49,9 +52,22 @@ const ToggleWrapper = styled.div`
   margin-right: 24px;
 `;
 
-function WithProjectView({ breadcrumbs, children, align = "CENTER" }: Props) {
+const TopBarWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ButtonWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  margin-right: 10px;
+`;
+
+function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: Props) {
   const { t } = useTranslation();
   const { mode, toggleMode } = useCurrentProjectMode();
+
+  const { tokenContextId } = useContext(TokenContext);
 
   return (
     <>
@@ -69,17 +85,22 @@ function WithProjectView({ breadcrumbs, children, align = "CENTER" }: Props) {
         <Logout />
       </Header>
       <Main>
-        <Breadcrumbs variant="LIGHT">
-          <BreadcrumbsItem href="/">{t("home.route_name")}</BreadcrumbsItem>
-          {breadcrumbs.slice(0, -1).map(breadcrumb => (
-            <BreadcrumbsItem key={breadcrumb.href} href={breadcrumb.href}>
-              {breadcrumb.label}
-            </BreadcrumbsItem>
-          ))}
-          {breadcrumbs.length >= 1 && (
-            <BreadcrumbsItem>{breadcrumbs[breadcrumbs.length - 1].label}</BreadcrumbsItem>
-          )}
-        </Breadcrumbs>
+        <TopBarWrapper>
+          <Breadcrumbs variant="LIGHT">
+            <BreadcrumbsItem href="/">{t("home.route_name")}</BreadcrumbsItem>
+            {breadcrumbs.slice(0, -1).map(breadcrumb => (
+              <BreadcrumbsItem key={breadcrumb.href} href={breadcrumb.href}>
+                {breadcrumb.label}
+              </BreadcrumbsItem>
+            ))}
+            {breadcrumbs.length >= 1 && (
+              <BreadcrumbsItem>{breadcrumbs[breadcrumbs.length - 1].label}</BreadcrumbsItem>
+            )}
+          </Breadcrumbs>
+          <ButtonWrapper>
+            <AddWitnessButton project={project} small tokenId={tokenContextId} />
+          </ButtonWrapper>
+        </TopBarWrapper>
         <Content align={align}>{children}</Content>
       </Main>
     </>

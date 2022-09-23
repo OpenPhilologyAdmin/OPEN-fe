@@ -238,6 +238,17 @@ declare namespace API {
     message: string;
   };
 
+  type AddWitnessPayload = {
+    projectId: number;
+    name: string;
+    siglum: string;
+  };
+
+  type AddWitnessResponse = {
+    name: string;
+    siglum: string;
+  };
+
   type GetTokensForProjectByIdResponse = {
     records: Token[];
     count: number;

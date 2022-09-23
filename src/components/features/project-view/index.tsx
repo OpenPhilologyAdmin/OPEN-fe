@@ -1,9 +1,10 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import FootnoteIcon from "@/assets/images/icons/footnote.svg";
 import { usePanel } from "@/components/ui/panel";
 import Toggle, { useToggle } from "@/components/ui/toggle";
 import { Mode } from "@/contexts/current-project-mode";
+import { TokenContext } from "@/contexts/selectedToken";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled, { css } from "styled-components";
 
@@ -150,6 +151,12 @@ function ProjectView({ project }: ProjectViewProps) {
   const [selectedTokenId, setSelectedTokenId] = useState<number | null>(
     tokens?.find(token => token.state !== "one_variant")?.id || null,
   );
+
+  const { setTokenContextId } = useContext(TokenContext);
+
+  useEffect(() => {
+    selectedTokenId && setTokenContextId(selectedTokenId);
+  }, [selectedTokenId, setTokenContextId]);
 
   const handleSelectToken = useCallback((token: API.Token) => {
     if (token.state !== "one_variant") {
