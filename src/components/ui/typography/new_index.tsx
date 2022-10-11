@@ -69,6 +69,13 @@ type ConditionalProps =
       link?: never;
       compact?: true;
       shrink?: boolean;
+    }
+  | {
+      variant?: "tiny";
+      bold?: never;
+      link?: never;
+      compact?: never;
+      shrink?: never;
     };
 
 type Props = CommonProps & ConditionalProps;

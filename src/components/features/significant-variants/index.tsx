@@ -4,8 +4,8 @@ import { useTranslation } from "next-i18next";
 import ContinuousIcon from "@/assets/images/icons/continuous.svg";
 import ListPointersIcon from "@/assets/images/icons/list-pointers.svg";
 import Button from "@/components/ui/button";
+import ProjectPanel from "@/components/ui/project-panel";
 import Typography from "@/components/ui/typography";
-import VariantsPanel from "@/components/ui/variants-panel";
 import styled from "styled-components";
 
 import { useGetSignificantVariantsForProjectById } from "./query";
@@ -114,7 +114,7 @@ function SignificantVariants({
     });
 
   return (
-    <VariantsPanel
+    <ProjectPanel
       isOpen={isOpen}
       isError={isError && !significantVariants}
       isLoading={isLoading && !significantVariants}
@@ -139,7 +139,7 @@ function SignificantVariants({
         significantVariants={significantVariants}
         apparatusIndexVisible={apparatusIndexVisible}
       />
-    </VariantsPanel>
+    </ProjectPanel>
   );
 }
 

@@ -8,6 +8,9 @@ import {
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
 import { newPasswordHandler } from "./new-password";
 import {
+  deleteCommentById,
+  editCommentById,
+  getCommentsForProjectById,
   getEditorialRemarks,
   getInsignificantVariantsForProjectById,
   getSignificantVariantsForProjectById,
@@ -49,7 +52,11 @@ export const handlers = [
   getInsignificantVariantsForProjectById,
   updateGroupedVariantsForTokenById,
   getTokenDetailsForProjectById,
+  addWitnessByEndpointHandler,
   updateVariantsForTokenById,
   getEditorialRemarks,
   addWitnessByEndpointHandler,
+  getCommentsForProjectById,
+  deleteCommentById,
+  editCommentById,
 ];

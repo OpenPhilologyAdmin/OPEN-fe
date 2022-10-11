@@ -8,6 +8,7 @@ import { TokenContext } from "@/contexts/selectedToken";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled, { css } from "styled-components";
 
+import BaseComments from "../comments";
 import BaseInsignificantVariants from "../insignificant-variants";
 import { useInvalidateGetInsignificantVariantsForProjectByIdQuery } from "../insignificant-variants/query";
 import BaseSignificantVariants from "../significant-variants";
@@ -33,6 +34,7 @@ type GetGridTemplateColumnsProps = {
   isSignificantVariantsPanelOpen: boolean;
   isInsignificantVariantsPanelOpen: boolean;
   isVariantsSelectionPanelOpen: boolean;
+  isCommentsPanelOpen: boolean;
   mode: Mode;
 };
 
@@ -40,6 +42,7 @@ const getGridTemplateColumns = ({
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
   isVariantsSelectionPanelOpen,
+  isCommentsPanelOpen,
   mode,
 }: GetGridTemplateColumnsProps) => {
   if (mode === "READ") {
@@ -47,15 +50,35 @@ const getGridTemplateColumns = ({
   }
 
   if (isSignificantVariantsPanelOpen) {
-    return `1fr ${isVariantsSelectionPanelOpen ? "270px" : "58px"} 270px`;
+    return `1fr ${isVariantsSelectionPanelOpen || isCommentsPanelOpen ? "270px" : "58px"} 270px`;
   }
 
   if (isInsignificantVariantsPanelOpen) {
-    return `1fr ${isVariantsSelectionPanelOpen ? "270px" : "58px"} 270px`;
+    return `1fr ${isVariantsSelectionPanelOpen || isCommentsPanelOpen ? "270px" : "58px"} 270px`;
   }
 
   if (isVariantsSelectionPanelOpen) {
-    return "1fr 270px 58px";
+    return `1fr ${
+      (!isSignificantVariantsPanelOpen &&
+        !isInsignificantVariantsPanelOpen &&
+        !isCommentsPanelOpen) ||
+      isSignificantVariantsPanelOpen ||
+      isInsignificantVariantsPanelOpen ||
+      isCommentsPanelOpen
+        ? "270px"
+        : "58px"
+    }
+    ${!isSignificantVariantsPanelOpen && !isInsignificantVariantsPanelOpen ? "58px" : "270px"}`;
+  }
+
+  if (isCommentsPanelOpen) {
+    return `1fr ${
+      isSignificantVariantsPanelOpen ||
+      isInsignificantVariantsPanelOpen ||
+      isVariantsSelectionPanelOpen
+        ? "270px"
+        : "58px"
+    } 270px`;
   }
 
   return "1fr 58px 58px";
@@ -113,6 +136,10 @@ const SignificantVariants = styled(BaseSignificantVariants)<StyledPanelProps>`
   ${({ $isOpen }) => !$isOpen && `border-bottom: none`};
 `;
 
+const Comments = styled(BaseComments)<StyledPanelProps>`
+  ${panelStyles}
+`;
+
 const InsignificantVariants = styled(BaseInsignificantVariants)<StyledPanelProps>`
   ${panelStyles};
 `;
@@ -137,6 +164,8 @@ function ProjectView({ project }: ProjectViewProps) {
     isOpen: isVariantsSelectionPanelOpen,
     togglePanelVisibility: toggleVariantsSelectionPanelVisibility,
   } = usePanel();
+  const { isOpen: isCommentsPanelOpen, togglePanelVisibility: toggleCommentsPanelVisibility } =
+    usePanel();
 
   const projectId = project.id;
 
@@ -176,6 +205,7 @@ function ProjectView({ project }: ProjectViewProps) {
         isInsignificantVariantsPanelOpen,
         isSignificantVariantsPanelOpen,
         isVariantsSelectionPanelOpen,
+        isCommentsPanelOpen,
         mode,
       })}
     >
@@ -212,8 +242,8 @@ function ProjectView({ project }: ProjectViewProps) {
             isOpen={isVariantsSelectionPanelOpen}
             $isOpen={isVariantsSelectionPanelOpen}
             togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
-            isRotatedWhenClosed
-            isTall={true}
+            isRotatedWhenClosed={!isCommentsPanelOpen}
+            isTall={!isCommentsPanelOpen}
             invalidateProjectViewQueriesCallback={async () => {
               await invalidateGetTokensForProjectById({
                 mode: "EDIT",
@@ -226,6 +256,15 @@ function ProjectView({ project }: ProjectViewProps) {
                 projectId,
               });
             }}
+          />
+          <Comments
+            tokenId={selectedTokenId}
+            $isOpen={isCommentsPanelOpen}
+            isOpen={isCommentsPanelOpen}
+            togglePanelVisibility={toggleCommentsPanelVisibility}
+            projectId={projectId}
+            isRotatedWhenClosed={!isVariantsSelectionPanelOpen}
+            isTall={!isVariantsSelectionPanelOpen}
           />
         </PanelsWrapper>
       )}

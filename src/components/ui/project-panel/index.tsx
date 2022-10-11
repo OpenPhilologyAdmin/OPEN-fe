@@ -19,7 +19,7 @@ type CommonsProps = ComponentPropsWithoutRef<"div"> & {
   actionNode: ReactElement;
 };
 
-export type VariantsPanelProps = CommonsProps & {
+export type ProjectPanelProps = CommonsProps & {
   buttonText: string;
   errorText: string;
   loaderText: string;
@@ -149,7 +149,7 @@ function View({
   );
 }
 
-function VariantsPanel({
+function ProjectPanel({
   actionNode,
   heading,
   buttonText,
@@ -165,7 +165,7 @@ function VariantsPanel({
   isFetching,
   refetch,
   ...props
-}: VariantsPanelProps) {
+}: ProjectPanelProps) {
   if (isLoading)
     return (
       <Mask
@@ -214,4 +214,4 @@ function VariantsPanel({
 }
 
 export { Mask };
-export default VariantsPanel;
+export default ProjectPanel;

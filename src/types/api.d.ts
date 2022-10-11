@@ -93,6 +93,16 @@ declare namespace API {
     };
   };
 
+  type Comment = {
+    id: number;
+    body: string;
+    token_id: number;
+    user_id: number;
+    created_at: string;
+    created_by: string;
+    last_edit_at: string;
+  };
+
   type Error = {
     [key: ?string]: string[];
     error?: string | string[];
@@ -201,6 +211,20 @@ declare namespace API {
     id: number;
   };
 
+  type DeleteCommentByIdPayload = {
+    projectId: number;
+    tokenId: number | null;
+    commentId: number;
+  };
+
+  type DeleteCommentByIdResponse = {
+    message: string;
+  };
+
+  type EditCommentByIdResponse = {
+    message: string;
+  };
+
   type DeleteProjectByIdResponse = {
     message: string;
   };
@@ -238,10 +262,27 @@ declare namespace API {
     message: string;
   };
 
+  type AddCommentPayload = {
+    projectId: number;
+    tokenId: number | null;
+    body: string;
+  };
+
+  type AddCommentResponse = {
+    message: string;
+  };
+
   type AddWitnessPayload = {
     projectId: number;
     name: string;
     siglum: string;
+  };
+
+  type EditCommentByIdPayload = {
+    projectId: number;
+    tokenId: number | null;
+    commentId: number;
+    body: string;
   };
 
   type AddWitnessResponse = {
@@ -253,6 +294,8 @@ declare namespace API {
     records: Token[];
     count: number;
   };
+
+  type GetCommentsForProjectByIdResponse = Comment[];
 
   type GetSignificantVariantsForProjectByIdResponse = {
     records: SignificantVariant[];

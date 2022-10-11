@@ -1,6 +1,6 @@
 import { render, screen } from "@/utils/test-utils";
 
-import VariantsPanel, { VariantsPanelProps } from "..";
+import ProjectPanel, { ProjectPanelProps } from "..";
 
 const NODES_TEXTS = {
   HEADING: "Heading",
@@ -11,9 +11,9 @@ const NODES_TEXTS = {
   CHILDREN: "Children",
 };
 
-function VariantsPanelWithCommonProps(props: Partial<VariantsPanelProps>) {
+function ProjectPanelWithCommonProps(props: Partial<ProjectPanelProps>) {
   return (
-    <VariantsPanel
+    <ProjectPanel
       isError={props.isError || false}
       isRefetching={props.isRefetching || false}
       isFetching={props.isFetching || false}
@@ -30,13 +30,13 @@ function VariantsPanelWithCommonProps(props: Partial<VariantsPanelProps>) {
       {...props}
     >
       {NODES_TEXTS.CHILDREN}
-    </VariantsPanel>
+    </ProjectPanel>
   );
 }
 
-describe("VariantsPanel", () => {
+describe("ProjectPanel", () => {
   it("renders correctly all nodes when open", () => {
-    render(<VariantsPanelWithCommonProps isOpen />);
+    render(<ProjectPanelWithCommonProps isOpen />);
 
     // visible nodes
     expect(screen.getByText(NODES_TEXTS.CHILDREN)).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe("VariantsPanel", () => {
   });
 
   it("renders correctly only heading node when closed", () => {
-    render(<VariantsPanelWithCommonProps isOpen={false} />);
+    render(<ProjectPanelWithCommonProps isOpen={false} />);
 
     // visible nodes
     expect(screen.getByText(NODES_TEXTS.HEADING)).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe("VariantsPanel", () => {
   });
 
   it("renders correctly when loading", () => {
-    render(<VariantsPanelWithCommonProps isOpen={true} isLoading={true} />);
+    render(<ProjectPanelWithCommonProps isOpen={true} isLoading={true} />);
 
     // visible nodes
     expect(screen.getByText(NODES_TEXTS.HEADING)).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe("VariantsPanel", () => {
   });
 
   it("renders correctly when error", () => {
-    render(<VariantsPanelWithCommonProps isOpen={true} isError={true} />);
+    render(<ProjectPanelWithCommonProps isOpen={true} isError={true} />);
 
     // visible nodes
     expect(screen.getByText(NODES_TEXTS.HEADING)).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe("VariantsPanel", () => {
   });
 
   it("renders correctly when refetching", () => {
-    render(<VariantsPanelWithCommonProps isOpen={true} isRefetching={true} />);
+    render(<ProjectPanelWithCommonProps isOpen={true} isRefetching={true} />);
 
     // visible nodes
     expect(screen.getByText(NODES_TEXTS.HEADING)).toBeInTheDocument();

@@ -3,8 +3,8 @@ import { useTranslation } from "next-i18next";
 
 import EditIcon from "@/assets/images/icons/edit-2.svg";
 import Button from "@/components/ui/button";
+import ProjectPanel from "@/components/ui/project-panel";
 import Typography from "@/components/ui/typography";
-import VariantsPanel from "@/components/ui/variants-panel";
 import styled from "styled-components";
 
 import EditionForm from "./edition-form";
@@ -116,7 +116,7 @@ function VariantsSelection({
   });
 
   return (
-    <VariantsPanel
+    <ProjectPanel
       isOpen={isOpen}
       isError={isError && !token}
       isLoading={isLoading && !token}
@@ -155,7 +155,7 @@ function VariantsSelection({
           invalidateProjectViewQueriesCallback={invalidateProjectViewQueriesCallback}
         />
       )}
-    </VariantsPanel>
+    </ProjectPanel>
   );
 }
 

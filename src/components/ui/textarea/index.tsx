@@ -189,7 +189,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       if (autoHeightRef.current && adjustInitialHeightToContent) {
         autoHeightRef.current.style.height = autoHeightRef.current.scrollHeight + "px";
       }
-    }, []);
+    }, [adjustInitialHeightToContent]);
 
     return (
       <TextAreaStyledWrapper>

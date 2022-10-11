@@ -9,13 +9,17 @@ const getTokenDetailsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:i
 
 const updateGroupedVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/grouped_variants`;
 const updateVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/variants`;
+const getCommentsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments`;
+const deleteCommentByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments/:id`;
+const editCommentByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments/:id`;
 export const errorGeneric = "Generic error";
 export const variantValue = { selected_reading: "happy", details: "very happy" };
+export const commentsValue = { id: 0, body: "project.add_comment_icon" };
 export const tokenValue = "token";
 export const errorGroupedVariantsField = "grouped variant field error";
 export const errorVariantsField = "variant field error";
 export const errorEditorialRemark = "editorial remark field error";
-
+export const message = "message";
 const variant: API.SignificantVariant = {
   index: 1,
   token_id: 1,
@@ -73,6 +77,16 @@ const tokenDetails: API.TokenDetails = {
   variants: [{ t: "asd", witness: "a" }],
 };
 
+const comment: API.Comment = {
+  id: 0,
+  body: "",
+  token_id: 0,
+  user_id: 0,
+  created_at: "",
+  created_by: "",
+  last_edit_at: "",
+};
+
 const getSignificantVariantsForProjectByIdResponse: API.GetSignificantVariantsForProjectByIdResponse =
   {
     records: [variant],
@@ -88,6 +102,16 @@ const getInsignificantVariantsForProjectByIdResponse: API.GetInsignificantVarian
 const getTokensForProjectByIdResponse: API.GetTokensForProjectByIdResponse = {
   records: [token],
   count: 1,
+};
+
+const getGetCommentsForProjectByIdResponse: API.GetCommentsForProjectByIdResponse = [comment];
+
+const deleteCommentByIdResponse: API.DeleteCommentByIdResponse = {
+  message,
+};
+
+const editCommentByIdResponse: API.EditCommentByIdResponse = {
+  message,
 };
 
 const getTokenDetailsForProjectByIdSuccessResponse: API.GetTokenDetailsForProjectByIdResponse =
@@ -187,4 +211,31 @@ export const getTokensForProjectById = rest.get(getTokensForProjectByIdEndpoint,
 export const getTokensForProjectByIdException = rest.get(
   getTokensForProjectByIdEndpoint,
   (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+// comments
+export const getCommentsForProjectById = rest.get(
+  getCommentsForProjectByIdEndpoint,
+  (_, res, ctx) => res(ctx.json(getGetCommentsForProjectByIdResponse)),
+);
+
+export const getCommentsForProjectByIdException = rest.get(
+  getCommentsForProjectByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const deleteCommentById = rest.delete(deleteCommentByIdEndpoint, (_, res, ctx) =>
+  res(ctx.json(deleteCommentByIdResponse)),
+);
+
+export const deleteCommentByIdException = rest.delete(deleteCommentByIdEndpoint, (_, res, ctx) =>
+  res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const editCommentById = rest.put(editCommentByIdEndpoint, (_, res, ctx) =>
+  res(ctx.json(editCommentByIdResponse)),
+);
+
+export const editCommentByIdException = rest.put(editCommentByIdEndpoint, (_, res, ctx) =>
+  res(ctx.status(400), ctx.json({ error: errorGeneric })),
 );
