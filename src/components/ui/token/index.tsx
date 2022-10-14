@@ -12,17 +12,24 @@ type TokenProps = TypographyProps & {
   highlighted?: boolean;
   onSelectToken?: (token: API.Token) => void;
   apparatusIndexVisible?: boolean;
+  forcedState?: API.TokenState;
+  withSup?: boolean;
 };
 
 type StyledProps = {
+  $clickable: boolean;
   $variant: API.TokenState;
   highlighted?: boolean;
   $apparatusIndexVisible?: boolean;
 };
 
-const getActionableTokenVariantStyle = (color: string, highlighted: boolean) => {
+const getActionableTokenVariantStyle = (
+  color: string,
+  highlighted: boolean,
+  clickable: boolean,
+) => {
   return css`
-    cursor: pointer;
+    ${clickable && "cursor: pointer"};
     color: ${color};
     border: 1px solid transparent;
 
@@ -40,34 +47,39 @@ const Wrapper = styled(Typography)<StyledProps>`
     css`
       margin-right: 3px;
     `}
-  ${({ $variant, highlighted }) => {
+  ${({ $variant, highlighted, $clickable }) => {
     if ($variant === "not_evaluated") {
       return css`
         ${({ theme }) =>
-          getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted)}
+          getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted, $clickable)}
 
         &:hover {
-          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsSecondary, true)}
+          ${({ theme }) =>
+            getActionableTokenVariantStyle(theme.colors.actionsSecondary, true, $clickable)}
         }
       `;
     }
 
     if ($variant === "evaluated_with_multiple") {
       return css`
-        ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted)}
+        ${({ theme }) =>
+          getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted, $clickable)}
 
         &:hover {
-          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.actionsPrimary, true)}
+          ${({ theme }) =>
+            getActionableTokenVariantStyle(theme.colors.actionsPrimary, true, $clickable)}
         }
       `;
     }
 
     if ($variant === "evaluated_with_single") {
       return css`
-        ${({ theme }) => getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted)}
+        ${({ theme }) =>
+          getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted, $clickable)}
 
         &:hover {
-          ${({ theme }) => getActionableTokenVariantStyle(theme.colors.textSecondary, true)}
+          ${({ theme }) =>
+            getActionableTokenVariantStyle(theme.colors.textSecondary, true, $clickable)}
         }
       `;
     }
@@ -80,6 +92,7 @@ const Wrapper = styled(Typography)<StyledProps>`
 
 function Token({
   token,
+  forcedState,
   mode,
   highlighted,
   apparatusIndexVisible = true,
@@ -87,8 +100,8 @@ function Token({
   ...props
 }: TokenProps) {
   const editModeTypographyVariant = useMemo(
-    () => (token.state === "one_variant" ? "body-regular" : "body-bold"),
-    [token.state],
+    () => ((forcedState || token.state) === "one_variant" ? "body-regular" : "body-bold"),
+    [forcedState, token.state],
   );
 
   return (
@@ -97,7 +110,8 @@ function Token({
       onClick={() => {
         if (onSelectToken) onSelectToken(token);
       }}
-      $variant={token.state}
+      $clickable={!!onSelectToken}
+      $variant={forcedState || token.state}
       highlighted={highlighted}
       $apparatusIndexVisible={apparatusIndexVisible}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}

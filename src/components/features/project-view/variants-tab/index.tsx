@@ -82,5 +82,4 @@ function VariantsTab({
   );
 }
 
-export { VariantsTabLoader, VariantsTabError };
 export default VariantsTab;

@@ -155,7 +155,12 @@
     "editorial_remark_error": "Failed to fetch editorial remark types",
     "editorial_remark_loading": "Loading editorial remark types",
     "editorial_remark_type": "Type",
-    "editorial_remark_content": "Content"
+    "editorial_remark_content": "Content",
+    "variants_tab": "Variants",
+    "tokens_tab": "Tokens",
+    "too_many_tokens_error": "Selected too many tokens with multiple variants. Maximum allowed is 1",
+    "same_token_error": "Cannot split a token with multiple variants",
+    "create_token": "Create new token"
   },
   "add_witness": {
     "witness_name": "Witness name",

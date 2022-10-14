@@ -82,4 +82,9 @@ export const GlobalStyle = createGlobalStyle`
       scroll-behavior: auto !important;
     }
   }
+
+  /* Prevent text-selection of route announcer from next */
+  next-route-announcer {
+    user-select: none;
+  }
 `;

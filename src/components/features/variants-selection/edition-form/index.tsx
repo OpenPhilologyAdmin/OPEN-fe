@@ -5,6 +5,7 @@ import Button from "@/components/ui/button";
 import TextArea from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import Typography from "@/components/ui/typography";
+import NewTypography from "@/components/ui/typography/new_index";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import styled from "styled-components";
 
@@ -72,7 +73,9 @@ function EditionForm({
         // Error for variants and editorial remark
         ERROR_FIELDS.forEach(field => {
           if (apiError[field]) {
-            toast.error(<Typography>{apiError[field]}</Typography>);
+            apiError[field].forEach(error => {
+              toast.error(<NewTypography>{error}</NewTypography>);
+            });
           }
         });
       }

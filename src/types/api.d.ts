@@ -76,6 +76,11 @@ declare namespace API {
     editorial_remark: EditorialRemark;
   };
 
+  type TokenWithOffset = {
+    offset?: number;
+    token_id: number;
+  };
+
   type SignificantVariant = {
     token_id: number;
     index: number;
@@ -334,5 +339,17 @@ declare namespace API {
     Correction: "corr.";
     Emendation: "em.";
     Conjecture: "conj.";
+  };
+
+  type EditTokensByProjectIdPayload = {
+    token: {
+      selected_text: string;
+      selected_token_ids: number[];
+      tokens_with_offsets: TokenWithOffset[];
+    };
+  };
+
+  type EditTokensByProjectIdResponse = {
+    message: string;
   };
 }

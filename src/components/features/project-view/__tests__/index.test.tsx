@@ -143,4 +143,28 @@ describe("ProjectView", () => {
     // no apparatus indices when toggle enabled
     expect(screen.queryAllByText("(1)").length).toBe(0);
   });
+
+  it("renders correctly and displays tokens tab in edit mode", async () => {
+    render(<ProjectView project={project} />, { mode: "EDIT" });
+
+    expect(await screen.findByText("project.tokens_tab")).toBeInTheDocument();
+  });
+
+  it("renders correctly and displays variants tab in edit mode", async () => {
+    render(<ProjectView project={project} />, { mode: "EDIT" });
+
+    expect(await screen.findByText("project.variants_tab")).toBeInTheDocument();
+  });
+
+  it("renders correctly and does not display tokens tab in read mode", () => {
+    render(<ProjectView project={project} />, { mode: "READ" });
+
+    expect(screen.queryByText("project.tokens_tab")).not.toBeInTheDocument();
+  });
+
+  it("renders correctly and does not display variants tab in read mode", () => {
+    render(<ProjectView project={project} />, { mode: "READ" });
+
+    expect(screen.queryByText("project.variants_tab")).not.toBeInTheDocument();
+  });
 });

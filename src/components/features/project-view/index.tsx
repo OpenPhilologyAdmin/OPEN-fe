@@ -1,7 +1,11 @@
 import { useCallback, useContext, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 import FootnoteIcon from "@/assets/images/icons/footnote.svg";
+import TokensIcon from "@/assets/images/icons/tokens.svg";
+import VariantsIcon from "@/assets/images/icons/variants.svg";
 import { usePanel } from "@/components/ui/panel";
+import { Tab, TabsWrapper, useTabs } from "@/components/ui/tabs";
 import Toggle, { useToggle } from "@/components/ui/toggle";
 import { Mode } from "@/contexts/current-project-mode";
 import { TokenContext } from "@/contexts/selectedToken";
@@ -15,15 +19,26 @@ import BaseSignificantVariants from "../significant-variants";
 import { useInvalidateGetSignificantVariantsForProjectByIdQuery } from "../significant-variants/query";
 import BaseVariantsSelection from "../variants-selection";
 import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
+import TokensTab from "./tokens-tab";
 import VariantsTab from "./variants-tab";
 
 type ProjectViewProps = {
   project: API.Project;
 };
 
+type TabVariant = "variants" | "tokens";
+
 type StyledPanelProps = {
   isTall: boolean;
   $isOpen: boolean;
+};
+
+type ContentTopBarProps = {
+  justifyContentFlexEnd: boolean;
+};
+
+type TabWrapperProps = {
+  variant: TabVariant;
 };
 
 type LayoutProps = {
@@ -31,6 +46,7 @@ type LayoutProps = {
 };
 
 type GetGridTemplateColumnsProps = {
+  selectedTab: TabVariant;
   isSignificantVariantsPanelOpen: boolean;
   isInsignificantVariantsPanelOpen: boolean;
   isVariantsSelectionPanelOpen: boolean;
@@ -39,12 +55,15 @@ type GetGridTemplateColumnsProps = {
 };
 
 const getGridTemplateColumns = ({
+  selectedTab,
   isInsignificantVariantsPanelOpen,
   isSignificantVariantsPanelOpen,
   isVariantsSelectionPanelOpen,
   isCommentsPanelOpen,
   mode,
 }: GetGridTemplateColumnsProps) => {
+  if (selectedTab === "tokens") return "1fr";
+
   if (mode === "READ") {
     return isSignificantVariantsPanelOpen ? "1fr 270px" : "1fr 58px";
   }
@@ -99,21 +118,27 @@ const Content = styled.div`
   border-right: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
-const ContentTopBar = styled.div`
+const ContentTopBar = styled.div<ContentTopBarProps>`
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${({ justifyContentFlexEnd }) =>
+    justifyContentFlexEnd ? "flex-end" : "space-between"};
   align-items: center;
   flex-shrink: 0;
   height: 48px;
-  padding: 0 8px;
+  padding: 0 8px 0 0;
   gap: 4px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSecondary};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
-const VariantsTabWrapper = styled.div`
+const ToggleWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+const TabWrapper = styled.div<TabWrapperProps>`
   position: relative;
-  height: calc(100% - 78px);
+  height: ${({ variant }) => (variant === "tokens" ? "calc(100% - 48px)" : "calc(100% - 78px)")};
   padding: 24px 24px 16px 24px;
 `;
 
@@ -150,7 +175,9 @@ const VariantsSelection = styled(BaseVariantsSelection)<StyledPanelProps>`
 `;
 
 function ProjectView({ project }: ProjectViewProps) {
+  const { t } = useTranslation();
   const { mode } = useCurrentProjectMode();
+  const { selectedTab, setSelectedTab } = useTabs<TabVariant>("variants");
   const { isOn: isApparatusIndexDisplayed, toggle: toggleApparatusIndexDisplay } = useToggle(true);
   const {
     isOpen: isSignificantVariantsPanelOpen,
@@ -199,9 +226,29 @@ function ProjectView({ project }: ProjectViewProps) {
     useInvalidateGetSignificantVariantsForProjectByIdQuery();
   const { invalidateGetTokensForProjectById } = useInvalidateGetTokensForProjectByIdQuery();
 
+  const handleInvalidateProjectViewQueries = async () => {
+    await invalidateGetTokensForProjectById({
+      mode: "EDIT",
+      projectId,
+    });
+    await invalidateGetSignificantVariantsForProjectById({
+      projectId,
+    });
+    await invalidateGetInsignificantVariantsForProjectById({
+      projectId,
+    });
+  };
+
+  useEffect(() => {
+    if (mode === "READ") {
+      setSelectedTab("variants");
+    }
+  }, [mode, setSelectedTab]);
+
   return (
     <Layout
       gridTemplateColumns={getGridTemplateColumns({
+        selectedTab,
         isInsignificantVariantsPanelOpen,
         isSignificantVariantsPanelOpen,
         isVariantsSelectionPanelOpen,
@@ -210,86 +257,114 @@ function ProjectView({ project }: ProjectViewProps) {
       })}
     >
       <Content>
-        <ContentTopBar>
-          <FootnoteIcon />
-          <Toggle
-            id="apparatus-index-toggle"
-            value={String(isApparatusIndexDisplayed)}
-            checked={isApparatusIndexDisplayed}
-            onChange={toggleApparatusIndexDisplay}
-          />
+        <ContentTopBar justifyContentFlexEnd={mode === "READ"}>
+          {mode === "EDIT" && (
+            <TabsWrapper>
+              <Tab
+                icon={<VariantsIcon />}
+                isSelected={selectedTab === "variants"}
+                onSelect={() => setSelectedTab("variants")}
+              >
+                {t("project.variants_tab")}
+              </Tab>
+              <Tab
+                icon={<TokensIcon />}
+                isSelected={selectedTab === "tokens"}
+                onSelect={() => setSelectedTab("tokens")}
+              >
+                {t("project.tokens_tab")}
+              </Tab>
+            </TabsWrapper>
+          )}
+          {selectedTab === "variants" && (
+            <ToggleWrapper>
+              <FootnoteIcon />
+              <Toggle
+                id="apparatus-index-toggle"
+                value={String(isApparatusIndexDisplayed)}
+                checked={isApparatusIndexDisplayed}
+                onChange={toggleApparatusIndexDisplay}
+              />
+            </ToggleWrapper>
+          )}
         </ContentTopBar>
-        <VariantsTabWrapper>
-          <VariantsTab
-            mode={mode}
-            tokens={tokens}
-            selectedTokenId={selectedTokenId}
-            isFetching={isFetching}
-            isRefetching={isRefetching}
-            isLoading={isLoading}
-            isError={isError}
-            isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-            onSelectToken={handleSelectToken}
-            refetch={refetch}
-          />
-        </VariantsTabWrapper>
+        <TabWrapper variant={selectedTab}>
+          {selectedTab === "tokens" && (
+            <TokensTab
+              projectId={projectId}
+              tokens={tokens}
+              isFetching={isFetching}
+              isRefetching={isRefetching}
+              isLoading={isLoading}
+              isError={isError}
+              refetch={refetch}
+            />
+          )}
+          {selectedTab === "variants" && (
+            <VariantsTab
+              mode={mode}
+              tokens={tokens}
+              selectedTokenId={selectedTokenId}
+              isFetching={isFetching}
+              isRefetching={isRefetching}
+              isLoading={isLoading}
+              isError={isError}
+              isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+              onSelectToken={handleSelectToken}
+              refetch={refetch}
+            />
+          )}
+        </TabWrapper>
       </Content>
-      {mode === "EDIT" && (
-        <PanelsWrapper>
-          <VariantsSelection
-            tokenId={selectedTokenId}
-            projectId={projectId}
-            isOpen={isVariantsSelectionPanelOpen}
-            $isOpen={isVariantsSelectionPanelOpen}
-            togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
-            isRotatedWhenClosed={!isCommentsPanelOpen}
-            isTall={!isCommentsPanelOpen}
-            invalidateProjectViewQueriesCallback={async () => {
-              await invalidateGetTokensForProjectById({
-                mode: "EDIT",
-                projectId,
-              });
-              await invalidateGetSignificantVariantsForProjectById({
-                projectId,
-              });
-              await invalidateGetInsignificantVariantsForProjectById({
-                projectId,
-              });
-            }}
-          />
-          <Comments
-            tokenId={selectedTokenId}
-            $isOpen={isCommentsPanelOpen}
-            isOpen={isCommentsPanelOpen}
-            togglePanelVisibility={toggleCommentsPanelVisibility}
-            projectId={projectId}
-            isRotatedWhenClosed={!isVariantsSelectionPanelOpen}
-            isTall={!isVariantsSelectionPanelOpen}
-          />
-        </PanelsWrapper>
+      {selectedTab === "variants" && (
+        <>
+          {mode === "EDIT" && (
+            <PanelsWrapper>
+              <VariantsSelection
+                tokenId={selectedTokenId}
+                projectId={projectId}
+                isOpen={isVariantsSelectionPanelOpen}
+                $isOpen={isVariantsSelectionPanelOpen}
+                togglePanelVisibility={toggleVariantsSelectionPanelVisibility}
+                isRotatedWhenClosed={!isCommentsPanelOpen}
+                isTall={!isCommentsPanelOpen}
+                invalidateProjectViewQueriesCallback={handleInvalidateProjectViewQueries}
+              />
+              <Comments
+                tokenId={selectedTokenId}
+                $isOpen={isCommentsPanelOpen}
+                isOpen={isCommentsPanelOpen}
+                togglePanelVisibility={toggleCommentsPanelVisibility}
+                projectId={projectId}
+                isRotatedWhenClosed={!isVariantsSelectionPanelOpen}
+                isTall={!isVariantsSelectionPanelOpen}
+              />
+            </PanelsWrapper>
+          )}
+          <PanelsWrapper>
+            <SignificantVariants
+              isOpen={isSignificantVariantsPanelOpen}
+              $isOpen={isSignificantVariantsPanelOpen}
+              togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
+              projectId={projectId}
+              isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
+              isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
+              apparatusIndexVisible={isApparatusIndexDisplayed}
+            />
+            {mode === "EDIT" && (
+              <InsignificantVariants
+                $isOpen={isInsignificantVariantsPanelOpen}
+                isOpen={isInsignificantVariantsPanelOpen}
+                togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
+                projectId={projectId}
+                isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
+                isTall={!isSignificantVariantsPanelOpen}
+                apparatusIndexVisible={isApparatusIndexDisplayed}
+              />
+            )}
+          </PanelsWrapper>
+        </>
       )}
-      <PanelsWrapper>
-        <SignificantVariants
-          isOpen={isSignificantVariantsPanelOpen}
-          $isOpen={isSignificantVariantsPanelOpen}
-          togglePanelVisibility={toggleSignificantVariantsPanelVisibility}
-          projectId={projectId}
-          isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
-          isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
-          apparatusIndexVisible={isApparatusIndexDisplayed}
-        />
-        {mode === "EDIT" && (
-          <InsignificantVariants
-            $isOpen={isInsignificantVariantsPanelOpen}
-            isOpen={isInsignificantVariantsPanelOpen}
-            togglePanelVisibility={toggleInsignificantVariantsPanelVisibility}
-            projectId={projectId}
-            isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
-            isTall={!isSignificantVariantsPanelOpen}
-            apparatusIndexVisible={isApparatusIndexDisplayed}
-          />
-        )}
-      </PanelsWrapper>
     </Layout>
   );
 }
