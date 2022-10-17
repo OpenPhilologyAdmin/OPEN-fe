@@ -20,7 +20,14 @@ export const errorGroupedVariantsField = "grouped variant field error";
 export const errorVariantsField = "variant field error";
 export const errorEditorialRemark = "editorial remark field error";
 export const message = "message";
-const variant: API.SignificantVariant = {
+
+const significantVariant: API.SignificantVariant = {
+  index: 1,
+  token_id: 1,
+  value: variantValue,
+};
+
+const insignificantVariant: API.InsignificantVariant = {
   index: 1,
   token_id: 1,
   value: variantValue,
@@ -89,13 +96,13 @@ const comment: API.Comment = {
 
 const getSignificantVariantsForProjectByIdResponse: API.GetSignificantVariantsForProjectByIdResponse =
   {
-    records: [variant],
+    records: [significantVariant],
     count: 1,
   };
 
 const getInsignificantVariantsForProjectByIdResponse: API.GetInsignificantVariantsForProjectByIdResponse =
   {
-    records: [variant],
+    records: [insignificantVariant],
     count: 1,
   };
 

@@ -5,7 +5,7 @@ import ContinuousIcon from "@/assets/images/icons/continuous.svg";
 import ListPointersIcon from "@/assets/images/icons/list-pointers.svg";
 import Button from "@/components/ui/button";
 import ProjectPanel from "@/components/ui/project-panel";
-import Typography from "@/components/ui/typography";
+import Typography from "@/components/ui/typography/new_index";
 import styled from "styled-components";
 
 import { useGetSignificantVariantsForProjectById } from "./query";
@@ -31,16 +31,22 @@ const VariantListWrapper = styled.div`
   flex-direction: column;
 `;
 
-const VariantAsText = styled(Typography).attrs({ variant: "small-regular" })`
-  word-break: break-all;
+const TypographyWithForcedFont = styled(Typography)`
+  &&& {
+    font-family: "Roboto Slab" !important;
+    line-height: 24px;
+  }
+`;
+
+const VariantAsText = styled(TypographyWithForcedFont).attrs({ variant: "small" })`
   margin-right: 4px;
 `;
 
-const Index = styled(Typography).attrs({ variant: "small-bold" })`
+const Index = styled(TypographyWithForcedFont).attrs({ variant: "small", bold: true })`
   margin-right: 4px;
 `;
 
-const StyledTypography = styled(Typography)`
+const StyledTypography = styled(TypographyWithForcedFont).attrs({ variant: "small", bold: true })`
   margin-right: 5px;
 `;
 
@@ -60,9 +66,7 @@ function PanelContent({
         {significantVariants.map(variant => (
           <VariantAsText key={variant.index}>
             {apparatusIndexVisible && <Index>({variant.index})</Index>}
-            <StyledTypography variant="small-text-bold">
-              {variant.value.selected_reading}
-            </StyledTypography>
+            <StyledTypography>{variant.value.selected_reading}</StyledTypography>
             {variant.value.details}
           </VariantAsText>
         ))}
@@ -74,13 +78,11 @@ function PanelContent({
     return (
       <VariantListWrapper>
         {significantVariants.map(variant => (
-          <Typography key={variant.index} variant="small-regular">
+          <TypographyWithForcedFont key={variant.index} variant="small">
             {apparatusIndexVisible && <Index>({variant.index})</Index>}
-            <StyledTypography variant="small-text-bold">
-              {variant.value.selected_reading}
-            </StyledTypography>
+            <StyledTypography>{variant.value.selected_reading}</StyledTypography>
             {variant.value.details}
-          </Typography>
+          </TypographyWithForcedFont>
         ))}
       </VariantListWrapper>
     );

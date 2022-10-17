@@ -95,6 +95,7 @@ declare namespace API {
     index: number;
     value: {
       details: string;
+      selected_reading: string;
     };
   };
 

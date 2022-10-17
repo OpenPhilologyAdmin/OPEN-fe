@@ -5,7 +5,7 @@ import ContinuousIcon from "@/assets/images/icons/continuous.svg";
 import ListPointersIcon from "@/assets/images/icons/list-pointers.svg";
 import Button from "@/components/ui/button";
 import ProjectPanel from "@/components/ui/project-panel";
-import NewTypography from "@/components/ui/typography/new_index";
+import Typography from "@/components/ui/typography/new_index";
 import styled from "styled-components";
 
 import { useGetInsignificantVariantsForProjectById } from "./query";
@@ -31,18 +31,32 @@ const VariantListWrapper = styled.div`
   flex-direction: column;
 `;
 
-const VariantAsText = styled(NewTypography).attrs({ variant: "small" })`
+const TypographyWithForcedFont = styled(Typography)`
+  &&& {
+    font-family: "Roboto Slab" !important;
+    line-height: 24px;
+  }
+`;
+
+const VariantAsText = styled(TypographyWithForcedFont).attrs({ variant: "small" })`
   word-break: break-all;
   margin-right: 4px;
 `;
 
-const Index = styled(NewTypography).attrs({
+const Index = styled(TypographyWithForcedFont).attrs({
   variant: "strong",
   compact: true,
   shrink: true,
   bold: true,
 })`
   margin-right: 4px;
+`;
+
+const SelectedReading = styled(TypographyWithForcedFont).attrs({
+  variant: "small",
+  bold: true,
+})`
+  margin-right: 5px;
 `;
 
 function PanelContent({
@@ -53,7 +67,7 @@ function PanelContent({
   const { t } = useTranslation();
 
   if (!insignificantVariants || insignificantVariants.length === 0)
-    return <NewTypography>{t("project.no_insignificant_variants_message")}</NewTypography>;
+    return <Typography>{t("project.no_insignificant_variants_message")}</Typography>;
 
   if (displayMode === "list") {
     return (
@@ -61,6 +75,7 @@ function PanelContent({
         {insignificantVariants.map(variant => (
           <VariantAsText key={variant.index}>
             {apparatusIndexVisible && <Index>({variant.index})</Index>}
+            <SelectedReading>{variant.value.selected_reading}</SelectedReading>
             {variant.value.details}
           </VariantAsText>
         ))}
@@ -72,10 +87,11 @@ function PanelContent({
     return (
       <VariantListWrapper>
         {insignificantVariants.map(variant => (
-          <NewTypography key={variant.index} variant="small">
+          <TypographyWithForcedFont key={variant.index} variant="small">
             {apparatusIndexVisible && <Index>({variant.index})</Index>}
+            <SelectedReading>{variant.value.selected_reading}</SelectedReading>
             {variant.value.details}
-          </NewTypography>
+          </TypographyWithForcedFont>
         ))}
       </VariantListWrapper>
     );
