@@ -20,6 +20,7 @@ import { useInvalidateGetSignificantVariantsForProjectByIdQuery } from "../signi
 import BaseVariantsSelection from "../variants-selection";
 import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
 import TokensTab from "./tokens-tab";
+import { useCopySelectedTextWithSignificantAndInsignificantVariants } from "./use-copy-selected-text-with-significant-and-insignificant-variants";
 import VariantsTab from "./variants-tab";
 
 type ProjectViewProps = {
@@ -214,17 +215,29 @@ function ProjectView({ project }: ProjectViewProps) {
     selectedTokenId && setTokenContextId(selectedTokenId);
   }, [selectedTokenId, setTokenContextId]);
 
-  const handleSelectToken = useCallback((token: API.Token) => {
-    if (token.state !== "one_variant") {
-      setSelectedTokenId(token.id);
+  useEffect(() => {
+    if (mode === "READ") {
+      setSelectedTab("variants");
     }
-  }, []);
+  }, [mode, setSelectedTab]);
 
   const { invalidateGetInsignificantVariantsForProjectById } =
     useInvalidateGetInsignificantVariantsForProjectByIdQuery();
   const { invalidateGetSignificantVariantsForProjectById } =
     useInvalidateGetSignificantVariantsForProjectByIdQuery();
   const { invalidateGetTokensForProjectById } = useInvalidateGetTokensForProjectByIdQuery();
+
+  const {
+    handleSetInsignificantVariantsCopyState,
+    handleSetSelectionCopyState,
+    handleSetSignificantVariantsCopyState,
+  } = useCopySelectedTextWithSignificantAndInsignificantVariants();
+
+  const handleSelectToken = useCallback((token: API.Token) => {
+    if (token.state !== "one_variant") {
+      setSelectedTokenId(token.id);
+    }
+  }, []);
 
   const handleInvalidateProjectViewQueries = async () => {
     await invalidateGetTokensForProjectById({
@@ -238,12 +251,6 @@ function ProjectView({ project }: ProjectViewProps) {
       projectId,
     });
   };
-
-  useEffect(() => {
-    if (mode === "READ") {
-      setSelectedTab("variants");
-    }
-  }, [mode, setSelectedTab]);
 
   return (
     <Layout
@@ -312,6 +319,7 @@ function ProjectView({ project }: ProjectViewProps) {
               isApparatusIndexDisplayed={isApparatusIndexDisplayed}
               onSelectToken={handleSelectToken}
               refetch={refetch}
+              handleSetSelectionCopyState={handleSetSelectionCopyState}
             />
           )}
         </TabWrapper>
@@ -350,6 +358,7 @@ function ProjectView({ project }: ProjectViewProps) {
               isRotatedWhenClosed={!isInsignificantVariantsPanelOpen || mode === "READ"}
               isTall={!isInsignificantVariantsPanelOpen || mode === "READ"}
               apparatusIndexVisible={isApparatusIndexDisplayed}
+              handleSetSignificantVariantsCopyState={handleSetSignificantVariantsCopyState}
             />
             {mode === "EDIT" && (
               <InsignificantVariants
@@ -360,6 +369,7 @@ function ProjectView({ project }: ProjectViewProps) {
                 isRotatedWhenClosed={!isSignificantVariantsPanelOpen}
                 isTall={!isSignificantVariantsPanelOpen}
                 apparatusIndexVisible={isApparatusIndexDisplayed}
+                handleSetInsignificantVariantsCopyState={handleSetInsignificantVariantsCopyState}
               />
             )}
           </PanelsWrapper>

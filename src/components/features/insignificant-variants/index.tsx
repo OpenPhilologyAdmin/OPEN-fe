@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import ContinuousIcon from "@/assets/images/icons/continuous.svg";
@@ -16,6 +16,9 @@ type InsignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
   togglePanelVisibility: () => void;
   isRotatedWhenClosed: boolean;
   apparatusIndexVisible?: boolean;
+  handleSetInsignificantVariantsCopyState?: (
+    insignificantVariants: API.InsignificantVariant[],
+  ) => void;
 };
 
 type DisplayMode = "text" | "list";
@@ -106,6 +109,7 @@ function InsignificantVariants({
   togglePanelVisibility,
   isRotatedWhenClosed,
   apparatusIndexVisible = true,
+  handleSetInsignificantVariantsCopyState,
   ...props
 }: InsignificantVariantsProps) {
   const { t } = useTranslation();
@@ -116,6 +120,12 @@ function InsignificantVariants({
   const [displayMode, setDisplayMode] = useState<DisplayMode>("text");
 
   const insignificantVariants = data?.records;
+
+  useEffect(() => {
+    if (handleSetInsignificantVariantsCopyState && insignificantVariants) {
+      handleSetInsignificantVariantsCopyState(insignificantVariants);
+    }
+  }, [insignificantVariants, handleSetInsignificantVariantsCopyState]);
 
   const toggleDisplayMode = () =>
     setDisplayMode(previousState => {

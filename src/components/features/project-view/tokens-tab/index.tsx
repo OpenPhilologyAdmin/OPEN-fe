@@ -1,4 +1,3 @@
-import { useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import BaseButton from "@/components/ui/button";
@@ -6,13 +5,25 @@ import { MaskError, MaskLoader } from "@/components/ui/mask";
 import { toast } from "@/components/ui/toast";
 import Token from "@/components/ui/token";
 import NewTypography from "@/components/ui/typography/new_index";
+import { isEmptyString } from "@/utils/is-empty-string";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import styled from "styled-components";
 
+import { stringifyTokenIdForSelection, useTokenSelection } from "../use-token-selection";
 import { useEditTokensByProjectId } from "./query";
 
 type WrapperProps = {
   $withPadding: boolean;
+};
+
+type TokensTabErrorPros = {
+  refetch: () => Promise<any>;
+};
+
+type UseTokensTabSelectionProps = {
+  projectId: number;
+  refetch: () => Promise<void>;
+  tokens?: API.Token[];
 };
 
 export type TokensTabProps = {
@@ -25,59 +36,7 @@ export type TokensTabProps = {
   refetch: () => Promise<any>;
 };
 
-type TokensTabErrorPros = {
-  refetch: () => Promise<any>;
-};
-
-/**
- * The boundary tokens are the tokens that are at the beginning and the end of the selected text.
- * They are are used for backend to determine the split points of the selected text.
- * For only 1 selected token, boundary tokens are the same token but with different offset.
- */
-type BoundaryToken = {
-  id: number;
-  offset?: number;
-};
-
-type SelectionState = {
-  selectedText: string;
-  selectedTokens: API.Token[];
-  boundaryTokens: BoundaryToken[];
-};
-
-type UseTokensTabSelectionProps = {
-  projectId: number;
-  refetch: () => Promise<void>;
-  tokens?: API.Token[];
-};
-
-const TOKEN_ID_PREFIX = "edit-token-";
-
 const ERROR_FIELDS = ["project", "selected_text", "selected_token_ids", "tokens_with_offsets"];
-
-const initialSelectionState: SelectionState = {
-  selectedText: "",
-  selectedTokens: [],
-  boundaryTokens: [],
-};
-
-const isEmptyString = (str?: string) => str === "";
-
-const getSelectedTokensRangeByBoundaryTokenIds = (
-  tokens: API.Token[],
-  startTokenId: number,
-  endTokenId: number,
-) => {
-  const tokenIds = tokens.map(token => token.id);
-  const startTokenIndex = tokenIds.indexOf(startTokenId);
-  const endTokenIndex = tokenIds.indexOf(endTokenId);
-  const selectedTokens =
-    startTokenIndex < endTokenIndex
-      ? tokens.slice(startTokenIndex, endTokenIndex + 1)
-      : tokens.slice(endTokenIndex, startTokenIndex + 1);
-
-  return selectedTokens;
-};
 
 const Wrapper = styled.div<WrapperProps>`
   overflow-x: hidden;
@@ -125,9 +84,12 @@ function TokensTabError({ refetch }: TokensTabErrorPros) {
 }
 
 function useTokensTabSelection({ projectId, refetch, tokens }: UseTokensTabSelectionProps) {
-  const { t } = useTranslation();
-  const [selectionState, setSelectionState] = useState(initialSelectionState);
-  const selectionRef = useRef<Selection | null>(null);
+  const {
+    selectionState,
+    handleCancel,
+    handleSave: handleSelectionSave,
+    handleUpdateSelection,
+  } = useTokenSelection({ tokens, withValidation: true });
   const { mutate: editTokensByProjectId } = useEditTokensByProjectId({
     onSuccess: async ({ data: { message } }) => {
       toast.success(<NewTypography>{message}</NewTypography>);
@@ -152,109 +114,22 @@ function useTokensTabSelection({ projectId, refetch, tokens }: UseTokensTabSelec
     },
   });
 
-  const clearSelection = () => selectionRef.current?.empty();
-
-  const getSelectionState = (): SelectionState => {
-    selectionRef.current = window.getSelection();
-
-    const selectedText = selectionRef.current?.toString();
-
-    if (isEmptyString(selectedText)) {
-      return initialSelectionState;
-    }
-
-    const startToken = {
-      id: Number(selectionRef.current?.anchorNode?.parentElement?.id.replace(TOKEN_ID_PREFIX, "")),
-      offset: selectionRef.current?.anchorOffset,
-    };
-
-    const endToken = {
-      id: Number(selectionRef.current?.focusNode?.parentElement?.id.replace(TOKEN_ID_PREFIX, "")),
-      offset: selectionRef.current?.focusOffset,
-    };
-
-    const selectedTokens = getSelectedTokensRangeByBoundaryTokenIds(
-      tokens || [],
-      startToken.id,
-      endToken.id,
-    );
-
-    return {
-      selectedText: selectedText || "",
-      selectedTokens: selectedTokens,
-      boundaryTokens: [startToken, endToken],
-    };
-  };
-
-  const updateSelectionState = (prevState: SelectionState) => {
-    const nextState = getSelectionState();
-
-    let matches = 0;
-
-    nextState.selectedTokens.forEach(token => {
-      if (token.state !== "one_variant") {
-        matches++;
-      }
-    });
-
-    // Only 1 token with multiple variants is allowed
-    if (matches >= 2) {
-      toast.error(<NewTypography>{t("project.too_many_tokens_error")}</NewTypography>, {
-        // toastId is used to prevent multiple toasts from showing up
-        toastId: "too_many_tokens_error",
-      });
-
-      clearSelection();
-
-      return initialSelectionState;
-    }
-
-    // Cannot split a token with multiple variants in the middle
-    if (
-      !isEmptyString(nextState.selectedText) &&
-      nextState.boundaryTokens[0]?.id === nextState.boundaryTokens[1]?.id &&
-      nextState.selectedTokens.every(token => token.state !== "one_variant")
-    ) {
-      toast.error(<NewTypography>{t("project.same_token_error")}</NewTypography>, {
-        // toastId is used to prevent multiple toasts from showing up
-        toastId: "same_token_error",
-      });
-
-      clearSelection();
-
-      return initialSelectionState;
-    }
-
-    return isEmptyString(prevState.selectedText) && isEmptyString(nextState.selectedText)
-      ? prevState
-      : nextState;
-  };
-
-  const handleUpdateSelection = () => {
-    setSelectionState(updateSelectionState);
-  };
-
   const handleSave = () => {
-    editTokensByProjectId({
-      projectId,
-      data: {
-        token: {
-          selected_text: selectionState.selectedText,
-          selected_token_ids: selectionState.selectedTokens.map(token => token.id),
-          tokens_with_offsets: selectionState.boundaryTokens.map(token => ({
-            token_id: token.id,
-            offset: token.offset,
-          })),
+    handleSelectionSave(() =>
+      editTokensByProjectId({
+        projectId,
+        data: {
+          token: {
+            selected_text: selectionState.selectedText,
+            selected_token_ids: selectionState.selectedTokens.map(token => token.id),
+            tokens_with_offsets: selectionState.boundaryTokens.map(token => ({
+              token_id: token.id,
+              offset: token.offset,
+            })),
+          },
         },
-      },
-    });
-    setSelectionState(initialSelectionState);
-    clearSelection();
-  };
-
-  const handleCancel = () => {
-    setSelectionState(initialSelectionState);
-    clearSelection();
+      }),
+    );
   };
 
   return {
@@ -302,7 +177,7 @@ function TokensTab({
             key={token.id}
             token={token}
             // Used to find elements in the DOM by id to read the selection anchor node and focus node
-            id={`${TOKEN_ID_PREFIX}${String(token.id)}`}
+            id={stringifyTokenIdForSelection(token.id)}
             apparatusIndexVisible={false}
             forcedState={token.state === "one_variant" ? "one_variant" : "evaluated_with_multiple"}
             mode={"EDIT"}

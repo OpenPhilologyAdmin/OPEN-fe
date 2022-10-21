@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import ContinuousIcon from "@/assets/images/icons/continuous.svg";
@@ -18,6 +18,7 @@ type SignificantVariantsProps = ComponentPropsWithoutRef<"div"> & {
   isRotatedWhenClosed: boolean;
   togglePanelVisibility: () => void;
   apparatusIndexVisible?: boolean;
+  handleSetSignificantVariantsCopyState?: (significantVariants: API.SignificantVariant[]) => void;
 };
 
 type PanelContentProps = {
@@ -97,6 +98,7 @@ function SignificantVariants({
   togglePanelVisibility,
   isRotatedWhenClosed,
   apparatusIndexVisible = true,
+  handleSetSignificantVariantsCopyState,
   ...props
 }: SignificantVariantsProps) {
   const { t } = useTranslation();
@@ -105,6 +107,12 @@ function SignificantVariants({
       projectId,
     });
   const significantVariants = data?.records;
+
+  useEffect(() => {
+    if (handleSetSignificantVariantsCopyState && significantVariants) {
+      handleSetSignificantVariantsCopyState(significantVariants);
+    }
+  }, [significantVariants, handleSetSignificantVariantsCopyState]);
 
   const [displayMode, setDisplayMode] = useState<DisplayMode>("text");
 
