@@ -113,7 +113,7 @@ function Token({
       $clickable={!!onSelectToken}
       $variant={forcedState || token.state}
       highlighted={highlighted}
-      $apparatusIndexVisible={apparatusIndexVisible}
+      $apparatusIndexVisible={apparatusIndexVisible && token.apparatus_index}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
     >
       {token.t}
