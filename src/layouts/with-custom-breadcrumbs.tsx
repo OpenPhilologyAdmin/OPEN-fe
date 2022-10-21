@@ -28,7 +28,6 @@ const Main = styled.main`
   padding: 0px 24px 16px 24px;
   background-image: url("/images/background.jpg");
   background-size: cover;
-  margin-bottom: 25px;
 `;
 
 const Content = styled.div<ContentProps>`

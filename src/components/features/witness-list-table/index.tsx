@@ -49,6 +49,7 @@ const Wrapper = styled.div`
 const WideTable = styled(Container)`
   width: 100%;
   min-width: 1150px;
+  height: calc(100vh - 220px);
 `;
 
 const WideTh = styled(Th)`
