@@ -168,6 +168,7 @@
     "submit": "Add witness",
     "cancel": "Cancel",
     "open_modal_button": "Add new witness",
-    "add_witness_message": "Your witness witness {{name}}, {{siglum}} has been successfully added to project {{projectName}}. You can change the variants for this witness in the project Edit mode."
+    "add_witness_message": "Your witness witness {{name}}, {{siglum}} has been successfully added to project {{projectName}}. You can change the variants for this witness in the project Edit mode.",
+    "open_project_button": "Open project"
   }
 }

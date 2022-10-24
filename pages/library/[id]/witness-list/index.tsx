@@ -3,9 +3,11 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
+import DocumentCleanIcon from "@/assets/images/icons/document-clean.svg";
 import { Breadcrumb } from "@/components/features/breadcrumbs";
 import WitnessListTable from "@/components/features/witness-list-table";
 import AddWitnessButton from "@/components/features/witness-list-table/add-witness-button";
+import Button from "@/components/ui/button";
 import { ROUTES } from "@/constants/routes";
 import WithTableLayout from "@/layouts/shared/with-table";
 import WithCustomBreadcrumbs from "@/layouts/with-custom-breadcrumbs";
@@ -30,6 +32,10 @@ const Footer = styled.div`
   height: 72px;
 `;
 
+const StyledOpenProjectButton = styled(Button)`
+  margin-right: 10px;
+`;
+
 function WitnessList({ project }: Props) {
   const { t } = useTranslation();
 
@@ -41,6 +47,13 @@ function WitnessList({ project }: Props) {
       </Head>
       <WitnessListTable project={project} />
       <Footer>
+        <StyledOpenProjectButton
+          left={<DocumentCleanIcon />}
+          variant="secondary"
+          href={ROUTES.PROJECT(project.id)}
+        >
+          {t("add_witness.open_project_button")}
+        </StyledOpenProjectButton>
         <AddWitnessButton project={project} variant="secondary" />
       </Footer>
     </>
