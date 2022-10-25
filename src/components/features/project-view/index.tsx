@@ -140,7 +140,7 @@ const ToggleWrapper = styled.div`
 const TabWrapper = styled.div<TabWrapperProps>`
   position: relative;
   height: ${({ variant }) => (variant === "tokens" ? "calc(100% - 48px)" : "calc(100% - 78px)")};
-  padding: 24px 24px 16px 24px;
+  padding: 0px 0px 16px 0px;
 `;
 
 const PanelsWrapper = styled.div`
