@@ -5,16 +5,11 @@ import { MaskError, MaskLoader } from "@/components/ui/mask";
 import { toast } from "@/components/ui/toast";
 import Token from "@/components/ui/token";
 import NewTypography from "@/components/ui/typography/new_index";
-import { isEmptyString } from "@/utils/is-empty-string";
 import { unwrapAxiosError } from "@/utils/unwrap-axios-error";
 import styled from "styled-components";
 
 import { stringifyTokenIdForSelection, useTokenSelection } from "../use-token-selection";
 import { useEditTokensByProjectId } from "./query";
-
-type WrapperProps = {
-  $withPadding: boolean;
-};
 
 type TokensTabErrorPros = {
   refetch: () => Promise<any>;
@@ -36,34 +31,34 @@ export type TokensTabProps = {
   refetch: () => Promise<any>;
 };
 
+const BOTTOM_BAR_HEIGHT = 72;
+
 const ERROR_FIELDS = ["project", "selected_text", "selected_token_ids", "tokens_with_offsets"];
 
-const Wrapper = styled.div<WrapperProps>`
+const Wrapper = styled.div`
   overflow-x: hidden;
   // Every tab handles it's own padding because it's relevant for selection that the padding is in the scope of selection parent
   padding: 24px 24px 0px 24px;
   z-index: 0;
-  height: 100%;
-  ${({ $withPadding }) => $withPadding && "padding-bottom: 72px"};
+  height: calc(100% - ${BOTTOM_BAR_HEIGHT}px);
 `;
 
 const Button = styled(BaseButton)`
   user-select: none;
 `;
 
-const FixedPanel = styled.div`
-  position: fixed;
+const BottomBar = styled.div`
   display: flex;
   width: 100%;
   padding: 16px;
   gap: 16px;
   justify-content: flex-end;
-  height: 72px;
+  height: ${BOTTOM_BAR_HEIGHT}px;
   left: 0;
   bottom: 0;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.backgroundPrimary};
-  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSecondary};
 `;
 
 function TokensTabLoader() {
@@ -152,13 +147,11 @@ function TokensTab({
   refetch,
 }: TokensTabProps) {
   const { t } = useTranslation();
-  const { selectionState, handleCancel, handleSave, handleUpdateSelection } = useTokensTabSelection(
-    {
-      projectId,
-      refetch,
-      tokens,
-    },
-  );
+  const { handleCancel, handleSave, handleUpdateSelection } = useTokensTabSelection({
+    projectId,
+    refetch,
+    tokens,
+  });
 
   if (isLoading && !tokens) return <TokensTabLoader />;
 
@@ -166,11 +159,9 @@ function TokensTab({
 
   if (!tokens) return null;
 
-  const isSelecting = !isEmptyString(selectionState.selectedText);
-
   return (
     <>
-      <Wrapper onMouseUp={handleUpdateSelection} $withPadding={isSelecting}>
+      <Wrapper onMouseUp={handleUpdateSelection}>
         {(isFetching || isRefetching) && <TokensTabLoader />}
         {isError && !isRefetching && <TokensTabError refetch={refetch} />}
         {tokens.map(token => (
@@ -188,14 +179,12 @@ function TokensTab({
         ))}
       </Wrapper>
 
-      {isSelecting && (
-        <FixedPanel>
-          <Button onClick={handleSave}>{t("project.create_token")}</Button>
-          <Button variant="secondary" onClick={handleCancel}>
-            {t("project.cancel")}
-          </Button>
-        </FixedPanel>
-      )}
+      <BottomBar>
+        <Button onClick={handleSave}>{t("project.create_token")}</Button>
+        <Button variant="secondary" onClick={handleCancel}>
+          {t("project.cancel")}
+        </Button>
+      </BottomBar>
     </>
   );
 }
