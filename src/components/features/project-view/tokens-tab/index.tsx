@@ -35,7 +35,7 @@ const BOTTOM_BAR_HEIGHT = 72;
 
 const ERROR_FIELDS = ["project", "selected_text", "selected_token_ids", "tokens_with_offsets"];
 
-const Wrapper = styled.div`
+const SelectionWrapper = styled.div`
   overflow-x: hidden;
   // Every tab handles it's own padding because it's relevant for selection that the padding is in the scope of selection parent
   padding: 24px 24px 0px 24px;
@@ -54,7 +54,6 @@ const BottomBar = styled.div`
   gap: 16px;
   justify-content: flex-end;
   height: ${BOTTOM_BAR_HEIGHT}px;
-  left: 0;
   bottom: 0;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.backgroundPrimary};
@@ -87,7 +86,7 @@ function useTokensTabSelection({ projectId, refetch, tokens }: UseTokensTabSelec
     handleSave: handleSelectionSave,
     handleUpdateSelection,
   } = useTokenSelection({ tokens, withValidation: true });
-  const { mutate: editTokensByProjectId } = useEditTokensByProjectId({
+  const { mutate: editTokensByProjectId, isLoading } = useEditTokensByProjectId({
     onSuccess: async ({ data: { message } }) => {
       toast.success(<NewTypography>{message}</NewTypography>);
       await refetch();
@@ -134,6 +133,7 @@ function useTokensTabSelection({ projectId, refetch, tokens }: UseTokensTabSelec
     handleSave,
     handleCancel,
     handleUpdateSelection,
+    isLoading,
   };
 }
 
@@ -147,7 +147,13 @@ function TokensTab({
   refetch,
 }: TokensTabProps) {
   const { t } = useTranslation();
-  const { handleCancel, handleSave, handleUpdateSelection } = useTokensTabSelection({
+  const {
+    isLoading: isCreatingToken,
+    selectionState,
+    handleCancel,
+    handleSave,
+    handleUpdateSelection,
+  } = useTokensTabSelection({
     projectId,
     refetch,
     tokens,
@@ -159,9 +165,11 @@ function TokensTab({
 
   if (!tokens) return null;
 
+  const hasSelection = selectionState.selectedText !== "";
+
   return (
     <>
-      <Wrapper onMouseUp={handleUpdateSelection}>
+      <SelectionWrapper onMouseUp={handleUpdateSelection}>
         {(isFetching || isRefetching) && <TokensTabLoader />}
         {isError && !isRefetching && <TokensTabError refetch={refetch} />}
         {tokens.map(token => (
@@ -177,11 +185,15 @@ function TokensTab({
             highlighted
           />
         ))}
-      </Wrapper>
+      </SelectionWrapper>
 
       <BottomBar>
-        <Button onClick={handleSave}>{t("project.create_token")}</Button>
-        <Button variant="secondary" onClick={handleCancel}>
+        <Button onClick={handleSave} disabled={!hasSelection} isLoading={isCreatingToken}>
+          {hasSelection || isCreatingToken
+            ? t("project.create_token")
+            : t("project.select_token_button_text")}
+        </Button>
+        <Button variant="secondary" onClick={handleCancel} disabled={!hasSelection}>
           {t("project.cancel")}
         </Button>
       </BottomBar>

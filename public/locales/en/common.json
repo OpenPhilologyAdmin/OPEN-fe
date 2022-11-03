@@ -160,7 +160,8 @@
     "tokens_tab": "Tokens",
     "too_many_tokens_error": "Selected too many tokens with multiple variants. Maximum allowed is 1",
     "same_token_error": "Cannot split a token with multiple variants",
-    "create_token": "Create new token"
+    "create_token": "Create new token",
+    "select_token_button_text": "Select text to create a new token"
   },
   "add_witness": {
     "witness_name": "Witness name",
