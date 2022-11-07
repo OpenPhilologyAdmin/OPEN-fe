@@ -96,7 +96,7 @@ function useCopySelectedTextWithSignificantAndInsignificantVariants() {
         );
 
         event.clipboardData.setData(
-          "text/html",
+          "text/plain",
           JSON.stringify(
             copyState.selection.selectedText +
               getTextFromVariants(significantVariantsForSelectedText) +
