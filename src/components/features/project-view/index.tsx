@@ -55,6 +55,7 @@ type GetGridTemplateColumnsProps = {
   mode: Mode;
 };
 
+// TODO please reduce the cognitive complexity of this function before extending it further
 const getGridTemplateColumns = ({
   selectedTab,
   isInsignificantVariantsPanelOpen,
@@ -95,10 +96,11 @@ const getGridTemplateColumns = ({
     return `1fr ${
       isSignificantVariantsPanelOpen ||
       isInsignificantVariantsPanelOpen ||
-      isVariantsSelectionPanelOpen
+      isVariantsSelectionPanelOpen ||
+      isCommentsPanelOpen
         ? "270px"
         : "58px"
-    } 270px`;
+    } ${!isSignificantVariantsPanelOpen && !isInsignificantVariantsPanelOpen ? "58px" : "270px"}`;
   }
 
   return "1fr 58px 58px";
