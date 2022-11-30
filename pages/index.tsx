@@ -3,27 +3,12 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import BookIcon from "@/assets/images/icons/book.svg";
-import DocumentIcon from "@/assets/images/icons/document-plus.svg";
-import EditIcon from "@/assets/images/icons/edit-2.svg";
-import UsersIcon from "@/assets/images/icons/users-more.svg";
-import Button from "@/components/ui/button";
-import { ROUTES } from "@/constants/routes";
-import { useUser } from "@/hooks/use-user";
+import HomeView from "@/components/features/home-view";
 import BaseLayout from "@/layouts/index";
 import FormLayout from "@/layouts/shared/with-form";
 import { withAuth } from "@/services/auth/with-auth";
-import styled from "styled-components";
-
-const ButtonsWrapper = styled.div`
-  display: grid;
-  grid-template-rows: 1fr;
-  align-items: center;
-  grid-row-gap: 24px;
-`;
 
 function Home() {
-  const { isAdmin } = useUser();
   const { t } = useTranslation();
 
   return (
@@ -32,22 +17,7 @@ function Home() {
         <title>{t("home.title")}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ButtonsWrapper>
-        <Button href={ROUTES.HOME()} variant="primary" left={<EditIcon />}>
-          {t("home.continue_editing")}
-        </Button>
-        <Button href={ROUTES.IMPORT_FILE()} variant="primary" left={<DocumentIcon />}>
-          {t("home.create_new_edition")}
-        </Button>
-        <Button href={ROUTES.LIBRARY()} variant="primary" left={<BookIcon />}>
-          {t("home.go_to_library")}
-        </Button>
-        {isAdmin && (
-          <Button href={ROUTES.MANAGE_USERS()} variant="primary" left={<UsersIcon />}>
-            {t("home.manage_users")}
-          </Button>
-        )}
-      </ButtonsWrapper>
+      <HomeView />
     </>
   );
 }

@@ -14,6 +14,7 @@ declare namespace API {
     account_approved: boolean;
     registration_date: string;
     role: "admin";
+    last_edited_project_id: number | null;
   };
 
   type Witness = {

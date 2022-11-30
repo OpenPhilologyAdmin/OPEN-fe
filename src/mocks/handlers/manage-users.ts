@@ -7,6 +7,7 @@ const approvedUser: API.User = {
   role: "admin",
   registration_date: "2022-07-15",
   account_approved: true,
+  last_edited_project_id: null,
 };
 
 const getUserListResponse: API.GetUserListResponse = {
@@ -18,6 +19,7 @@ const getUserListResponse: API.GetUserListResponse = {
       role: "admin",
       registration_date: "2022-07-15",
       account_approved: false,
+      last_edited_project_id: null,
     },
     {
       id: 1,
@@ -26,6 +28,7 @@ const getUserListResponse: API.GetUserListResponse = {
       role: "admin",
       registration_date: "2022-07-15",
       account_approved: true,
+      last_edited_project_id: null,
     },
     {
       id: 3,
@@ -34,6 +37,7 @@ const getUserListResponse: API.GetUserListResponse = {
       role: "admin",
       registration_date: "2022-07-15",
       account_approved: false,
+      last_edited_project_id: null,
     },
   ],
   count: 3,

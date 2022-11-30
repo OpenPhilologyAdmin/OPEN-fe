@@ -6,6 +6,7 @@ import {
   updateProjectByIdHandler,
 } from "./library";
 import { approveUserByIdHandler, getUsersListHandler } from "./manage-users";
+import { getMe } from "./me";
 import { newPasswordHandler } from "./new-password";
 import {
   deleteCommentById,
@@ -31,6 +32,7 @@ import {
 } from "./witness-list";
 
 export const handlers = [
+  getMe,
   signInHandler,
   registerAccountHandler,
   resetPasswordHandler,

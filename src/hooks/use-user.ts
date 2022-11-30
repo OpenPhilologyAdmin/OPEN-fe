@@ -14,17 +14,18 @@ const getUser = () => {
 };
 
 const useGetUser = ({ enabled }: { enabled: boolean }) => {
-  const { data, error, isLoading, isError, isSuccess } = useQuery<
+  const { data, error, isLoading, isError, isSuccess, refetch } = useQuery<
     AxiosResponse<API.MeResponse>,
     AxiosError<API.Error>
   >(queryKeys.getUser(), getUser, { retry: false, enabled });
 
-  return { data: data?.data, error, isLoading, isError, isSuccess };
+  return { data: data?.data, error, isLoading, isError, isSuccess, refetch };
 };
 
 export const useUser = () => {
   const { user, setUser, isLoggedIn } = useContext(UserContext);
-  const { data } = useGetUser({
+
+  const { data, refetch } = useGetUser({
     enabled: isLoggedIn && !user,
   });
 
@@ -38,7 +39,9 @@ export const useUser = () => {
     user,
     setUser,
     isLoggedIn,
+    refetchUser: refetch,
     isApproved: !!user?.account_approved,
     isAdmin: !!(user?.role === "admin"),
+    lastEditedProject: user?.last_edited_project_id,
   };
 };

@@ -5,4 +5,5 @@ export const mockUser: API.User = {
   name: "Some name",
   registration_date: "2020-10-10",
   role: "admin",
+  last_edited_project_id: null,
 };
