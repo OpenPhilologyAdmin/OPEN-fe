@@ -1,9 +1,12 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
+
+import "allotment/dist/style.css";
 
 import FootnoteIcon from "@/assets/images/icons/footnote.svg";
 import TokensIcon from "@/assets/images/icons/tokens.svg";
 import VariantsIcon from "@/assets/images/icons/variants.svg";
+import useAllotment from "@/components/ui/allotment";
 import { usePanel } from "@/components/ui/panel";
 import { Tab, TabsWrapper, useTabs } from "@/components/ui/tabs";
 import Toggle, { useToggle } from "@/components/ui/toggle";
@@ -54,6 +57,8 @@ type GetGridTemplateColumnsProps = {
   isCommentsPanelOpen: boolean;
   mode: Mode;
 };
+
+const INITIAL_PANEL_SIZE = 10000;
 
 // TODO please reduce the cognitive complexity of this function before extending it further
 const getGridTemplateColumns = ({
@@ -141,8 +146,7 @@ const ToggleWrapper = styled.div`
 
 const TabWrapper = styled.div<TabWrapperProps>`
   position: relative;
-  height: ${({ variant }) => (variant === "tokens" ? "calc(100% - 48px)" : "calc(100% - 78px)")};
-  padding: 0px 0px 16px 0px;
+  height: ${({ variant }) => (variant === "tokens" ? "100%" : "calc(100% - 48px)")};
 `;
 
 const PanelsWrapper = styled.div`
@@ -196,6 +200,14 @@ function ProjectView({ project }: ProjectViewProps) {
   } = usePanel();
   const { isOpen: isCommentsPanelOpen, togglePanelVisibility: toggleCommentsPanelVisibility } =
     usePanel();
+  const [preferredWidth, setPreferredWidth] = useState(INITIAL_PANEL_SIZE);
+  const [panelsWidth, setPanelsWidth] = useState(0);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const varianPanelWrapperRef = useRef<HTMLDivElement>(null);
+  const commentsPanelWrapperRef = useRef<HTMLDivElement>(null);
+
+  const { allotmentRef, Allotment } = useAllotment();
 
   const projectId = project.id;
 
@@ -272,14 +284,49 @@ function ProjectView({ project }: ProjectViewProps) {
               <Tab
                 icon={<VariantsIcon />}
                 isSelected={selectedTab === "variants"}
-                onSelect={() => setSelectedTab("variants")}
+                onSelect={() => {
+                  if (selectedTab === "variants") return;
+
+                  setSelectedTab("variants");
+
+                  const variantsContentWidth = contentRef.current?.clientWidth || 0;
+
+                  setPreferredWidth(variantsContentWidth);
+
+                  if (allotmentRef.current) {
+                    allotmentRef.current.resize([
+                      variantsContentWidth,
+                      window.innerWidth - variantsContentWidth - panelsWidth,
+                    ]);
+                  }
+                }}
               >
                 {t("project.variants_tab")}
               </Tab>
               <Tab
                 icon={<TokensIcon />}
                 isSelected={selectedTab === "tokens"}
-                onSelect={() => setSelectedTab("tokens")}
+                onSelect={() => {
+                  if (selectedTab === "tokens") return;
+
+                  const panelsWidth =
+                    (varianPanelWrapperRef.current?.clientWidth || 0) +
+                    (commentsPanelWrapperRef.current?.clientWidth || 0);
+
+                  setPanelsWidth(panelsWidth);
+                  setSelectedTab("tokens");
+
+                  if (allotmentRef.current && contentRef.current) {
+                    const tokensContentWidth = contentRef.current?.clientWidth || 0;
+
+                    setPreferredWidth(tokensContentWidth);
+
+                    allotmentRef.current.resize([
+                      tokensContentWidth,
+                      window.innerWidth - tokensContentWidth,
+                    ]);
+                  }
+                }}
               >
                 {t("project.tokens_tab")}
               </Tab>
@@ -297,39 +344,45 @@ function ProjectView({ project }: ProjectViewProps) {
             </ToggleWrapper>
           )}
         </ContentTopBar>
-        <TabWrapper variant={selectedTab}>
-          {selectedTab === "tokens" && (
-            <TokensTab
-              projectId={projectId}
-              tokens={tokens}
-              isFetching={isFetching}
-              isRefetching={isRefetching}
-              isLoading={isLoading}
-              isError={isError}
-              refetch={refetch}
-            />
-          )}
-          {selectedTab === "variants" && (
-            <VariantsTab
-              mode={mode}
-              tokens={tokens}
-              selectedTokenId={selectedTokenId}
-              isFetching={isFetching}
-              isRefetching={isRefetching}
-              isLoading={isLoading}
-              isError={isError}
-              isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-              onSelectToken={handleSelectToken}
-              refetch={refetch}
-              handleSetSelectionCopyState={handleSetSelectionCopyState}
-            />
-          )}
-        </TabWrapper>
+        <Allotment ref={allotmentRef} key={selectedTab}>
+          <Allotment.Pane preferredSize={preferredWidth}>
+            <TabWrapper variant={selectedTab} ref={contentRef}>
+              {selectedTab === "tokens" && (
+                <TokensTab
+                  projectId={projectId}
+                  tokens={tokens}
+                  isFetching={isFetching}
+                  isRefetching={isRefetching}
+                  isLoading={isLoading}
+                  isError={isError}
+                  refetch={refetch}
+                />
+              )}
+              {selectedTab === "variants" && (
+                <VariantsTab
+                  mode={mode}
+                  tokens={tokens}
+                  selectedTokenId={selectedTokenId}
+                  isFetching={isFetching}
+                  isRefetching={isRefetching}
+                  isLoading={isLoading}
+                  isError={isError}
+                  isApparatusIndexDisplayed={isApparatusIndexDisplayed}
+                  onSelectToken={handleSelectToken}
+                  refetch={refetch}
+                  handleSetSelectionCopyState={handleSetSelectionCopyState}
+                />
+              )}
+            </TabWrapper>
+          </Allotment.Pane>
+
+          <Allotment.Pane>{/* empty placeholder to allow resizing */}</Allotment.Pane>
+        </Allotment>
       </Content>
       {selectedTab === "variants" && (
         <>
           {mode === "EDIT" && (
-            <PanelsWrapper>
+            <PanelsWrapper ref={commentsPanelWrapperRef}>
               <VariantsSelection
                 tokenId={selectedTokenId}
                 projectId={projectId}
@@ -351,7 +404,7 @@ function ProjectView({ project }: ProjectViewProps) {
               />
             </PanelsWrapper>
           )}
-          <PanelsWrapper>
+          <PanelsWrapper ref={varianPanelWrapperRef}>
             <SignificantVariants
               isOpen={isSignificantVariantsPanelOpen}
               $isOpen={isSignificantVariantsPanelOpen}

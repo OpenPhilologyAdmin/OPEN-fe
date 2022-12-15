@@ -87,4 +87,23 @@ export const GlobalStyle = createGlobalStyle`
   next-route-announcer {
     user-select: none;
   }
+
+  /* Allotment library style */
+
+  .sash, .sash-active {
+    &::before {
+      position: absolute;
+      display: block;
+      content: '';
+      height: 32px !important;
+      width: 32px !important;
+      top: 50%;
+      left: -12px !important;
+      z-index: 0;
+      transform: translateX(-50%);
+      transform: translateY(-50%);
+      background: none !important;
+      background-image: url("/images/allotment-handle.png") !important;
+    }
+  }
 `;

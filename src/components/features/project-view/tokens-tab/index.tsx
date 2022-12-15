@@ -37,8 +37,7 @@ const ERROR_FIELDS = ["project", "selected_text", "selected_token_ids", "tokens_
 
 const SelectionWrapper = styled.div`
   overflow-x: hidden;
-  // Every tab handles it's own padding because it's relevant for selection that the padding is in the scope of selection parent
-  padding: 24px 24px 0px 24px;
+  padding: 24px;
   z-index: 0;
   height: calc(100% - ${BOTTOM_BAR_HEIGHT}px);
 `;

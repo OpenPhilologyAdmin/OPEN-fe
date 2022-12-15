@@ -32,7 +32,6 @@ type VariantsTabErrorPros = {
 
 const Wrapper = styled.div`
   overflow-x: hidden;
-  // Every tab handles it's own padding because it's relevant for selection that the padding is in the scope of selection parent
   padding: 24px 24px 0px 24px;
   z-index: 0;
   height: 100%;

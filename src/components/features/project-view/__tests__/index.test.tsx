@@ -25,7 +25,22 @@ const project: API.Project = {
   import_errors: {},
 };
 
+function Allotment({ children }: any) {
+  return <>{children}</>;
+}
+// eslint-disable-next-line react/display-name
+Allotment.Pane = function ({ children }: any) {
+  return <>{children}</>;
+};
+
+jest.mock("allotment", () => ({
+  Allotment: jest.fn().mockReturnValue(Allotment),
+}));
+
 describe("ProjectView", () => {
+  // Disabling console errors because we need to load the library in an effect and that triggers an error in the testing library
+  jest.spyOn(console, "error").mockImplementation(() => null);
+
   it("renders correctly and shows generic error when tokens are not fetched in read mode", async () => {
     mockServer.use(getTokensForProjectByIdException);
 
