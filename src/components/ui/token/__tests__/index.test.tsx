@@ -7,6 +7,7 @@ const getToken = (state: API.TokenState): API.Token => ({
   id: 1,
   state,
   t: "value123",
+  index: 1,
 });
 
 describe("Token", () => {

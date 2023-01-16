@@ -38,6 +38,7 @@ const token: API.Token = {
   id: 1,
   state: "evaluated_with_single",
   t: tokenValue,
+  index: 0,
 };
 
 export const groupedVariants: API.GroupedVariant[] = [

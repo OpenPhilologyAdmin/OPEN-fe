@@ -191,6 +191,7 @@ exports[`Token renders a Token unchanged in edit mode and in one_variant state 1
 .c1 {
   margin-right: 3px;
   color: #101521;
+  border: 1px solid transparent;
 }
 
 <div>
@@ -226,6 +227,7 @@ exports[`Token renders a Token unchanged in read mode 1`] = `
 .c1 {
   margin-right: 3px;
   color: #101521;
+  border: 1px solid transparent;
 }
 
 <div>

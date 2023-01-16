@@ -10,6 +10,7 @@ const tokens: API.Token[] = [
     id: 1,
     state: "one_variant",
     t: "text",
+    index: 0,
   },
 ];
 
@@ -31,6 +32,8 @@ function TokensTabWithMockToastProvider({
         isRefetching={isRefetching || false}
         projectId={projectId}
         refetch={async () => {}}
+        determineIfTokenIsSelected={() => false}
+        handleSelectToken={() => {}}
       />
     </>
   );

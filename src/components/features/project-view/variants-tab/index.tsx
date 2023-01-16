@@ -105,7 +105,7 @@ function VariantsTab({
           key={token.id}
           token={token}
           mode={mode}
-          onSelectToken={onSelectToken}
+          onSelectToken={token.state !== "one_variant" ? onSelectToken : undefined}
           highlighted={token.id === selectedTokenId}
           apparatusIndexVisible={isApparatusIndexDisplayed}
         />

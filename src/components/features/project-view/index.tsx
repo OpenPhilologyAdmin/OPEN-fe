@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 import "allotment/dist/style.css";
@@ -10,8 +10,7 @@ import useAllotment from "@/components/ui/allotment";
 import { usePanel } from "@/components/ui/panel";
 import { Tab, TabsWrapper, useTabs } from "@/components/ui/tabs";
 import Toggle, { useToggle } from "@/components/ui/toggle";
-import { Mode } from "@/contexts/current-project-mode";
-import { TokenContext } from "@/contexts/selectedToken";
+import { useVariantsTabSelectedTokenContext } from "@/contexts/selected-token";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled, { css } from "styled-components";
 
@@ -20,17 +19,18 @@ import BaseInsignificantVariants from "../insignificant-variants";
 import { useInvalidateGetInsignificantVariantsForProjectByIdQuery } from "../insignificant-variants/query";
 import BaseSignificantVariants from "../significant-variants";
 import { useInvalidateGetSignificantVariantsForProjectByIdQuery } from "../significant-variants/query";
+import BaseTokensPanel from "../tokens-panel";
 import BaseVariantsSelection from "../variants-selection";
+import { getGridTemplateColumns, TabVariant } from "./layout-helpers";
 import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
 import TokensTab from "./tokens-tab";
 import { useCopySelectedTextWithSignificantAndInsignificantVariants } from "./use-copy-selected-text-with-significant-and-insignificant-variants";
+import { useTokensTabSelectedTokens } from "./use-tokens-tab-selected-tokens";
 import VariantsTab from "./variants-tab";
 
 type ProjectViewProps = {
   project: API.Project;
 };
-
-type TabVariant = "variants" | "tokens";
 
 type StyledPanelProps = {
   isTall: boolean;
@@ -49,67 +49,7 @@ type LayoutProps = {
   gridTemplateColumns: string;
 };
 
-type GetGridTemplateColumnsProps = {
-  selectedTab: TabVariant;
-  isSignificantVariantsPanelOpen: boolean;
-  isInsignificantVariantsPanelOpen: boolean;
-  isVariantsSelectionPanelOpen: boolean;
-  isCommentsPanelOpen: boolean;
-  mode: Mode;
-};
-
 const INITIAL_PANEL_SIZE = 10000;
-
-// TODO please reduce the cognitive complexity of this function before extending it further
-const getGridTemplateColumns = ({
-  selectedTab,
-  isInsignificantVariantsPanelOpen,
-  isSignificantVariantsPanelOpen,
-  isVariantsSelectionPanelOpen,
-  isCommentsPanelOpen,
-  mode,
-}: GetGridTemplateColumnsProps) => {
-  if (selectedTab === "tokens") return "1fr";
-
-  if (mode === "READ") {
-    return isSignificantVariantsPanelOpen ? "1fr 270px" : "1fr 58px";
-  }
-
-  if (isSignificantVariantsPanelOpen) {
-    return `1fr ${isVariantsSelectionPanelOpen || isCommentsPanelOpen ? "270px" : "58px"} 270px`;
-  }
-
-  if (isInsignificantVariantsPanelOpen) {
-    return `1fr ${isVariantsSelectionPanelOpen || isCommentsPanelOpen ? "270px" : "58px"} 270px`;
-  }
-
-  if (isVariantsSelectionPanelOpen) {
-    return `1fr ${
-      (!isSignificantVariantsPanelOpen &&
-        !isInsignificantVariantsPanelOpen &&
-        !isCommentsPanelOpen) ||
-      isSignificantVariantsPanelOpen ||
-      isInsignificantVariantsPanelOpen ||
-      isCommentsPanelOpen
-        ? "270px"
-        : "58px"
-    }
-    ${!isSignificantVariantsPanelOpen && !isInsignificantVariantsPanelOpen ? "58px" : "270px"}`;
-  }
-
-  if (isCommentsPanelOpen) {
-    return `1fr ${
-      isSignificantVariantsPanelOpen ||
-      isInsignificantVariantsPanelOpen ||
-      isVariantsSelectionPanelOpen ||
-      isCommentsPanelOpen
-        ? "270px"
-        : "58px"
-    } ${!isSignificantVariantsPanelOpen && !isInsignificantVariantsPanelOpen ? "58px" : "270px"}`;
-  }
-
-  return "1fr 58px 58px";
-};
 
 const Layout = styled.div<LayoutProps>`
   display: grid;
@@ -172,6 +112,10 @@ const Comments = styled(BaseComments)<StyledPanelProps>`
   ${panelStyles}
 `;
 
+const TokensPanel = styled(BaseTokensPanel)<StyledPanelProps>`
+  ${panelStyles}
+`;
+
 const InsignificantVariants = styled(BaseInsignificantVariants)<StyledPanelProps>`
   ${panelStyles};
 `;
@@ -186,6 +130,8 @@ function ProjectView({ project }: ProjectViewProps) {
   const { mode } = useCurrentProjectMode();
   const { selectedTab, setSelectedTab } = useTabs<TabVariant>("variants");
   const { isOn: isApparatusIndexDisplayed, toggle: toggleApparatusIndexDisplay } = useToggle(true);
+  const { isOpen: isTokensPanelOpen, togglePanelVisibility: toggleTokensPanelVisibility } =
+    usePanel();
   const {
     isOpen: isSignificantVariantsPanelOpen,
     togglePanelVisibility: toggleSignificantVariantsPanelVisibility,
@@ -223,7 +169,7 @@ function ProjectView({ project }: ProjectViewProps) {
     tokens?.find(token => token.state !== "one_variant")?.id || null,
   );
 
-  const { setTokenContextId } = useContext(TokenContext);
+  const { setTokenContextId } = useVariantsTabSelectedTokenContext();
 
   useEffect(() => {
     selectedTokenId && setTokenContextId(selectedTokenId);
@@ -247,11 +193,24 @@ function ProjectView({ project }: ProjectViewProps) {
     handleSetSignificantVariantsCopyState,
   } = useCopySelectedTextWithSignificantAndInsignificantVariants();
 
-  const handleSelectToken = useCallback((token: API.Token) => {
+  const {
+    selectionEnabled,
+    toggleSelectionAvailability,
+    selectedTokens,
+    handleSelectToken: handleSelectTokensTabToken,
+    determineIfTokenIsSelected,
+  } = useTokensTabSelectedTokens();
+
+  const handleSelectVariantsTabToken = useCallback((token: API.Token) => {
     if (token.state !== "one_variant") {
       setSelectedTokenId(token.id);
     }
   }, []);
+
+  const handleResetSelectedTokensOnVariantsTab = () => {
+    setSelectedTokenId(null);
+    setTokenContextId(undefined);
+  };
 
   const handleInvalidateProjectViewQueries = async () => {
     await invalidateGetTokensForProjectById({
@@ -267,6 +226,7 @@ function ProjectView({ project }: ProjectViewProps) {
   };
 
   return (
+    // TODO consider changing layout to a separate file component
     <Layout
       gridTemplateColumns={getGridTemplateColumns({
         selectedTab,
@@ -274,6 +234,7 @@ function ProjectView({ project }: ProjectViewProps) {
         isSignificantVariantsPanelOpen,
         isVariantsSelectionPanelOpen,
         isCommentsPanelOpen,
+        isTokensPanelOpen,
         mode,
       })}
     >
@@ -356,6 +317,8 @@ function ProjectView({ project }: ProjectViewProps) {
                   isLoading={isLoading}
                   isError={isError}
                   refetch={refetch}
+                  handleSelectToken={handleSelectTokensTabToken}
+                  determineIfTokenIsSelected={determineIfTokenIsSelected}
                 />
               )}
               {selectedTab === "variants" && (
@@ -368,7 +331,7 @@ function ProjectView({ project }: ProjectViewProps) {
                   isLoading={isLoading}
                   isError={isError}
                   isApparatusIndexDisplayed={isApparatusIndexDisplayed}
-                  onSelectToken={handleSelectToken}
+                  onSelectToken={handleSelectVariantsTabToken}
                   refetch={refetch}
                   handleSetSelectionCopyState={handleSetSelectionCopyState}
                 />
@@ -379,6 +342,29 @@ function ProjectView({ project }: ProjectViewProps) {
           <Allotment.Pane>{/* empty placeholder to allow resizing */}</Allotment.Pane>
         </Allotment>
       </Content>
+      {selectedTab === "tokens" && (
+        <PanelsWrapper>
+          <TokensPanel
+            isCreating={selectionEnabled}
+            isError={isError}
+            isFetching={isFetching}
+            isRefetching={isRefetching}
+            isLoading={isLoading}
+            isTall
+            isOpen={isTokensPanelOpen}
+            $isOpen={isTokensPanelOpen}
+            isRotatedWhenClosed
+            selectedTokens={selectedTokens}
+            projectId={projectId}
+            refetch={refetch}
+            togglePanelVisibility={toggleTokensPanelVisibility}
+            invalidateProjectViewQueriesCallback={handleInvalidateProjectViewQueries}
+            toggleSelectionAvailability={toggleSelectionAvailability}
+            onSave={handleResetSelectedTokensOnVariantsTab}
+          />
+        </PanelsWrapper>
+      )}
+
       {selectedTab === "variants" && (
         <>
           {mode === "EDIT" && (

@@ -7,7 +7,7 @@ import { appWithTranslation } from "next-i18next";
 import { ToastProvider } from "@/components/ui/toast";
 import { GlobalStyle } from "@/constants/global-style";
 import { CurrentProjectModeProvider } from "@/contexts/current-project-mode";
-import { TokenProvider } from "@/contexts/selectedToken";
+import { TokenProvider } from "@/contexts/selected-token";
 import { UserProvider } from "@/contexts/user";
 import BaseLayout from "@/layouts/index";
 import { queryClient } from "@/services/api/client";

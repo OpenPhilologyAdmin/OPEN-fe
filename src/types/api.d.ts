@@ -59,6 +59,7 @@ declare namespace API {
     t: string;
     apparatus_index: number;
     state: TokenState;
+    index: number;
   };
 
   type EditorialRemark = {
@@ -345,13 +346,17 @@ declare namespace API {
 
   type EditTokensByProjectIdPayload = {
     token: {
-      selected_text: string;
       selected_token_ids: number[];
-      tokens_with_offsets: TokenWithOffset[];
     };
   };
 
   type EditTokensByProjectIdResponse = {
     message: string;
+  };
+
+  type GetTokenEditedInfoByProjectIdResponse = {
+    comments: boolean;
+    editorial_remarks: boolean;
+    variants_selections: boolean;
   };
 }

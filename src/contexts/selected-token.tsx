@@ -1,4 +1,11 @@
-import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 
 type TokenContextType = {
   tokenContextId?: number;
@@ -14,6 +21,16 @@ const TokenContext = createContext<TokenContextType>({
   setTokenContextId: () => {},
 });
 
+function useVariantsTabSelectedTokenContext() {
+  const { tokenContextId, setTokenContextId } = useContext(TokenContext);
+
+  return {
+    tokenContextId,
+    setTokenContextId,
+  };
+}
+
+// TODO rename so that it is clear that this is a provider for the token context from variants tab
 function TokenProvider({ initialToken, children }: PropsWithChildren<Props>) {
   const [tokenContextId, setTokenContextId] = useState<number | undefined>(initialToken);
 
@@ -24,4 +41,4 @@ function TokenProvider({ initialToken, children }: PropsWithChildren<Props>) {
   );
 }
 
-export { TokenContext, TokenProvider };
+export { TokenContext, TokenProvider, useVariantsTabSelectedTokenContext };

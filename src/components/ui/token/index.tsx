@@ -14,48 +14,58 @@ type TokenProps = TypographyProps & {
   apparatusIndexVisible?: boolean;
   forcedState?: API.TokenState;
   withSup?: boolean;
+  selected?: boolean;
 };
 
 type StyledProps = {
   $clickable: boolean;
   $variant: API.TokenState;
   highlighted?: boolean;
+  selected?: boolean;
   $apparatusIndexVisible?: boolean;
 };
 
 const getActionableTokenVariantStyle = (
-  color: string,
+  actionColor: string,
   highlighted: boolean,
-  clickable: boolean,
+  selected: boolean,
 ) => {
   return css`
-    ${clickable && "cursor: pointer"};
-    color: ${color};
+    color: ${actionColor};
     border: 1px solid transparent;
 
     ${highlighted &&
+    !selected &&
     css`
-      background-color: ${convertHexToRGBA(color, 0.12)};
-      border: 1px solid ${convertHexToRGBA(color, 0.32)};
+      background-color: ${convertHexToRGBA(actionColor, 0.12)};
+      border: 1px solid ${convertHexToRGBA(actionColor, 0.32)};
+    `};
+
+    ${selected &&
+    css`
+      background-color: #ffe6007a;
+      border: 1px solid transparent;
     `};
   `;
 };
 
 const Wrapper = styled(Typography)<StyledProps>`
+  ${({ $clickable }) => $clickable && "cursor: pointer"};
+
   ${({ $apparatusIndexVisible }) =>
     $apparatusIndexVisible &&
     css`
       margin-right: 3px;
     `}
-  ${({ $variant, highlighted, $clickable }) => {
+  ${({ $variant, highlighted, selected }) => {
     if ($variant === "not_evaluated") {
       return css`
         ${({ theme }) =>
-          getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted, $clickable)}
+          getActionableTokenVariantStyle(theme.colors.actionsSecondary, !!highlighted, !!selected)}
 
         &:hover {
           ${({ theme }) =>
-            getActionableTokenVariantStyle(theme.colors.actionsSecondary, true, $clickable)}
+            getActionableTokenVariantStyle(theme.colors.actionsSecondary, true, !!selected)}
         }
       `;
     }
@@ -63,11 +73,11 @@ const Wrapper = styled(Typography)<StyledProps>`
     if ($variant === "evaluated_with_multiple") {
       return css`
         ${({ theme }) =>
-          getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted, $clickable)}
+          getActionableTokenVariantStyle(theme.colors.actionsPrimary, !!highlighted, !!selected)}
 
         &:hover {
           ${({ theme }) =>
-            getActionableTokenVariantStyle(theme.colors.actionsPrimary, true, $clickable)}
+            getActionableTokenVariantStyle(theme.colors.actionsPrimary, true, !!selected)}
         }
       `;
     }
@@ -75,17 +85,22 @@ const Wrapper = styled(Typography)<StyledProps>`
     if ($variant === "evaluated_with_single") {
       return css`
         ${({ theme }) =>
-          getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted, $clickable)}
+          getActionableTokenVariantStyle(theme.colors.textSecondary, !!highlighted, !!selected)}
 
         &:hover {
           ${({ theme }) =>
-            getActionableTokenVariantStyle(theme.colors.textSecondary, true, $clickable)}
+            getActionableTokenVariantStyle(theme.colors.textSecondary, true, !!selected)}
         }
       `;
     }
 
     return css`
       color: ${({ theme }) => theme.colors.textSecondary};
+      border: 1px solid transparent;
+      ${selected &&
+      css`
+        background-color: #ffe6007a;
+      `};
     `;
   }}
 `;
@@ -96,6 +111,7 @@ function Token({
   mode,
   highlighted,
   apparatusIndexVisible = true,
+  selected,
   onSelectToken,
   ...props
 }: TokenProps) {
@@ -115,6 +131,7 @@ function Token({
       highlighted={highlighted}
       $apparatusIndexVisible={apparatusIndexVisible && token.apparatus_index}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
+      selected={selected}
     >
       {token.t}
       {apparatusIndexVisible && token.apparatus_index && <Sup>({token.apparatus_index})</Sup>}

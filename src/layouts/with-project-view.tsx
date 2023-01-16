@@ -1,4 +1,4 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
@@ -6,7 +6,7 @@ import BaseBreadcrumbs, { Breadcrumb, BreadcrumbsItem } from "@/components/featu
 import AddWitnessButton from "@/components/features/witness-list-table/add-witness-button";
 import Header from "@/components/ui/header";
 import Toggle from "@/components/ui/toggle";
-import { TokenContext } from "@/contexts/selectedToken";
+import { useVariantsTabSelectedTokenContext } from "@/contexts/selected-token";
 import { useCurrentProjectMode } from "@/hooks/use-current-project-mode";
 import styled from "styled-components";
 
@@ -67,7 +67,7 @@ function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: P
   const { t } = useTranslation();
   const { mode, toggleMode } = useCurrentProjectMode();
 
-  const { tokenContextId } = useContext(TokenContext);
+  const { tokenContextId } = useVariantsTabSelectedTokenContext();
 
   return (
     <>
