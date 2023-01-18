@@ -14,10 +14,12 @@ export type TokensTabProps = {
   isError: boolean;
   isRefetching: boolean;
   isFetching: boolean;
+  selectionForCreationEnabled: boolean;
   tokens?: API.Token[];
   refetch: () => Promise<any>;
   handleSelectToken: (selectedToken: API.Token) => void;
-  determineIfTokenIsSelected: (token: API.Token) => boolean;
+  determineIfTokensTabTokenIsSelectedForCreation: (token: API.Token) => boolean;
+  tokenIdForSplit?: number | null;
 };
 
 const BOTTOM_BAR_HEIGHT = 72;
@@ -58,7 +60,9 @@ function TokensTab({
   isLoading,
   isRefetching,
   isFetching,
-  determineIfTokenIsSelected,
+  determineIfTokensTabTokenIsSelectedForCreation,
+  selectionForCreationEnabled,
+  tokenIdForSplit,
   refetch,
   handleSelectToken,
 }: TokensTabProps) {
@@ -67,6 +71,10 @@ function TokensTab({
   if (isError && !isRefetching) return <TokensTabError refetch={refetch} />;
 
   if (!tokens) return null;
+
+  const isSplitEnabledForTokenState = (tokenState: API.Token["state"]) => {
+    return !selectionForCreationEnabled && tokenState === "one_variant";
+  };
 
   return (
     <>
@@ -81,9 +89,12 @@ function TokensTab({
             apparatusIndexVisible={false}
             forcedState={token.state === "one_variant" ? "one_variant" : "evaluated_with_multiple"}
             mode={"EDIT"}
-            highlighted
-            onSelectToken={handleSelectToken}
-            selected={determineIfTokenIsSelected(token)}
+            highlighted={!isSplitEnabledForTokenState(token.state) ? false : true}
+            // we don't want to select one variant tokens for split
+            // if selectionForCreationEnabled is false, the split callback would be called
+            onSelectToken={isSplitEnabledForTokenState(token.state) ? undefined : handleSelectToken}
+            selected={determineIfTokensTabTokenIsSelectedForCreation(token)}
+            withSplitStyles={tokenIdForSplit === token.id}
           />
         ))}
       </SelectionWrapper>

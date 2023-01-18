@@ -24,9 +24,10 @@ import BaseVariantsSelection from "../variants-selection";
 import { getGridTemplateColumns, TabVariant } from "./layout-helpers";
 import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery } from "./query";
 import TokensTab from "./tokens-tab";
-import { useCopySelectedTextWithSignificantAndInsignificantVariants } from "./use-copy-selected-text-with-significant-and-insignificant-variants";
-import { useTokensTabSelectedTokens } from "./use-tokens-tab-selected-tokens";
+import { useTokensTabSelectedTokenForSplit } from "./tokens-tab/use-tokens-tab-selected-token-for-split";
+import { useTokensTabSelectedTokensForCreation } from "./tokens-tab/use-tokens-tab-selected-tokens-for-creation";
 import VariantsTab from "./variants-tab";
+import { useCopySelectedTextWithSignificantAndInsignificantVariants } from "./variants-tab/use-copy-selected-text-with-significant-and-insignificant-variants";
 
 type ProjectViewProps = {
   project: API.Project;
@@ -165,15 +166,21 @@ function ProjectView({ project }: ProjectViewProps) {
 
   const tokens = data?.records;
 
-  const [selectedTokenId, setSelectedTokenId] = useState<number | null>(
+  const [selectedTokenIdForVariantsTab, setSelectedTokenIdForVariantsTab] = useState<number | null>(
     tokens?.find(token => token.state !== "one_variant")?.id || null,
   );
+
+  const {
+    selectedTokenIdForSplitOnTokensTab,
+    handleSelectTokenForSplit,
+    setSelectedTokenIdForSplitOnTokensTab,
+  } = useTokensTabSelectedTokenForSplit();
 
   const { setTokenContextId } = useVariantsTabSelectedTokenContext();
 
   useEffect(() => {
-    selectedTokenId && setTokenContextId(selectedTokenId);
-  }, [selectedTokenId, setTokenContextId]);
+    selectedTokenIdForVariantsTab && setTokenContextId(selectedTokenIdForVariantsTab);
+  }, [selectedTokenIdForVariantsTab, setTokenContextId]);
 
   useEffect(() => {
     if (mode === "READ") {
@@ -194,22 +201,23 @@ function ProjectView({ project }: ProjectViewProps) {
   } = useCopySelectedTextWithSignificantAndInsignificantVariants();
 
   const {
-    selectionEnabled,
-    toggleSelectionAvailability,
-    selectedTokens,
-    handleSelectToken: handleSelectTokensTabToken,
-    determineIfTokenIsSelected,
-  } = useTokensTabSelectedTokens();
+    selectionEnabled: selectionForCreationEnabled,
+    toggleSelectionAvailability: toggleSelectionForCreationAvailability,
+    selectedTokens: selectedTokensForCreation,
+    handleSelectToken: handleSelectTokensTabTokenForCreation,
+    determineIfTokenIsSelected: determineIfTokensTabTokenIsSelectedForCreation,
+  } = useTokensTabSelectedTokensForCreation();
 
   const handleSelectVariantsTabToken = useCallback((token: API.Token) => {
     if (token.state !== "one_variant") {
-      setSelectedTokenId(token.id);
+      setSelectedTokenIdForVariantsTab(token.id);
     }
   }, []);
 
-  const handleResetSelectedTokensOnVariantsTab = () => {
-    setSelectedTokenId(null);
+  const handleTokensPanelReset = () => {
+    setSelectedTokenIdForVariantsTab(null);
     setTokenContextId(undefined);
+    setSelectedTokenIdForSplitOnTokensTab(null);
   };
 
   const handleInvalidateProjectViewQueries = async () => {
@@ -311,21 +319,29 @@ function ProjectView({ project }: ProjectViewProps) {
               {selectedTab === "tokens" && (
                 <TokensTab
                   projectId={projectId}
+                  tokenIdForSplit={selectedTokenIdForSplitOnTokensTab}
                   tokens={tokens}
                   isFetching={isFetching}
                   isRefetching={isRefetching}
                   isLoading={isLoading}
                   isError={isError}
                   refetch={refetch}
-                  handleSelectToken={handleSelectTokensTabToken}
-                  determineIfTokenIsSelected={determineIfTokenIsSelected}
+                  handleSelectToken={
+                    selectionForCreationEnabled
+                      ? handleSelectTokensTabTokenForCreation
+                      : handleSelectTokenForSplit
+                  }
+                  selectionForCreationEnabled={selectionForCreationEnabled}
+                  determineIfTokensTabTokenIsSelectedForCreation={
+                    determineIfTokensTabTokenIsSelectedForCreation
+                  }
                 />
               )}
               {selectedTab === "variants" && (
                 <VariantsTab
                   mode={mode}
                   tokens={tokens}
-                  selectedTokenId={selectedTokenId}
+                  selectedTokenId={selectedTokenIdForVariantsTab}
                   isFetching={isFetching}
                   isRefetching={isRefetching}
                   isLoading={isLoading}
@@ -345,7 +361,7 @@ function ProjectView({ project }: ProjectViewProps) {
       {selectedTab === "tokens" && (
         <PanelsWrapper>
           <TokensPanel
-            isCreating={selectionEnabled}
+            isCreating={selectionForCreationEnabled}
             isError={isError}
             isFetching={isFetching}
             isRefetching={isRefetching}
@@ -354,13 +370,14 @@ function ProjectView({ project }: ProjectViewProps) {
             isOpen={isTokensPanelOpen}
             $isOpen={isTokensPanelOpen}
             isRotatedWhenClosed
-            selectedTokens={selectedTokens}
+            selectedTokenIdForSplit={selectedTokenIdForSplitOnTokensTab}
+            selectedTokensForCreation={selectedTokensForCreation}
             projectId={projectId}
             refetch={refetch}
             togglePanelVisibility={toggleTokensPanelVisibility}
             invalidateProjectViewQueriesCallback={handleInvalidateProjectViewQueries}
-            toggleSelectionAvailability={toggleSelectionAvailability}
-            onSave={handleResetSelectedTokensOnVariantsTab}
+            toggleSelectionAvailability={toggleSelectionForCreationAvailability}
+            handleReset={handleTokensPanelReset}
           />
         </PanelsWrapper>
       )}
@@ -370,7 +387,7 @@ function ProjectView({ project }: ProjectViewProps) {
           {mode === "EDIT" && (
             <PanelsWrapper ref={commentsPanelWrapperRef}>
               <VariantsSelection
-                tokenId={selectedTokenId}
+                tokenId={selectedTokenIdForVariantsTab}
                 projectId={projectId}
                 isOpen={isVariantsSelectionPanelOpen}
                 $isOpen={isVariantsSelectionPanelOpen}
@@ -380,7 +397,7 @@ function ProjectView({ project }: ProjectViewProps) {
                 invalidateProjectViewQueriesCallback={handleInvalidateProjectViewQueries}
               />
               <Comments
-                tokenId={selectedTokenId}
+                tokenId={selectedTokenIdForVariantsTab}
                 $isOpen={isCommentsPanelOpen}
                 isOpen={isCommentsPanelOpen}
                 togglePanelVisibility={toggleCommentsPanelVisibility}

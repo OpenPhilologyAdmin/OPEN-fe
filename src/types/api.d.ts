@@ -359,4 +359,12 @@ declare namespace API {
     editorial_remarks: boolean;
     variants_selections: boolean;
   };
+
+  type SplitTokenForProjectByTokenIdResponse = {
+    message: string;
+  };
+
+  type SplitTokenForProjectByTokenIdPayload = {
+    variants: Variant[];
+  };
 }

@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { initialSelectionState, SelectionState } from "./use-token-selection";
-import { VARIANTS_TAB_WRAPPER_ID, VARIANTS_TOKEN_ID } from "./variants-tab";
+import { VARIANTS_TAB_WRAPPER_ID, VARIANTS_TOKEN_ID } from ".";
+import {
+  initialSelectionState,
+  SelectionState,
+} from "./use-token-selection-with-dom-selection-api";
 
 type CopyState = {
   selection: SelectionState;

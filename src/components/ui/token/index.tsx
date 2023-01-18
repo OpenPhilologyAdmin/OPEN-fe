@@ -15,6 +15,7 @@ type TokenProps = TypographyProps & {
   forcedState?: API.TokenState;
   withSup?: boolean;
   selected?: boolean;
+  withSplitStyles?: boolean;
 };
 
 type StyledProps = {
@@ -23,7 +24,16 @@ type StyledProps = {
   highlighted?: boolean;
   selected?: boolean;
   $apparatusIndexVisible?: boolean;
+  $withSplitStyles?: boolean;
 };
+
+// TODO refactor component styles
+
+const splitStyles = css`
+  border: 1px solid ${({ theme }) => theme.colors.actionsPrimary};
+  box-shadow: 0px 0px 8px ${({ theme }) => theme.colors.actionsPrimary};
+  background-color: ${({ theme }) => convertHexToRGBA(theme.colors.actionsPrimary, 0.12)};
+`;
 
 const getActionableTokenVariantStyle = (
   actionColor: string,
@@ -103,6 +113,18 @@ const Wrapper = styled(Typography)<StyledProps>`
       `};
     `;
   }}
+
+   ${({ $withSplitStyles }) => {
+    if ($withSplitStyles) {
+      return css`
+        ${splitStyles}
+
+        &:hover {
+          ${splitStyles}
+        }
+      `;
+    }
+  }}
 `;
 
 function Token({
@@ -113,6 +135,7 @@ function Token({
   apparatusIndexVisible = true,
   selected,
   onSelectToken,
+  withSplitStyles,
   ...props
 }: TokenProps) {
   const editModeTypographyVariant = useMemo(
@@ -124,7 +147,9 @@ function Token({
     <Wrapper
       {...props}
       onClick={() => {
-        if (onSelectToken) onSelectToken(token);
+        if (onSelectToken) {
+          onSelectToken(token);
+        }
       }}
       $clickable={!!onSelectToken}
       $variant={forcedState || token.state}
@@ -132,6 +157,7 @@ function Token({
       $apparatusIndexVisible={apparatusIndexVisible && token.apparatus_index}
       variant={mode === "READ" ? "body-regular" : editModeTypographyVariant}
       selected={selected}
+      $withSplitStyles={withSplitStyles}
     >
       {token.t}
       {apparatusIndexVisible && token.apparatus_index && <Sup>({token.apparatus_index})</Sup>}

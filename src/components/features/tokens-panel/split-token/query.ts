@@ -1,7 +1,9 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { apiClient } from "@/services/api/client";
 import { AxiosError, AxiosResponse } from "axios";
+
+// query
 
 type GetTokenDetailsForProjectById = {
   projectId?: number;
@@ -27,7 +29,7 @@ export const getTokenDetailsForProjectById = ({
   tokenId,
 }: GetTokenDetailsForProjectById) => {
   return apiClient.get<API.GetTokenDetailsForProjectByIdResponse>(
-    `/projects/${projectId}/tokens/${tokenId}`,
+    `/projects/${projectId}/tokens/${tokenId}-split`,
   );
 };
 
@@ -62,3 +64,33 @@ export const useInvalidateGetTokenDetailsForProjectById = () => {
 
   return { invalidateGetTokenDetailsForProjectById };
 };
+
+// mutation
+
+type UseSplitTokenForProjectByTokenId = {
+  onSuccess: (data: AxiosResponse<API.SplitTokenForProjectByTokenIdResponse, any>) => void;
+  onError: (error: AxiosError<API.Error>) => void;
+};
+
+type SplitTokenForProjectByTokenIdPayload = {
+  data: API.SplitTokenForProjectByTokenIdPayload;
+  projectId: number;
+  tokenId: number;
+};
+
+const splitTokenForProjectByTokenId = ({
+  projectId,
+  tokenId,
+  data,
+}: SplitTokenForProjectByTokenIdPayload) => {
+  return apiClient.patch<API.SplitTokenForProjectByTokenIdResponse>(
+    `projects/${projectId}/tokens/${tokenId}/split`,
+    data,
+  );
+};
+
+export const useSplitTokenForProjectByTokenId = ({
+  onSuccess,
+  onError,
+}: UseSplitTokenForProjectByTokenId) =>
+  useMutation(splitTokenForProjectByTokenId, { onError, onSuccess });

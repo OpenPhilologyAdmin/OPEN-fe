@@ -32,7 +32,8 @@ function TokensTabWithMockToastProvider({
         isRefetching={isRefetching || false}
         projectId={projectId}
         refetch={async () => {}}
-        determineIfTokenIsSelected={() => false}
+        determineIfTokensTabTokenIsSelectedForCreation={() => false}
+        selectionForCreationEnabled={false}
         handleSelectToken={() => {}}
       />
     </>

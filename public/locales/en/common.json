@@ -147,7 +147,7 @@
     "save": "Save",
     "save_token": "Save token",
     "continue": "Continue",
-    "before_create_title": "Click existing token or split it or create new token",
+    "before_create_title": "Click existing token to split it or create new token",
     "before_create_description": "Tokens can only be created by combining adjacent words (and existing tokens) separated by space.",
     "before_create_action": "Create new token",
     "token_before_create_warning": "This action will permanently delete any variants selections, editorial remarks or comments connected to any of the selected tokens.",
@@ -168,7 +168,11 @@
     "too_many_tokens_error": "Selected too many tokens with multiple variants. Maximum allowed is 1",
     "same_token_error": "Cannot split a token with multiple variants",
     "create_token": "Create new token",
-    "select_token_button_text": "Select text to create a new token"
+    "select_token_button_text": "Select text to create a new token",
+    "split_token_info_text": "Splitting operation needs to be performed for all witnesses before saving.",
+    "token_before_split_warning": "This action will permanently delete any variants selections, editorial remarks or comments connected to the selected token.",
+    "insert_split_mark": "Insert split mark",
+    "remove_split_mark": "Remove split mark"
   },
   "add_witness": {
     "witness_name": "Witness name",

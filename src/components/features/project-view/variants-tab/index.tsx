@@ -10,7 +10,7 @@ import {
   SelectionState,
   stringifyTokenIdForSelection,
   useTokenSelection,
-} from "../use-token-selection";
+} from "./use-token-selection-with-dom-selection-api";
 
 type VariantsTabProps = ComponentPropsWithoutRef<"div"> & {
   mode: Mode;
