@@ -11,12 +11,14 @@ import { newPasswordHandler } from "./new-password";
 import {
   deleteCommentById,
   editCommentById,
+  editTokensForProjectByProjectId,
   getCommentsForProjectById,
   getEditorialRemarks,
   getInsignificantVariantsForProjectById,
   getSignificantVariantsForProjectById,
   getTokenDetailsForProjectById,
   getTokensForProjectById,
+  splitTokenForProjectByTokenId,
   updateGroupedVariantsForTokenById,
   updateVariantsForTokenById,
 } from "./project";
@@ -61,4 +63,6 @@ export const handlers = [
   getCommentsForProjectById,
   deleteCommentById,
   editCommentById,
+  splitTokenForProjectByTokenId,
+  editTokensForProjectByProjectId,
 ];

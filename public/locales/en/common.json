@@ -168,6 +168,7 @@
     "too_many_tokens_error": "Selected too many tokens with multiple variants. Maximum allowed is 1",
     "same_token_error": "Cannot split a token with multiple variants",
     "create_token": "Create new token",
+    "create_token_action": "Create new token",
     "select_token_button_text": "Select text to create a new token",
     "split_token_info_text": "Splitting operation needs to be performed for all witnesses before saving.",
     "token_before_split_warning": "This action will permanently delete any variants selections, editorial remarks or comments connected to the selected token.",

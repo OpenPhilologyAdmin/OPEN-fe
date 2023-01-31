@@ -83,6 +83,7 @@ function TokensPanel({
           type="button"
           mode="icon"
           variant="secondary"
+          aria-label={t("project.create_token_action")}
           small
           onClick={() => {
             toggleSelectionAvailability();
@@ -99,7 +100,6 @@ function TokensPanel({
         {isCreating ? (
           <CreateToken
             projectId={projectId}
-            isCreating={isCreating}
             selectedTokensForCreation={selectedTokensForCreation}
             toggleSelectionAvailability={toggleSelectionAvailability}
             invalidateProjectViewQueriesCallback={invalidateProjectViewQueriesCallback}

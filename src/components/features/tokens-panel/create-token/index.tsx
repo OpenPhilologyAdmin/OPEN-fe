@@ -12,9 +12,8 @@ import { useEditTokensByProjectId, useGetTokenEditedInfoForProjectById } from ".
 
 const ERROR_FIELDS = ["project", "selected_token_ids"];
 
-type PanelContentProps = {
+export type CreateTokenProps = {
   projectId: number;
-  isCreating: boolean;
   selectedTokensForCreation: API.Token[];
   toggleSelectionAvailability: () => void;
   invalidateProjectViewQueriesCallback: () => Promise<void>;
@@ -64,9 +63,8 @@ function CreateToken({
   toggleSelectionAvailability,
   invalidateProjectViewQueriesCallback,
   handleReset,
-}: PanelContentProps) {
+}: CreateTokenProps) {
   const { t } = useTranslation();
-  // TODO error and loading
   const { refetch, remove } = useGetTokenEditedInfoForProjectById({
     projectId,
     tokenIds: selectedTokensForCreation.map(token => token.id),

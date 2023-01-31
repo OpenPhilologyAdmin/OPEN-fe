@@ -6,7 +6,8 @@ const getInsignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/
 const getSignificantVariantsForProjectByIdEndpoint = `${baseUrl}/projects/:id/significant_variants`;
 const getTokensForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens`;
 const getTokenDetailsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id`;
-
+const splitTokenForProjectByTokenIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/split`;
+const editTokensForProjectByProjectIdEndpoint = `${baseUrl}/projects/:id/tokens/resize`;
 const updateGroupedVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/grouped_variants`;
 const updateVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/variants`;
 const getCommentsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments`;
@@ -19,6 +20,10 @@ export const tokenValue = "token";
 export const errorGroupedVariantsField = "grouped variant field error";
 export const errorVariantsField = "variant field error";
 export const errorEditorialRemark = "editorial remark field error";
+export const errorProject = "project field error";
+export const errorToken = "token field error";
+export const errorNewVariants = "new variants field error";
+export const errorSelectedTokenIds = "new selected token ids error";
 export const message = "message";
 
 const significantVariant: API.SignificantVariant = {
@@ -33,7 +38,7 @@ const insignificantVariant: API.InsignificantVariant = {
   value: variantValue,
 };
 
-const token: API.Token = {
+export const token: API.Token = {
   apparatus_index: 1,
   id: 1,
   state: "evaluated_with_single",
@@ -133,6 +138,14 @@ const updateGroupedVariantsForTokenByIdSuccessResponse: API.UpdateGroupedVariant
 const updateVariantsForTokenByIdSuccessResponse: API.UpdateVariantsForTokenByIdResponse =
   tokenDetails;
 
+const splitTokenForProjectByTokenIdSuccessResponse: API.SplitTokenForProjectByTokenIdResponse = {
+  message,
+};
+
+const editTokensForProjectByProjectIdSuccessResponse: API.EditTokensByProjectIdResponse = {
+  message,
+};
+
 // significant variants
 export const getSignificantVariantsForProjectById = rest.get(
   getSignificantVariantsForProjectByIdEndpoint,
@@ -219,6 +232,51 @@ export const getTokensForProjectById = rest.get(getTokensForProjectByIdEndpoint,
 export const getTokensForProjectByIdException = rest.get(
   getTokensForProjectByIdEndpoint,
   (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const splitTokenForProjectByTokenId = rest.patch(
+  splitTokenForProjectByTokenIdEndpoint,
+  (_, res, ctx) => res(ctx.json(splitTokenForProjectByTokenIdSuccessResponse)),
+);
+
+export const splitTokenForProjectByTokenIdException = rest.patch(
+  splitTokenForProjectByTokenIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const splitTokenForProjectByTokenIdProjectFieldException = rest.patch(
+  splitTokenForProjectByTokenIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ project: [errorProject] })),
+);
+
+export const splitTokenForProjectByTokenIdNewVariantsFieldException = rest.patch(
+  splitTokenForProjectByTokenIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ new_variants: [errorNewVariants] })),
+);
+
+export const splitTokenForProjectByTokenIdTokenFieldException = rest.patch(
+  splitTokenForProjectByTokenIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ token: [errorToken] })),
+);
+
+export const editTokensForProjectByProjectId = rest.patch(
+  editTokensForProjectByProjectIdEndpoint,
+  (_, res, ctx) => res(ctx.json(editTokensForProjectByProjectIdSuccessResponse)),
+);
+
+export const editTokensForProjectByProjectIdException = rest.patch(
+  editTokensForProjectByProjectIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+export const editTokensForProjectByProjectIdProjectFieldException = rest.patch(
+  editTokensForProjectByProjectIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ project: [errorProject] })),
+);
+
+export const editTokensForProjectByProjectIdSelectedTokenIdsFieldException = rest.patch(
+  editTokensForProjectByProjectIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json({ selected_token_ids: [errorSelectedTokenIds] })),
 );
 
 // comments

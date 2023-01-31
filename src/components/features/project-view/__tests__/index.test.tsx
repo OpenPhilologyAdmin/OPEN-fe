@@ -38,148 +38,196 @@ jest.mock("allotment", () => ({
 }));
 
 describe("ProjectView", () => {
-  // Disabling console errors because we need to load the library in an effect and that triggers an error in the testing library
+  // Disabling console errors and warns because we need to load the library in an effect and that triggers an error and warning in the testing library
+  // Comment out the spies when debugging the test
   jest.spyOn(console, "error").mockImplementation(() => null);
+  jest.spyOn(console, "warn").mockImplementation(() => null);
 
-  it("renders correctly and shows generic error when tokens are not fetched in read mode", async () => {
-    mockServer.use(getTokensForProjectByIdException);
+  describe("Shared", () => {
+    it("renders correctly and shows generic error when tokens are not fetched in edit mode", async () => {
+      mockServer.use(getTokensForProjectByIdException);
 
-    render(<ProjectView project={project} />, { mode: "READ" });
+      render(<ProjectView project={project} />, { mode: "EDIT" });
 
-    expect(await screen.findByText("project.generic_error")).toBeInTheDocument();
+      expect(await screen.findByText("project.generic_error")).toBeInTheDocument();
+    });
+
+    it("renders correctly and displays token returned from the backend in read mode", async () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
+
+      expect(await screen.findByText(tokenValue)).toBeInTheDocument();
+    });
+
+    it("renders correctly and displays token returned from the backend in edit mode", async () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      expect(await screen.findByText(tokenValue)).toBeInTheDocument();
+    });
+
+    it("renders correctly and shows generic error when tokens are not fetched in read mode", async () => {
+      mockServer.use(getTokensForProjectByIdException);
+
+      render(<ProjectView project={project} />, { mode: "READ" });
+
+      expect(await screen.findByText("project.generic_error")).toBeInTheDocument();
+    });
+
+    it("renders correctly and toggles apparatus index visibility in EDIT mode", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      // significant variants + insignificant variants + token + toggle label
+      const apparatusIndices = await screen.findAllByText("(1)");
+
+      expect(apparatusIndices.length).toBe(3);
+
+      const toggle = container.querySelector("#apparatus-index-toggle");
+
+      if (toggle) {
+        await user.click(toggle);
+      }
+
+      // no apparatus indices when toggle enabled
+      expect(screen.queryAllByText("(1)").length).toBe(0);
+    });
+
+    it("renders correctly and toggles apparatus index visibility in READ mode", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<ProjectView project={project} />, { mode: "READ" });
+
+      // significant variants + insignificant variants + token + toggle label
+      const apparatusIndices = await screen.findAllByText("(1)");
+
+      expect(apparatusIndices.length).toBe(2);
+
+      const toggle = container.querySelector("#apparatus-index-toggle");
+
+      if (toggle) {
+        await user.click(toggle);
+      }
+
+      // no apparatus indices when toggle enabled
+      expect(screen.queryAllByText("(1)").length).toBe(0);
+    });
   });
 
-  it("renders correctly and shows generic error when tokens are not fetched in edit mode", async () => {
-    mockServer.use(getTokensForProjectByIdException);
+  describe("VariantsTab", () => {
+    it("renders correctly and displays significant variants section in read mode", () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
 
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+      expect(screen.getByText("project.significant_variants")).toBeInTheDocument();
+    });
 
-    expect(await screen.findByText("project.generic_error")).toBeInTheDocument();
+    it("renders correctly and displays significant variants section in edit mode", () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      expect(screen.getByText("project.significant_variants")).toBeInTheDocument();
+    });
+
+    it("renders correctly and does not display insignificant variants section in read mode", () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
+
+      expect(screen.queryByText("project.insignificant_variants")).not.toBeInTheDocument();
+    });
+
+    it("renders correctly and displays insignificant variants section in edit mode", () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      expect(screen.getByText("project.insignificant_variants")).toBeInTheDocument();
+    });
+
+    it("renders correctly and does not display variants selection section in read mode", () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
+
+      expect(screen.queryByText("project.variants")).not.toBeInTheDocument();
+    });
+
+    it("renders correctly and displays variants selection section in edit mode", () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      expect(screen.getByText("project.variants")).toBeInTheDocument();
+    });
+
+    it("renders correctly and displays variants selection section in edit mode and toggles variant edition", async () => {
+      const user = userEvent.setup();
+
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      const editButton = await screen.findByLabelText("project.edit_toggle");
+
+      await user.click(editButton);
+
+      expect(await screen.findByText("project.add_editorial_remark")).toBeInTheDocument();
+
+      await user.click(editButton);
+
+      expect(await screen.findByText("project.no_selection")).toBeInTheDocument();
+    });
+
+    it("renders correctly and displays variants tab in edit mode", async () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
+
+      expect(await screen.findByText("project.variants_tab")).toBeInTheDocument();
+    });
+
+    it("renders correctly and does not display variants tab in read mode", () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
+
+      expect(screen.queryByText("project.variants_tab")).not.toBeInTheDocument();
+    });
   });
 
-  it("renders correctly and displays token returned from the backend in read mode", async () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
+  describe("TokensTab", () => {
+    it("renders correctly and displays tokens tab in edit mode", async () => {
+      render(<ProjectView project={project} />, { mode: "EDIT" });
 
-    expect(await screen.findByText(tokenValue)).toBeInTheDocument();
-  });
+      expect(await screen.findByText("project.tokens_tab")).toBeInTheDocument();
+    });
 
-  it("renders correctly and displays token returned from the backend in edit mode", async () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+    it("renders correctly and does not display tokens tab in read mode", () => {
+      render(<ProjectView project={project} />, { mode: "READ" });
 
-    expect(await screen.findByText(tokenValue)).toBeInTheDocument();
-  });
+      expect(screen.queryByText("project.tokens_tab")).not.toBeInTheDocument();
+    });
 
-  it("renders correctly and displays significant variants section in read mode", () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
+    it("renders correctly the tokens tab with tokens panel in default view", async () => {
+      const user = userEvent.setup();
 
-    expect(screen.getByText("project.significant_variants")).toBeInTheDocument();
-  });
+      render(<ProjectView project={project} />, { mode: "EDIT" });
 
-  it("renders correctly and displays significant variants section in edit mode", () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+      const tokensTabButton = await screen.findByText("project.tokens_tab");
 
-    expect(screen.getByText("project.significant_variants")).toBeInTheDocument();
-  });
+      await user.click(tokensTabButton);
 
-  it("renders correctly and does not display insignificant variants section in read mode", () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
+      expect(await screen.findByText("project.before_create_title")).toBeInTheDocument();
+    });
 
-    expect(screen.queryByText("project.insignificant_variants")).not.toBeInTheDocument();
-  });
+    it("renders correctly tokens tab and with tokens panel in create view", async () => {
+      const user = userEvent.setup();
 
-  it("renders correctly and displays insignificant variants section in edit mode", () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+      render(<ProjectView project={project} />, { mode: "EDIT" });
 
-    expect(screen.getByText("project.insignificant_variants")).toBeInTheDocument();
-  });
+      const tokensTabButton = await screen.findByText("project.tokens_tab");
 
-  it("renders correctly and does not display variants selection section in read mode", () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
+      await user.click(tokensTabButton);
 
-    expect(screen.queryByText("project.variants")).not.toBeInTheDocument();
-  });
+      await user.click(await screen.findByLabelText("project.create_token_action"));
 
-  it("renders correctly and displays variants selection section in edit mode", () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+      expect(await screen.findByText("project.no_selection")).toBeInTheDocument();
+    });
 
-    expect(screen.getByText("project.variants")).toBeInTheDocument();
-  });
+    it("renders correctly tokens tab and with tokens panel in split view", async () => {
+      const user = userEvent.setup();
 
-  it("renders correctly and displays variants selection section in edit mode and toggles variant edition", async () => {
-    const user = userEvent.setup();
+      render(<ProjectView project={project} />, { mode: "EDIT" });
 
-    render(<ProjectView project={project} />, { mode: "EDIT" });
+      const tokensTabButton = await screen.findByText("project.tokens_tab");
 
-    const editButton = await screen.findByLabelText("project.edit_toggle");
+      await user.click(tokensTabButton);
 
-    await user.click(editButton);
+      await user.click(await screen.findByText(tokenValue));
 
-    expect(await screen.findByText("project.add_editorial_remark")).toBeInTheDocument();
-
-    await user.click(editButton);
-
-    expect(await screen.findByText("project.no_selection")).toBeInTheDocument();
-  });
-
-  it("renders correctly and toggles apparatus index visibility in EDIT mode", async () => {
-    const user = userEvent.setup();
-    const { container } = render(<ProjectView project={project} />, { mode: "EDIT" });
-
-    // significant variants + insignificant variants + token + toggle label
-    const apparatusIndices = await screen.findAllByText("(1)");
-
-    expect(apparatusIndices.length).toBe(3);
-
-    const toggle = container.querySelector("#apparatus-index-toggle");
-
-    if (toggle) {
-      await user.click(toggle);
-    }
-
-    // no apparatus indices when toggle enabled
-    expect(screen.queryAllByText("(1)").length).toBe(0);
-  });
-
-  it("renders correctly and toggles apparatus index visibility in READ mode", async () => {
-    const user = userEvent.setup();
-    const { container } = render(<ProjectView project={project} />, { mode: "READ" });
-
-    // significant variants + insignificant variants + token + toggle label
-    const apparatusIndices = await screen.findAllByText("(1)");
-
-    expect(apparatusIndices.length).toBe(2);
-
-    const toggle = container.querySelector("#apparatus-index-toggle");
-
-    if (toggle) {
-      await user.click(toggle);
-    }
-
-    // no apparatus indices when toggle enabled
-    expect(screen.queryAllByText("(1)").length).toBe(0);
-  });
-
-  it("renders correctly and displays tokens tab in edit mode", async () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
-
-    expect(await screen.findByText("project.tokens_tab")).toBeInTheDocument();
-  });
-
-  it("renders correctly and displays variants tab in edit mode", async () => {
-    render(<ProjectView project={project} />, { mode: "EDIT" });
-
-    expect(await screen.findByText("project.variants_tab")).toBeInTheDocument();
-  });
-
-  it("renders correctly and does not display tokens tab in read mode", () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
-
-    expect(screen.queryByText("project.tokens_tab")).not.toBeInTheDocument();
-  });
-
-  it("renders correctly and does not display variants tab in read mode", () => {
-    render(<ProjectView project={project} />, { mode: "READ" });
-
-    expect(screen.queryByText("project.variants_tab")).not.toBeInTheDocument();
+      expect(await screen.findByText("project.insert_split_mark")).toBeInTheDocument();
+    });
   });
 });

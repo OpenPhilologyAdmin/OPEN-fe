@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 import { useGetTokenDetailsForProjectById, useSplitTokenForProjectByTokenId } from "./query";
 
-type SplitTokenProps = {
+export type SplitTokenProps = {
   tokenId: number;
   projectId: number;
   onCancel: () => void;
