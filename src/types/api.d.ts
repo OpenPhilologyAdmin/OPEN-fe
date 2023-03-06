@@ -367,4 +367,17 @@ declare namespace API {
   type SplitTokenForProjectByTokenIdPayload = {
     variants: Variant[];
   };
+
+  type ExportProjectByIdPayload = {
+    project: {
+      significant_readings: boolean;
+      insignificant_readings: boolean;
+      footnote_numbering: boolean;
+      selected_reading_separator: string;
+      readings_separator: string;
+      sigla_separator: string;
+    };
+  };
+
+  type ExportProjectByIdResponse = Blob;
 }

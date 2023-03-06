@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
 import BaseBreadcrumbs, { Breadcrumb, BreadcrumbsItem } from "@/components/features/breadcrumbs";
+import ExportProject from "@/components/features/export-project";
 import AddWitnessButton from "@/components/features/witness-list-table/add-witness-button";
 import Header from "@/components/ui/header";
 import Toggle from "@/components/ui/toggle";
@@ -60,7 +61,8 @@ const TopBarWrapper = styled.div`
 const ButtonWrapper = styled.div`
   align-items: center;
   display: flex;
-  margin-right: 10px;
+  gap: 10px;
+  margin-right: 24px;
 `;
 
 function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: Props) {
@@ -99,6 +101,7 @@ function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: P
           </Breadcrumbs>
           <ButtonWrapper>
             <AddWitnessButton project={project} small tokenId={tokenContextId} />
+            <ExportProject projectId={project.id} projectName={project.name} />
           </ButtonWrapper>
         </TopBarWrapper>
         <Content align={align}>{children}</Content>

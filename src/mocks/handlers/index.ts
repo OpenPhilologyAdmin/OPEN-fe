@@ -12,6 +12,7 @@ import {
   deleteCommentById,
   editCommentById,
   editTokensForProjectByProjectId,
+  exportProjectByIdEndpointHandler,
   getCommentsForProjectById,
   getEditorialRemarks,
   getInsignificantVariantsForProjectById,
@@ -65,4 +66,5 @@ export const handlers = [
   editCommentById,
   splitTokenForProjectByTokenId,
   editTokensForProjectByProjectId,
+  exportProjectByIdEndpointHandler,
 ];

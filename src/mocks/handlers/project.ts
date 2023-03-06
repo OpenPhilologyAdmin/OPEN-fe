@@ -13,6 +13,8 @@ const updateVariantsForTokenByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/v
 const getCommentsForProjectByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments`;
 const deleteCommentByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments/:id`;
 const editCommentByIdEndpoint = `${baseUrl}/projects/:id/tokens/:id/comments/:id`;
+const exportProjectByIdEndpoint = `${baseUrl}/projects/:id/export`;
+
 export const errorGeneric = "Generic error";
 export const variantValue = { selected_reading: "happy", details: "very happy" };
 export const commentsValue = { id: 0, body: "project.add_comment_icon" };
@@ -145,6 +147,15 @@ const splitTokenForProjectByTokenIdSuccessResponse: API.SplitTokenForProjectByTo
 const editTokensForProjectByProjectIdSuccessResponse: API.EditTokensByProjectIdResponse = {
   message,
 };
+
+const exportProjectByIdHandlerSuccessResponse: API.ExportProjectByIdResponse = new Blob();
+const exportProjectByIdHandlerFailureResponse: API.ExportProjectByIdResponse = new Blob([
+  JSON.stringify({
+    readings_separator: "error",
+    selected_reading_separator: "error",
+    sigla_separator: "error",
+  }),
+]);
 
 // significant variants
 export const getSignificantVariantsForProjectById = rest.get(
@@ -304,4 +315,14 @@ export const editCommentById = rest.put(editCommentByIdEndpoint, (_, res, ctx) =
 
 export const editCommentByIdException = rest.put(editCommentByIdEndpoint, (_, res, ctx) =>
   res(ctx.status(400), ctx.json({ error: errorGeneric })),
+);
+
+// export
+export const exportProjectByIdEndpointHandler = rest.put(exportProjectByIdEndpoint, (_, res, ctx) =>
+  res(ctx.json(exportProjectByIdHandlerSuccessResponse)),
+);
+
+export const exportProjectByIdEndpointHandlerGenericException = rest.put(
+  exportProjectByIdEndpoint,
+  (_, res, ctx) => res(ctx.status(400), ctx.json(exportProjectByIdHandlerFailureResponse)),
 );

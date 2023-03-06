@@ -173,7 +173,21 @@
     "split_token_info_text": "Splitting operation needs to be performed for all witnesses before saving.",
     "token_before_split_warning": "This action will permanently delete any variants selections, editorial remarks or comments connected to the selected token.",
     "insert_split_mark": "Insert split mark",
-    "remove_split_mark": "Remove split mark"
+    "remove_split_mark": "Remove split mark",
+    "export_button": "Export",
+    "export_label": "Export",
+    "export_submit": "Export",
+    "export_apparatus_label": "Apparatus",
+    "export_lemma": "Lemma",
+    "export_sigla": "Sigla",
+    "export_include_significant_variants": "Include significant variants",
+    "export_include_insignificant_variants": "Include insignificant variants",
+    "export_include_footnote_numbering": "Include footnote numbering",
+    "export_example_prefix": "Example: ",
+    "export_file_message": "Exported file from project: {{projectName}}",
+    "rejected_reading": "Rejected reading",
+    "sigla_of_rejected_reading": "Sigla of rejected reading",
+    "export_failure": "Failed to export the project"
   },
   "add_witness": {
     "witness_name": "Witness name",
