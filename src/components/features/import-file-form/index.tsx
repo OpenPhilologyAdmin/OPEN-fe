@@ -30,13 +30,12 @@ export type NewPasswordFormData = {
 };
 
 export const ALLOWED_MIME_TYPES = {
-  TXT: "text/plain",
   JSON: "application/json",
 };
 
 const FILE_INPUT = {
   ID: "file_input_id",
-  ACCEPT_ATTRIBUTE_VALUE: `${ALLOWED_MIME_TYPES.TXT},${ALLOWED_MIME_TYPES.JSON}`,
+  ACCEPT_ATTRIBUTE_VALUE: `${ALLOWED_MIME_TYPES.JSON}`,
 };
 
 export const FIELDS = {
@@ -68,7 +67,12 @@ function ImportFileForm() {
   });
   const { push } = useRouter();
   const [isPolling, setIsPolling] = useState(false);
-  const showExtraFieldsForTxtFiles = fileState.file?.type === ALLOWED_MIME_TYPES.TXT;
+  /**
+   * Source: OPLU-338
+   * Importing the text files is temporarily disabled.
+   * Replace "text/plain" in the line below with ALLOWED_MIME_TYPES.TXT once TXT files are enabled.
+   */
+  const showExtraFieldsForTxtFiles = fileState.file?.type === "text/plain";
   const fileName = fileState.file?.name;
 
   const registerSchema = zod.object({

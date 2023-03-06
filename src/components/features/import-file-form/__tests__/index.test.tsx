@@ -18,35 +18,39 @@ const importFileValidInput = {
   [FIELDS.SIGLUM]: "AS",
 };
 
-const validTxtFile = new File(["hello"], "hello.txt", { type: ALLOWED_MIME_TYPES.TXT });
+/**
+ * Source: OPLU-338
+ * Importing the text files is temporarily disabled.
+ */
+// const validTxtFile = new File(["hello"], "hello.txt", { type: ALLOWED_MIME_TYPES.TXT });
 const validJsonFile = new File(['{"hello": "hello"}'], "hello.json", {
   type: ALLOWED_MIME_TYPES.JSON,
 });
 const invalidFile = new File(["hello"], "hello.png", { type: "image/png" });
 
 describe("ImportFileForm", () => {
-  it("renders correctly and supports txt file upload", async () => {
-    const user = userEvent.setup();
-
-    render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
-
-    const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
-    const documentNameInput = screen.getByLabelText("import_file.document_name");
-    const submitButton = screen.getByRole("button", { name: "import_file.process_file" });
-
-    await user.upload(fileInput, validTxtFile);
-
-    // for txt upload expect 2 additional fields to be visible
-    const witnessNameInput = screen.getByLabelText("import_file.witness_name");
-    const siglumInput = screen.getByLabelText("import_file.siglum");
-
-    await user.type(documentNameInput, importFileValidInput[FIELDS.DOCUMENT_NAME]);
-    await user.type(witnessNameInput, importFileValidInput[FIELDS.WITNESS_NAME]);
-    await user.type(siglumInput, importFileValidInput[FIELDS.SIGLUM]);
-    await user.click(submitButton);
-
-    expect(await screen.findByText("import_file.processing_file")).toBeInTheDocument();
-  });
+  // it("renders correctly and supports txt file upload", async () => {
+  //   const user = userEvent.setup();
+  //
+  //   render(<ImportFileFormWithToastProvider />, { router: { push: jest.fn() } });
+  //
+  //   const fileInput = screen.getByLabelText("import_file.file_name") as HTMLInputElement;
+  //   const documentNameInput = screen.getByLabelText("import_file.document_name");
+  //   const submitButton = screen.getByRole("button", { name: "import_file.process_file" });
+  //
+  //   await user.upload(fileInput, validTxtFile);
+  //
+  //   // for txt upload expect 2 additional fields to be visible
+  //   const witnessNameInput = screen.getByLabelText("import_file.witness_name");
+  //   const siglumInput = screen.getByLabelText("import_file.siglum");
+  //
+  //   await user.type(documentNameInput, importFileValidInput[FIELDS.DOCUMENT_NAME]);
+  //   await user.type(witnessNameInput, importFileValidInput[FIELDS.WITNESS_NAME]);
+  //   await user.type(siglumInput, importFileValidInput[FIELDS.SIGLUM]);
+  //   await user.click(submitButton);
+  //
+  //   expect(await screen.findByText("import_file.processing_file")).toBeInTheDocument();
+  // });
 
   it("renders correctly and supports json file upload", async () => {
     const user = userEvent.setup();
