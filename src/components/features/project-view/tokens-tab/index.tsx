@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useTranslation } from "next-i18next";
 
 import { MaskError, MaskLoader } from "@/components/ui/mask";
@@ -22,13 +23,12 @@ export type TokensTabProps = {
   tokenIdForSplit?: number | null;
 };
 
-const BOTTOM_BAR_HEIGHT = 72;
-
 const SelectionWrapper = styled.div`
   overflow-x: hidden;
-  padding: 24px;
+  overflow-y: scroll;
+  padding: 24px 24px 0 24px;
   z-index: 0;
-  height: calc(100% - ${BOTTOM_BAR_HEIGHT}px);
+  height: 100%;
 `;
 
 const Token = styled(BaseToken)`
@@ -54,31 +54,34 @@ function TokensTabError({ refetch }: TokensTabErrorPros) {
   );
 }
 
-function TokensTab({
-  tokens,
-  isError,
-  isLoading,
-  isRefetching,
-  isFetching,
-  determineIfTokensTabTokenIsSelectedForCreation,
-  selectionForCreationEnabled,
-  tokenIdForSplit,
-  refetch,
-  handleSelectToken,
-}: TokensTabProps) {
-  if (isLoading && !tokens) return <TokensTabLoader />;
+const TokensTab = forwardRef<HTMLDivElement, TokensTabProps>(
+  (
+    {
+      tokens,
+      isError,
+      isLoading,
+      isRefetching,
+      isFetching,
+      determineIfTokensTabTokenIsSelectedForCreation,
+      selectionForCreationEnabled,
+      tokenIdForSplit,
+      refetch,
+      handleSelectToken,
+    },
+    ref,
+  ) => {
+    if (isLoading && !tokens) return <TokensTabLoader />;
 
-  if (isError && !isRefetching) return <TokensTabError refetch={refetch} />;
+    if (isError && !isRefetching) return <TokensTabError refetch={refetch} />;
 
-  if (!tokens) return null;
+    if (!tokens) return null;
 
-  const isSplitEnabledForTokenState = (tokenState: API.Token["state"]) => {
-    return !selectionForCreationEnabled && tokenState === "one_variant";
-  };
+    const isSplitEnabledForTokenState = (tokenState: API.Token["state"]) => {
+      return !selectionForCreationEnabled && tokenState === "one_variant";
+    };
 
-  return (
-    <>
-      <SelectionWrapper>
+    return (
+      <SelectionWrapper ref={ref}>
         {(isFetching || isRefetching) && <TokensTabLoader />}
         {isError && !isRefetching && <TokensTabError refetch={refetch} />}
         {tokens.map(token => (
@@ -98,8 +101,10 @@ function TokensTab({
           />
         ))}
       </SelectionWrapper>
-    </>
-  );
-}
+    );
+  },
+);
+
+TokensTab.displayName = "TokensTab";
 
 export default TokensTab;

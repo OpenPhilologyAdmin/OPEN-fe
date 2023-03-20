@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, useEffect } from "react";
+import { ComponentPropsWithoutRef, forwardRef, useEffect } from "react";
 import { useTranslation } from "next-i18next";
 
 import { MaskError, MaskLoader } from "@/components/ui/mask";
@@ -32,6 +32,7 @@ type VariantsTabErrorPros = {
 
 const Wrapper = styled.div`
   overflow-x: hidden;
+  overflow-y: scroll;
   padding: 24px 24px 0px 24px;
   z-index: 0;
   height: 100%;
@@ -59,59 +60,67 @@ function VariantsTabError({ refetch }: VariantsTabErrorPros) {
   );
 }
 
-function VariantsTab({
-  selectedTokenId,
-  tokens,
-  mode,
-  isError,
-  isLoading,
-  isRefetching,
-  isFetching,
-  refetch,
-  onSelectToken,
-  isApparatusIndexDisplayed,
-  handleSetSelectionCopyState,
-}: VariantsTabProps) {
-  const { selectionState, handleUpdateSelection } = useTokenSelection({
-    tokens,
-    withValidation: false,
-  });
+const VariantsTab = forwardRef<HTMLDivElement, VariantsTabProps>(
+  (
+    {
+      selectedTokenId,
+      tokens,
+      mode,
+      isError,
+      isLoading,
+      isRefetching,
+      isFetching,
+      refetch,
+      onSelectToken,
+      isApparatusIndexDisplayed,
+      handleSetSelectionCopyState,
+    },
+    ref,
+  ) => {
+    const { selectionState, handleUpdateSelection } = useTokenSelection({
+      tokens,
+      withValidation: false,
+    });
 
-  useEffect(() => {
-    if (handleSetSelectionCopyState && selectionState) {
-      handleSetSelectionCopyState(selectionState);
-    }
-  }, [selectionState, handleSetSelectionCopyState]);
+    useEffect(() => {
+      if (handleSetSelectionCopyState && selectionState) {
+        handleSetSelectionCopyState(selectionState);
+      }
+    }, [selectionState, handleSetSelectionCopyState]);
 
-  if (isLoading && !tokens) return <VariantsTabLoader />;
+    if (isLoading && !tokens) return <VariantsTabLoader />;
 
-  if (isError && !isRefetching) return <VariantsTabError refetch={refetch} />;
+    if (isError && !isRefetching) return <VariantsTabError refetch={refetch} />;
 
-  return (
-    <Wrapper
-      // used for copy feature to work within the wrapper
-      id={VARIANTS_TAB_WRAPPER_ID}
-      onMouseUp={handleUpdateSelection}
-    >
-      {(isFetching || isRefetching) && <VariantsTabLoader />}
-      {isError && !isRefetching && <VariantsTabError refetch={refetch} />}
-      {tokens?.map(token => (
-        <Token
-          data-testid="token"
-          // Sometimes the selection event's parent element is a token and node the tab wrapper, therefore this custom attribute was added to the assertion
-          data-variant-token-id={`${VARIANTS_TOKEN_ID}-${token.id}}`}
-          // Used to find elements in the DOM by id to read the selection anchor node and focus node
-          id={stringifyTokenIdForSelection(token.id)}
-          key={token.id}
-          token={token}
-          mode={mode}
-          onSelectToken={token.state !== "one_variant" ? onSelectToken : undefined}
-          highlighted={token.id === selectedTokenId}
-          apparatusIndexVisible={isApparatusIndexDisplayed}
-        />
-      ))}
-    </Wrapper>
-  );
-}
+    return (
+      <Wrapper
+        // used for copy feature to work within the wrapper
+        id={VARIANTS_TAB_WRAPPER_ID}
+        onMouseUp={handleUpdateSelection}
+        ref={ref}
+      >
+        {(isFetching || isRefetching) && <VariantsTabLoader />}
+        {isError && !isRefetching && <VariantsTabError refetch={refetch} />}
+        {tokens?.map(token => (
+          <Token
+            data-testid="token"
+            // Sometimes the selection event's parent element is a token and node the tab wrapper, therefore this custom attribute was added to the assertion
+            data-variant-token-id={`${VARIANTS_TOKEN_ID}-${token.id}}`}
+            // Used to find elements in the DOM by id to read the selection anchor node and focus node
+            id={stringifyTokenIdForSelection(token.id)}
+            key={token.id}
+            token={token}
+            mode={mode}
+            onSelectToken={token.state !== "one_variant" ? onSelectToken : undefined}
+            highlighted={token.id === selectedTokenId}
+            apparatusIndexVisible={isApparatusIndexDisplayed}
+          />
+        ))}
+      </Wrapper>
+    );
+  },
+);
+
+VariantsTab.displayName = "VariantsTab";
 
 export default VariantsTab;

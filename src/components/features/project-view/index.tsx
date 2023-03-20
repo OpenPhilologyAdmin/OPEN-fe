@@ -26,6 +26,7 @@ import { useGetTokensForProjectById, useInvalidateGetTokensForProjectByIdQuery }
 import TokensTab from "./tokens-tab";
 import { useTokensTabSelectedTokenForSplit } from "./tokens-tab/use-tokens-tab-selected-token-for-split";
 import { useTokensTabSelectedTokensForCreation } from "./tokens-tab/use-tokens-tab-selected-tokens-for-creation";
+import { usePersistScrollBetweenTabs } from "./use-persist-scroll-between-tabs";
 import VariantsTab from "./variants-tab";
 import { useCopySelectedTextWithSignificantAndInsignificantVariants } from "./variants-tab/use-copy-selected-text-with-significant-and-insignificant-variants";
 
@@ -87,7 +88,7 @@ const ToggleWrapper = styled.div`
 
 const TabWrapper = styled.div<TabWrapperProps>`
   position: relative;
-  height: ${({ variant }) => (variant === "tokens" ? "100%" : "calc(100% - 48px)")};
+  height: calc(100% - 48px);
 `;
 
 const PanelsWrapper = styled.div`
@@ -149,6 +150,11 @@ function ProjectView({ project }: ProjectViewProps) {
     usePanel();
   const [preferredWidth, setPreferredWidth] = useState(INITIAL_PANEL_SIZE);
   const [panelsWidth, setPanelsWidth] = useState(0);
+
+  const { tokensTabWrapperRef, variantsTabWrapperRef, persistScrollPositionForTab } =
+    usePersistScrollBetweenTabs({
+      selectedTab,
+    });
 
   const contentRef = useRef<HTMLDivElement>(null);
   const varianPanelWrapperRef = useRef<HTMLDivElement>(null);
@@ -220,6 +226,51 @@ function ProjectView({ project }: ProjectViewProps) {
     setSelectedTokenIdForSplitOnTokensTab(null);
   };
 
+  const handleSelectTokensTab = () => {
+    if (selectedTab === "tokens") return;
+
+    // important to do before changing the tab
+    persistScrollPositionForTab("tokens");
+
+    setSelectedTab("tokens");
+
+    // logic to persist allotment panel width
+    const panelsWidth =
+      (varianPanelWrapperRef.current?.clientWidth || 0) +
+      (commentsPanelWrapperRef.current?.clientWidth || 0);
+
+    setPanelsWidth(panelsWidth);
+
+    if (allotmentRef.current && contentRef.current) {
+      const tokensContentWidth = contentRef.current?.clientWidth || 0;
+
+      setPreferredWidth(tokensContentWidth);
+
+      allotmentRef.current.resize([tokensContentWidth, window.innerWidth - tokensContentWidth]);
+    }
+  };
+
+  const handleSelectVariantsTab = () => {
+    if (selectedTab === "variants") return;
+
+    // important to do before changing the tab
+    persistScrollPositionForTab("variants");
+
+    setSelectedTab("variants");
+
+    // logic to persist allotment panel width
+    const variantsContentWidth = contentRef.current?.clientWidth || 0;
+
+    setPreferredWidth(variantsContentWidth);
+
+    if (allotmentRef.current) {
+      allotmentRef.current.resize([
+        variantsContentWidth,
+        window.innerWidth - variantsContentWidth - panelsWidth,
+      ]);
+    }
+  };
+
   const handleInvalidateProjectViewQueries = async () => {
     await invalidateGetTokensForProjectById({
       mode: "EDIT",
@@ -253,49 +304,14 @@ function ProjectView({ project }: ProjectViewProps) {
               <Tab
                 icon={<VariantsIcon />}
                 isSelected={selectedTab === "variants"}
-                onSelect={() => {
-                  if (selectedTab === "variants") return;
-
-                  setSelectedTab("variants");
-
-                  const variantsContentWidth = contentRef.current?.clientWidth || 0;
-
-                  setPreferredWidth(variantsContentWidth);
-
-                  if (allotmentRef.current) {
-                    allotmentRef.current.resize([
-                      variantsContentWidth,
-                      window.innerWidth - variantsContentWidth - panelsWidth,
-                    ]);
-                  }
-                }}
+                onSelect={handleSelectVariantsTab}
               >
                 {t("project.variants_tab")}
               </Tab>
               <Tab
                 icon={<TokensIcon />}
                 isSelected={selectedTab === "tokens"}
-                onSelect={() => {
-                  if (selectedTab === "tokens") return;
-
-                  const panelsWidth =
-                    (varianPanelWrapperRef.current?.clientWidth || 0) +
-                    (commentsPanelWrapperRef.current?.clientWidth || 0);
-
-                  setPanelsWidth(panelsWidth);
-                  setSelectedTab("tokens");
-
-                  if (allotmentRef.current && contentRef.current) {
-                    const tokensContentWidth = contentRef.current?.clientWidth || 0;
-
-                    setPreferredWidth(tokensContentWidth);
-
-                    allotmentRef.current.resize([
-                      tokensContentWidth,
-                      window.innerWidth - tokensContentWidth,
-                    ]);
-                  }
-                }}
+                onSelect={handleSelectTokensTab}
               >
                 {t("project.tokens_tab")}
               </Tab>
@@ -318,6 +334,7 @@ function ProjectView({ project }: ProjectViewProps) {
             <TabWrapper variant={selectedTab} ref={contentRef}>
               {selectedTab === "tokens" && (
                 <TokensTab
+                  ref={tokensTabWrapperRef}
                   projectId={projectId}
                   tokenIdForSplit={selectedTokenIdForSplitOnTokensTab}
                   tokens={tokens}
@@ -339,6 +356,7 @@ function ProjectView({ project }: ProjectViewProps) {
               )}
               {selectedTab === "variants" && (
                 <VariantsTab
+                  ref={variantsTabWrapperRef}
                   mode={mode}
                   tokens={tokens}
                   selectedTokenId={selectedTokenIdForVariantsTab}
