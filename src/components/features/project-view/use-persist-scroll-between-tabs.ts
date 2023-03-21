@@ -26,7 +26,7 @@ function usePersistScrollBetweenTabs({ selectedTab }: Params) {
       if (tokensTabWrapperRef.current && selectedTab === "tokens") {
         tokensTabWrapperRef.current.scrollTop = scrollPositionRef.current;
       }
-    }, 10);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [selectedTab]);
@@ -36,7 +36,7 @@ function usePersistScrollBetweenTabs({ selectedTab }: Params) {
       if (variantsTabWrapperRef.current && selectedTab === "variants") {
         variantsTabWrapperRef.current.scrollTop = scrollPositionRef.current;
       }
-    }, 10);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [selectedTab]);
