@@ -183,7 +183,7 @@
     "export_include_significant_variants": "Include significant variants",
     "export_include_insignificant_variants": "Include insignificant variants",
     "export_include_footnote_numbering": "Include footnote numbering",
-    "export_example_prefix": "Example: ",
+    "export_example_prefix": "Apparatus example: ",
     "export_file_message": "Exported file from project: {{projectName}}",
     "rejected_reading": "Rejected reading",
     "sigla_of_rejected_reading": "Sigla of rejected reading",

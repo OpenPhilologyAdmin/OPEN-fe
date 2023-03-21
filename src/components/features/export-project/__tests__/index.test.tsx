@@ -25,18 +25,6 @@ describe("ExportButton", () => {
 
     await user.click(exportButton);
 
-    const siglaField = screen.getByTestId("sigla");
-
-    await user.type(siglaField, "/");
-
-    const lemmaField = screen.getByTestId("lemma");
-
-    await user.type(lemmaField, ",");
-
-    const rejectedSiglaField = screen.getByTestId("rejectedSigla");
-
-    await user.type(rejectedSiglaField, ",");
-
     const confirmButton = screen.getByRole("button", { name: "project.export_submit" });
 
     await user.click(confirmButton);
@@ -54,18 +42,6 @@ describe("ExportButton", () => {
     const addButton = screen.getByRole("button", { name: "project.export_button" });
 
     await user.click(addButton);
-
-    const siglaField = screen.getByTestId("sigla");
-
-    await user.type(siglaField, "/");
-
-    const lemmaField = screen.getByTestId("lemma");
-
-    await user.type(lemmaField, ",");
-
-    const rejectedSiglaField = screen.getByTestId("rejectedSigla");
-
-    await user.type(rejectedSiglaField, ",");
 
     const confirmButton = screen.getByRole("button", { name: "project.export_submit" });
 

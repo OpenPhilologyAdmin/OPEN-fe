@@ -373,9 +373,6 @@ declare namespace API {
       significant_readings: boolean;
       insignificant_readings: boolean;
       footnote_numbering: boolean;
-      selected_reading_separator: string;
-      readings_separator: string;
-      sigla_separator: string;
     };
   };
 
