@@ -29,7 +29,8 @@ const getLayoutForVariantsTab = ({
   isVariantsSelectionPanelOpen,
   isSignificantVariantsPanelOpen,
   mode,
-}: VariantsTabLayoutProps) => {
+}: // eslint-disable-next-line sonarjs/cognitive-complexity
+VariantsTabLayoutProps) => {
   if (mode === "READ") {
     return isSignificantVariantsPanelOpen ? "1fr 270px" : "1fr 58px";
   }

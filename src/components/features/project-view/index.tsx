@@ -182,11 +182,11 @@ function ProjectView({ project }: ProjectViewProps) {
     setSelectedTokenIdForSplitOnTokensTab,
   } = useTokensTabSelectedTokenForSplit();
 
-  const { setTokenContextId } = useVariantsTabSelectedTokenContext();
+  const { setVariantsTabTokenContextId } = useVariantsTabSelectedTokenContext();
 
   useEffect(() => {
-    selectedTokenIdForVariantsTab && setTokenContextId(selectedTokenIdForVariantsTab);
-  }, [selectedTokenIdForVariantsTab, setTokenContextId]);
+    selectedTokenIdForVariantsTab && setVariantsTabTokenContextId(selectedTokenIdForVariantsTab);
+  }, [selectedTokenIdForVariantsTab, setVariantsTabTokenContextId]);
 
   useEffect(() => {
     if (mode === "READ") {
@@ -222,7 +222,7 @@ function ProjectView({ project }: ProjectViewProps) {
 
   const handleTokensPanelReset = () => {
     setSelectedTokenIdForVariantsTab(null);
-    setTokenContextId(undefined);
+    setVariantsTabTokenContextId(undefined);
     setSelectedTokenIdForSplitOnTokensTab(null);
   };
 
@@ -285,7 +285,6 @@ function ProjectView({ project }: ProjectViewProps) {
   };
 
   return (
-    // TODO consider changing layout to a separate file component
     <Layout
       gridTemplateColumns={getGridTemplateColumns({
         selectedTab,

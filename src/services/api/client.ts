@@ -15,8 +15,6 @@ apiClient.defaults.headers.common["Content-Type"] = "application/json";
 apiClient.defaults.headers.common["Accept"] = "application/json";
 
 // Response interceptor for API calls
-// TODO verify if it works while implementing new endpoint
-// TODO pass current exp when setting token
 apiClient.interceptors.request.use(async config => {
   const token = getAccessToken();
 

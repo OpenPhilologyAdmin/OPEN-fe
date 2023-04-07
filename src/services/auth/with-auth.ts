@@ -18,9 +18,6 @@ export type AuthPageProps = {
   user: API.User | null;
 };
 
-// TODO refactor idea
-// Extract tokens logic to a separate getInitialProps middleware and keep here only redirects
-// The middleware should store the token in the root app context
 export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
   callback: (
     ctx: GetServerSidePropsContext,
@@ -29,6 +26,7 @@ export function withAuth<ServerSidePropsGeneric extends EmptyProps>(
   ) => Promise<ServerSidePropsGeneric>,
   options: Options,
 ) {
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   return (async context => {
     let loggedInUser: API.User | null = null;
     let token: string | null = null;

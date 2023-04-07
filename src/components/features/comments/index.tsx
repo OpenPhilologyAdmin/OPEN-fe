@@ -284,6 +284,9 @@ function Comments({
     showAddCommentField(prevState => !prevState);
   };
 
+  const commentsLength = comments?.length || 0;
+  const heading = `${t("project.comments")} 9${commentsLength})`;
+
   return (
     <ProjectPanel
       isOpen={isOpen}
@@ -292,7 +295,7 @@ function Comments({
       isFetching={isFetching}
       isRefetching={isRefetching}
       isRotatedWhenClosed={isRotatedWhenClosed}
-      heading={`${t("project.comments")} ${comments ? `(${comments.length})` : "(0)"}`}
+      heading={heading}
       buttonText={t("project.refresh")}
       errorText={t("project.generic_error")}
       loaderText={t("project.loader_text")}

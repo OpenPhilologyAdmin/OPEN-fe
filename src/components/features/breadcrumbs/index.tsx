@@ -43,7 +43,6 @@ type BreadcrumbsProps = ComponentPropsWithoutRef<"nav"> & {
   variant?: Variant;
 };
 
-// TODO translations for breadcrumbs
 function Breadcrumbs({ variant = "DARK", children, ...props }: BreadcrumbsProps) {
   const childrenArray = Children.toArray(children);
   const isLastBreadcrumb = (items: Array<any>, currentIndex: number) =>

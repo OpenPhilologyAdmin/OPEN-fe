@@ -63,8 +63,8 @@ const loaderStyles = css`
 `;
 
 const getColor = ({ variant, theme: { colors }, disabled, isLoading, destruct }: GetterProps) => {
-  if (disabled && variant && !isLoading) {
-    if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
+  if (disabled && variant && !isLoading && ["primary", "secondary", "tertiary"].includes(variant)) {
+    return colors.textDimmed;
   }
 
   if (variant === "primary") return colors.textPrimary;
@@ -77,8 +77,8 @@ const getColor = ({ variant, theme: { colors }, disabled, isLoading, destruct }:
 };
 
 const getHoverColor = ({ variant, theme: { colors }, disabled, isLoading }: GetterProps) => {
-  if (disabled && variant && !isLoading) {
-    if (["primary", "secondary", "tertiary"].includes(variant)) return colors.textDimmed;
+  if (disabled && variant && !isLoading && ["primary", "secondary", "tertiary"].includes(variant)) {
+    return colors.textDimmed;
   }
 
   if (variant === "primary") return colors.textPrimary;

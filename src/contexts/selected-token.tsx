@@ -8,8 +8,8 @@ import {
 } from "react";
 
 type TokenContextType = {
-  tokenContextId?: number;
-  setTokenContextId: Dispatch<SetStateAction<number | undefined>>;
+  variantsTabTokenContextId?: number;
+  setVariantsTabTokenContextId: Dispatch<SetStateAction<number | undefined>>;
 };
 
 type Props = {
@@ -17,25 +17,26 @@ type Props = {
 };
 
 const TokenContext = createContext<TokenContextType>({
-  tokenContextId: undefined,
-  setTokenContextId: () => {},
+  variantsTabTokenContextId: undefined,
+  setVariantsTabTokenContextId: () => {},
 });
 
 function useVariantsTabSelectedTokenContext() {
-  const { tokenContextId, setTokenContextId } = useContext(TokenContext);
+  const { variantsTabTokenContextId, setVariantsTabTokenContextId } = useContext(TokenContext);
 
   return {
-    tokenContextId,
-    setTokenContextId,
+    variantsTabTokenContextId,
+    setVariantsTabTokenContextId,
   };
 }
 
-// TODO rename so that it is clear that this is a provider for the token context from variants tab
 function TokenProvider({ initialToken, children }: PropsWithChildren<Props>) {
-  const [tokenContextId, setTokenContextId] = useState<number | undefined>(initialToken);
+  const [variantsTabTokenContextId, setVariantsTabTokenContextId] = useState<number | undefined>(
+    initialToken,
+  );
 
   return (
-    <TokenContext.Provider value={{ tokenContextId, setTokenContextId }}>
+    <TokenContext.Provider value={{ variantsTabTokenContextId, setVariantsTabTokenContextId }}>
       {children}
     </TokenContext.Provider>
   );

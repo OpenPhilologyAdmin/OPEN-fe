@@ -27,8 +27,6 @@ type StyledProps = {
   $withSplitStyles?: boolean;
 };
 
-// TODO refactor component styles
-
 const splitStyles = css`
   border: 1px solid ${({ theme }) => theme.colors.actionsPrimary};
   box-shadow: 0px 0px 8px ${({ theme }) => theme.colors.actionsPrimary};

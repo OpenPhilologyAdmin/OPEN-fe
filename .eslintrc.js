@@ -8,9 +8,10 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "plugin:sonarjs/recommended",
     "prettier", // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
   ],
-  plugins: ["prettier", "simple-import-sort"],
+  plugins: ["prettier", "simple-import-sort", "sonarjs"],
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: "module", // Allows for the use of imports
@@ -145,6 +146,7 @@ module.exports = {
         custom: { regex: "[a-zA-Z]{2,}", match: true },
       },
     ],
+    "sonarjs/no-duplicate-string": 0,
   },
   settings: {
     react: {

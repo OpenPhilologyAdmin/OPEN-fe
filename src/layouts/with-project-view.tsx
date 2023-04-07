@@ -69,7 +69,7 @@ function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: P
   const { t } = useTranslation();
   const { mode, toggleMode } = useCurrentProjectMode();
 
-  const { tokenContextId } = useVariantsTabSelectedTokenContext();
+  const { variantsTabTokenContextId } = useVariantsTabSelectedTokenContext();
 
   return (
     <>
@@ -100,7 +100,7 @@ function WithProjectView({ breadcrumbs, children, align = "CENTER", project }: P
             )}
           </Breadcrumbs>
           <ButtonWrapper>
-            <AddWitnessButton project={project} small tokenId={tokenContextId} />
+            <AddWitnessButton project={project} small tokenId={variantsTabTokenContextId} />
             <ExportProject projectId={project.id} projectName={project.name} />
           </ButtonWrapper>
         </TopBarWrapper>
