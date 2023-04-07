@@ -1,7 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with
-[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
+
+![Open philology variants selection view](./assets/oplu.png)
 
 ### Core commands
 
@@ -132,10 +131,9 @@ OPLU-103-project-setup
 
 ## Core resources
 
-- https://testing-library.com/
-- https://mswjs.io/
 - https://nextjs.org/
 - https://react-query.tanstack.com/
-- https://github.com/isaachinman/next-i18next
-- https://react-query.tanstack.com/
 - https://styled-components.com/
+- https://github.com/isaachinman/next-i18next
+- https://testing-library.com/
+- https://mswjs.io/
