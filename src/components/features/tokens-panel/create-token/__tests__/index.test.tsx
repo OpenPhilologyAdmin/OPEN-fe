@@ -5,7 +5,6 @@ import {
   errorGeneric,
   errorProject,
   errorSelectedTokenIds,
-  message,
   token,
 } from "@/mocks/handlers/project";
 import { mockServer, MockToastProvider, render, screen, userEvent } from "@/utils/test-utils";
@@ -73,7 +72,5 @@ describe("CreateToken", () => {
     render(<CreateTokenWithCommonPropsAndToastProvider />);
 
     await user.click(await screen.findByText("project.save_token"));
-
-    expect(await screen.findByText(message)).toBeInTheDocument();
   });
 });

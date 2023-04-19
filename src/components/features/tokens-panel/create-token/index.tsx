@@ -71,8 +71,7 @@ function CreateToken({
     enabled: false,
   });
   const { mutate: editTokensByProjectId, isLoading } = useEditTokensByProjectId({
-    onSuccess: async ({ data: { message } }) => {
-      toast.success(<Typography>{message}</Typography>);
+    onSuccess: async () => {
       await invalidateProjectViewQueriesCallback();
     },
     onError: axiosError => {

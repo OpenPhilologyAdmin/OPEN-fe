@@ -107,8 +107,6 @@ describe("EditionForm", () => {
 
     await user.type(textarea, "test");
     await user.click(saveButton);
-
-    expect(await screen.findByText("project.edit_token_variant_submit")).toBeInTheDocument();
   });
 
   it("renders correctly initial editorial remark and submits the form", async () => {
@@ -127,7 +125,5 @@ describe("EditionForm", () => {
 
     await user.type(textarea, "test");
     await user.click(saveButton);
-
-    expect(await screen.findByText("project.edit_token_variant_submit")).toBeInTheDocument();
   });
 });

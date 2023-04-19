@@ -59,8 +59,6 @@ function EditionForm({
       if (onVariantEditionSave) {
         await onVariantEditionSave();
       }
-
-      toast.success(<Typography>{t("project.edit_token_variant_submit")}</Typography>);
     },
     onError: axiosError => {
       const apiError = unwrapAxiosError(axiosError);
