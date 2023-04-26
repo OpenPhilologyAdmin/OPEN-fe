@@ -285,7 +285,7 @@ function Comments({
   };
 
   const commentsLength = comments?.length || 0;
-  const heading = `${t("project.comments")} 9${commentsLength})`;
+  const heading = `${t("project.comments")} (${commentsLength})`;
 
   return (
     <ProjectPanel
