@@ -12,6 +12,13 @@ type CopyState = {
   insignificantVariants: API.InsignificantVariant[] | null;
 };
 
+const copy = (event: ClipboardEvent, stringifiedValue: string) => {
+  if (!event.clipboardData) return null;
+
+  event.clipboardData.setData("text/html", stringifiedValue);
+  event.clipboardData.setData("text/plain", stringifiedValue);
+};
+
 const getTextFromVariant = (variant: API.SignificantVariant | API.InsignificantVariant) => {
   return `(${variant.index})` + variant.value.selected_reading + variant.value.details;
 };
@@ -98,13 +105,30 @@ function useCopySelectedTextWithSignificantAndInsignificantVariants() {
           copyState.insignificantVariants,
         );
 
-        event.clipboardData.setData(
-          "text/plain",
+        const significantVariantsTextArray = getTextFromVariants(
+          significantVariantsForSelectedText,
+        );
+        const insignificantVariantsTextArray = getTextFromVariants(
+          insignificantVariantsForSelectedText,
+        );
+
+        const significantVariantsSegment =
+          significantVariantsTextArray.length > 0
+            ? "<br />" + "<br />" + "SV:" + "<br />" + significantVariantsTextArray
+            : "";
+
+        const insignificantVariantsSegment =
+          insignificantVariantsTextArray.length > 0
+            ? "<br />" + "<br />" + "IV:" + "<br />" + insignificantVariantsTextArray
+            : "";
+
+        copy(
+          event,
           JSON.stringify(
             copyState.selection.selectedText +
-              getTextFromVariants(significantVariantsForSelectedText) +
-              getTextFromVariants(insignificantVariantsForSelectedText),
-          ).trim(),
+              significantVariantsSegment +
+              insignificantVariantsSegment,
+          ),
         );
       }
     };

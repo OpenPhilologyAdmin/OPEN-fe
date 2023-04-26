@@ -60,13 +60,18 @@ function useTokenSelection({ tokens, withValidation }: Params) {
       return initialSelectionState;
     }
 
+    // getSelectedTokensRangeByBoundaryTokenIds handles the special case for Infinity fallback
     const startToken = {
-      id: Number(selectionRef.current?.anchorNode?.parentElement?.id),
+      id: selectionRef.current?.anchorNode?.parentElement?.id
+        ? Number(selectionRef.current?.anchorNode?.parentElement?.id)
+        : Infinity,
       offset: selectionRef.current?.anchorOffset,
     };
 
     const endToken = {
-      id: Number(selectionRef.current?.focusNode?.parentElement?.id),
+      id: selectionRef.current?.focusNode?.parentElement?.id
+        ? Number(selectionRef.current?.focusNode?.parentElement?.id)
+        : Infinity,
       offset: selectionRef.current?.focusOffset,
     };
 
@@ -78,7 +83,7 @@ function useTokenSelection({ tokens, withValidation }: Params) {
 
     return {
       selectedText: selectedText || "",
-      selectedTokens: selectedTokens,
+      selectedTokens: selectedTokens || [],
       boundaryTokens: [startToken, endToken],
     };
   };

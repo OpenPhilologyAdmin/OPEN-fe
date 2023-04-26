@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef, useEffect } from "react";
+import { ComponentPropsWithoutRef, forwardRef } from "react";
 import { useTranslation } from "next-i18next";
 
 import { MaskError, MaskLoader } from "@/components/ui/mask";
@@ -82,12 +82,6 @@ const VariantsTab = forwardRef<HTMLDivElement, VariantsTabProps>(
       withValidation: false,
     });
 
-    useEffect(() => {
-      if (handleSetSelectionCopyState && selectionState) {
-        handleSetSelectionCopyState(selectionState);
-      }
-    }, [selectionState, handleSetSelectionCopyState]);
-
     if (isLoading && !tokens) return <VariantsTabLoader />;
 
     if (isError && !isRefetching) return <VariantsTabError refetch={refetch} />;
@@ -98,6 +92,11 @@ const VariantsTab = forwardRef<HTMLDivElement, VariantsTabProps>(
         id={VARIANTS_TAB_WRAPPER_ID}
         onMouseUp={handleUpdateSelection}
         ref={ref}
+        onCopy={() => {
+          if (handleSetSelectionCopyState && selectionState) {
+            handleSetSelectionCopyState(selectionState);
+          }
+        }}
       >
         {(isFetching || isRefetching) && <VariantsTabLoader />}
         {isError && !isRefetching && <VariantsTabError refetch={refetch} />}
