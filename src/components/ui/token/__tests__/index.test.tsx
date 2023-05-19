@@ -107,4 +107,20 @@ describe("Token", () => {
 
     expect(screen.queryByText("(123)")).not.toBeInTheDocument();
   });
+
+  it("renders a Token with apparatus index containing token id", () => {
+    const token = getToken("evaluated_with_single");
+
+    render(
+      <Token
+        mode="EDIT"
+        token={token}
+        highlighted
+        apparatusIndexVisible
+        withTokenIdInApparatusIndex
+      />,
+    );
+
+    expect(screen.getByText("(123)")).toHaveAttribute("id", String(token.id));
+  });
 });

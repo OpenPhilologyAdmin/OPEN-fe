@@ -113,6 +113,7 @@ const VariantsTab = forwardRef<HTMLDivElement, VariantsTabProps>(
             onSelectToken={token.state !== "one_variant" ? onSelectToken : undefined}
             highlighted={token.id === selectedTokenId}
             apparatusIndexVisible={isApparatusIndexDisplayed}
+            withTokenIdInApparatusIndex={isApparatusIndexDisplayed}
           />
         ))}
       </Wrapper>

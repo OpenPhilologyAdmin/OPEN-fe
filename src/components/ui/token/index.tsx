@@ -16,6 +16,7 @@ type TokenProps = TypographyProps & {
   withSup?: boolean;
   selected?: boolean;
   withSplitStyles?: boolean;
+  withTokenIdInApparatusIndex?: boolean;
 };
 
 type StyledProps = {
@@ -134,12 +135,17 @@ function Token({
   selected,
   onSelectToken,
   withSplitStyles,
+  withTokenIdInApparatusIndex,
   ...props
 }: TokenProps) {
   const editModeTypographyVariant = useMemo(
     () => ((forcedState || token.state) === "one_variant" ? "body-regular" : "body-bold"),
     [forcedState, token.state],
   );
+
+  // when using copy feature with apparatus index visible
+  // this allows to end selection on the apparatus index and not the token itself
+  const supProps = withTokenIdInApparatusIndex ? { id: String(token.id) } : {};
 
   return (
     <Wrapper
@@ -158,7 +164,9 @@ function Token({
       $withSplitStyles={withSplitStyles}
     >
       {token.t}
-      {apparatusIndexVisible && token.apparatus_index && <Sup>({token.apparatus_index})</Sup>}
+      {apparatusIndexVisible && token.apparatus_index && (
+        <Sup {...supProps}>({token.apparatus_index})</Sup>
+      )}
     </Wrapper>
   );
 }

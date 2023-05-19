@@ -7,11 +7,12 @@ export const getRangeById = <ElementType extends { id: number }>(
   const startElementIndex = elementIds.indexOf(startElementId);
   const endElementIndex = elementIds.indexOf(endElementId);
 
-  // only one element followed by apparatus index was selected
+  // no end element selected, return only start element (ltr)
   if (endElementId === Infinity) {
     return [elements[startElementIndex]];
   }
 
+  // no start element selected, return only end element (rtl)
   if (startElementId === Infinity) {
     return [elements[endElementIndex]];
   }
